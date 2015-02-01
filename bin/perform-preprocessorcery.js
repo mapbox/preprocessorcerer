@@ -11,7 +11,7 @@ if (!infile) {
   process.exit(1);
 }
 
-preprocessorcerize(path.resolve(infile), function(err, outfile, parts) {
+preprocessorcerize(path.resolve(infile), function(err, outfile, parts, descriptions) {
   if (err) {
     console.error(err);
     process.exit(1);
@@ -19,6 +19,7 @@ preprocessorcerize(path.resolve(infile), function(err, outfile, parts) {
 
   console.log(JSON.stringify({
     outfile: outfile,
-    parts: parts
+    parts: parts,
+    descriptions: descriptions
   }));
 });

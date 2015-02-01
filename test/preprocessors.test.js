@@ -39,6 +39,18 @@ test('finds applicable preprocessors', function(assert) {
     });
 });
 
+test('describes preprocessing steps', function(assert) {
+  var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif'),
+      info = fs.statSync(tif);
+  info.filetype = 'tif';
+
+  preprocessorcery.descriptions(tif, info, function(err, descriptions) {
+    assert.ifError(err, 'no error');
+    assert.deepEqual(descriptions, ['Reproject TIFF file to EPSG:3857'], 'expected descriptions');
+    assert.end();
+  });
+});
+
 test('preprocessorize', function(assert) {
   var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif'),
       tmpfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));

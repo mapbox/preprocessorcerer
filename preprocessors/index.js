@@ -8,6 +8,7 @@ var fs = require('fs'),
 module.exports = preprocessorcery;
 module.exports.preprocessors = preprocessors;
 module.exports.applicable = applicable;
+module.exports.descriptions = descriptions;
 
 // Loads each *.preprocessor.js file and builds an array of them
 // Throws errors if the file does not export a `criteria` and `preprocess`
@@ -34,6 +35,16 @@ function applicable(filepath, info, callback) {
     if (err) return callback(err);
     callback(null, preprocessors.filter(function(preprocessor, i) {
       return !!results[i];
+    }));
+  });
+}
+
+// Just maps applicable preprocessors into a list of descriptions
+function descriptions(filepath, info, callback) {
+  applicable(filepath, info, function(err, preprocessors) {
+    if (err) return callback(err);
+    callback(null, preprocessors.map(function(preprocessor) {
+      return preprocessor.description;
     }));
   });
 }

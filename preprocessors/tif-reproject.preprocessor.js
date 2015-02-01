@@ -2,9 +2,9 @@ var omnivore = require('mapnik-omnivore'),
     gdal = require('gdal'),
     wmtiff = require('wmtiff').reproject;
 
-module.exports = function(infile, outfile, callback) {
-  wmtiff(infile, outfile, callback);
-};
+module.exports = wmtiff;
+
+module.exports.description = 'Reproject TIFF file to EPSG:3857';
 
 module.exports.criteria = function(filepath, info, callback) {
   if (info.filetype !== 'tif') return callback(null, false);

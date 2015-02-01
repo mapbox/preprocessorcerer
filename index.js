@@ -6,7 +6,7 @@ var fs = require('fs'),
 module.exports = preprocess;
 
 function preprocess(infile, callback) {
-  var info;
+  var info, descriptions;
 
   fs.stat(infile, getType);
 
@@ -15,14 +15,20 @@ function preprocess(infile, callback) {
     info = stats;
     sniffer.quaff(infile, function(err, type) {
       info.filetype = type;
-      preprocessors(infile, info, getParts);
+      preprocessors.descriptions(infile, info, performPreprocessorcery);
     });
+  }
+
+  function performPreprocessorcery(err, result) {
+    if (err) return callback(err);
+    descriptions = result;
+    preprocessors(infile, info, getParts);
   }
 
   function getParts(err, outfile) {
     parts(outfile, info, function(err, parts) {
       if (err) return callback(err);
-      callback(null, outfile, parts);
+      callback(null, outfile, parts, descriptions);
     });
   }
 }
