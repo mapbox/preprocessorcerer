@@ -19,3 +19,4 @@ preprocessor | criteria | description
 --- | --- | ---
 tif-reproject | TIF file that is not in EPSG:3857 | Reproject TIFF file to EPSG:3857
 tif-toBytes | TIF file with 16-bit pixels | Scale 16-bit TIFF files to 8-bit
+shp-reproject | Shapefile that is not in EPSG:3857 | Reproject shapefile to EPSG:3857

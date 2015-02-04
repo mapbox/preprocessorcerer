@@ -29,6 +29,7 @@
     "mapbox-file-sniff": "0.0.9",
     "queue-async": "^1.0.7",
     "srs": "^0.4.6",
+    "wmshp": "0.0.1",
     "wmtiff": "0.0.1"
   },
   "jshintConfig": {
