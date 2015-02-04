@@ -26,6 +26,8 @@
     "gdal": "0.4.1",
     "mapbox-file-sniff": "0.0.9",
     "mapnik-omnivore": "4.0.1",
-    "queue-async": "^1.0.7"
+    "queue-async": "^1.0.7",
+    "srs": "^0.4.6",
+    "wmtiff": "0.0.1"
   }
 }

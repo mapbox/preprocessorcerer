@@ -17,17 +17,16 @@ test('criteria: not a tif', function(assert) {
   });
 });
 
-// https://github.com/mapbox/mapnik-omnivore/issues/79
-// test('criteria: in epsg:3857', function(assert) {
-//   reproject.criteria(sphericalMerc, { filetype: 'tif' }, function(err, process) {
-//     assert.ifError(err, 'no error');
-//     assert.notOk(process, 'do not process');
-//     assert.end();
-//   });
-// });
+test('criteria: in epsg:3857', function(assert) {
+  reproject.criteria(sphericalMerc, { filetype: 'tif' }, function(err, process) {
+    assert.ifError(err, 'no error');
+    assert.notOk(process, 'do not process');
+    assert.end();
+  });
+});
 
 test('criteria: in epsg:900913', function(assert) {
-  reproject.criteria(sphericalMerc, { filetype: 'tif' }, function(err, process) {
+  reproject.criteria(googleMerc, { filetype: 'tif' }, function(err, process) {
     assert.ifError(err, 'no error');
     assert.ok(process, 'do process');
     assert.end();
@@ -35,7 +34,7 @@ test('criteria: in epsg:900913', function(assert) {
 });
 
 test('criteria: in epsg:4326', function(assert) {
-  reproject.criteria(sphericalMerc, { filetype: 'tif' }, function(err, process) {
+  reproject.criteria(wgs84, { filetype: 'tif' }, function(err, process) {
     assert.ifError(err, 'no error');
     assert.ok(process, 'do process');
     assert.end();
