@@ -24,6 +24,7 @@
     "tape": "^3.4.0"
   },
   "dependencies": {
+    "bytetiff": "^0.1.0",
     "gdal": "0.4.1",
     "mapbox-file-sniff": "0.0.9",
     "queue-async": "^1.0.7",

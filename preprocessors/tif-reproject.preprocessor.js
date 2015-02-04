@@ -2,7 +2,9 @@ var gdal = require('gdal'),
     srs = require('srs'),
     wmtiff = require('wmtiff').reproject;
 
-module.exports = wmtiff;
+module.exports = function(infile, outfile, callback) {
+  wmtiff(infile, outfile, callback);
+};
 
 module.exports.description = 'Reproject TIFF file to EPSG:3857';
 

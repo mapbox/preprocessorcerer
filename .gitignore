@@ -1,1 +1,2 @@
 preprocessors/test*
+test/fixtures/*.aux.xml

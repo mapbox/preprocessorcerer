@@ -18,3 +18,4 @@ This table lists the various preprocessing steps that a file might undergo. Thes
 preprocessor | criteria | description
 --- | --- | ---
 tif-reproject | TIF file that is not in EPSG:3857 | Reproject TIFF file to EPSG:3857
+tif-toBytes | TIF file with 16-bit pixels | Scale 16-bit TIFF files to 8-bit

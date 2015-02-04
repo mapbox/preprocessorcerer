@@ -9,7 +9,7 @@ var test = require('tape'),
     geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson'),
     gdal = require('gdal');
 
-test('criteria: not a tif', function(assert) {
+test('[tif-reproject] criteria: not a tif', function(assert) {
   reproject.criteria(geojson, { filetype: 'geojson' }, function(err, process) {
     assert.ifError(err, 'no error');
     assert.notOk(process, 'do not process');
@@ -17,7 +17,7 @@ test('criteria: not a tif', function(assert) {
   });
 });
 
-test('criteria: in epsg:3857', function(assert) {
+test('[tif-reproject] criteria: in epsg:3857', function(assert) {
   reproject.criteria(sphericalMerc, { filetype: 'tif' }, function(err, process) {
     assert.ifError(err, 'no error');
     assert.notOk(process, 'do not process');
@@ -25,7 +25,7 @@ test('criteria: in epsg:3857', function(assert) {
   });
 });
 
-test('criteria: in epsg:900913', function(assert) {
+test('[tif-reproject] criteria: in epsg:900913', function(assert) {
   reproject.criteria(googleMerc, { filetype: 'tif' }, function(err, process) {
     assert.ifError(err, 'no error');
     assert.ok(process, 'do process');
@@ -33,7 +33,7 @@ test('criteria: in epsg:900913', function(assert) {
   });
 });
 
-test('criteria: in epsg:4326', function(assert) {
+test('[tif-reproject] criteria: in epsg:4326', function(assert) {
   reproject.criteria(wgs84, { filetype: 'tif' }, function(err, process) {
     assert.ifError(err, 'no error');
     assert.ok(process, 'do process');
@@ -41,7 +41,7 @@ test('criteria: in epsg:4326', function(assert) {
   });
 });
 
-test('reprojection: to epsg:3857', function(assert) {
+test('[tif-reproject] reprojection: to epsg:3857', function(assert) {
   var outfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
   reproject(wgs84, outfile, function(err) {
     assert.ifError(err, 'no error');
