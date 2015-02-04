@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/jshint index.js bin/*.js parts/*.js preprocessors/*.js test/*.js && node test/index.js"
+    "test": "node_modules/.bin/jshint index.js bin/*.js parts/*.js preprocessors/*.js test/*.js && node_modules/.bin/jscs index.js bin/*.js parts/*.js preprocessors/*.js test/*.js && node test/index.js"
   },
   "bin": {
     "perform-preprocessorcery": "bin/perform-preprocessorcery.js"
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/mapbox/preprocessorcerer",
   "devDependencies": {
+    "jscs": "^1.10.0",
     "jshint": "^2.6.0",
     "tape": "^3.4.0"
   },
@@ -27,6 +28,7 @@
     "bytetiff": "^0.1.0",
     "gdal": "0.4.1",
     "mapbox-file-sniff": "0.0.9",
+    "mapnik": "^3.1.4",
     "queue-async": "^1.0.7",
     "srs": "^0.4.6",
     "wmshp": "0.0.1",
@@ -38,5 +40,9 @@
     "undef": true,
     "unused": true,
     "noarg": true
+  },
+  "jscsConfig": {
+    "preset": "airbnb",
+    "requireCamelCaseOrUpperCaseIdentifiers": null
   }
 }
