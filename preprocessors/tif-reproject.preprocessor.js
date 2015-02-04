@@ -1,5 +1,4 @@
-var omnivore = require('mapnik-omnivore'),
-    gdal = require('gdal'),
+var gdal = require('gdal'),
     srs = require('srs'),
     wmtiff = require('wmtiff').reproject;
 

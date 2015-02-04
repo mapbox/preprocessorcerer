@@ -1,10 +1,10 @@
 {
-  "name": "preprossorcerer",
+  "name": "preprocessorcerer",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node test/index.js"
+    "test": "node_modules/.bin/jshint index.js bin/*.js parts/*.js preprocessors/*.js test/*.js && node test/index.js"
   },
   "bin": {
     "perform-preprocessorcery": "bin/perform-preprocessorcery.js"
@@ -20,14 +20,21 @@
   },
   "homepage": "https://github.com/mapbox/preprocessorcerer",
   "devDependencies": {
+    "jshint": "^2.6.0",
     "tape": "^3.4.0"
   },
   "dependencies": {
     "gdal": "0.4.1",
     "mapbox-file-sniff": "0.0.9",
-    "mapnik-omnivore": "4.0.1",
     "queue-async": "^1.0.7",
     "srs": "^0.4.6",
     "wmtiff": "0.0.1"
+  },
+  "jshintConfig": {
+    "node": true,
+    "globalstrict": false,
+    "undef": true,
+    "unused": true,
+    "noarg": true
   }
 }
