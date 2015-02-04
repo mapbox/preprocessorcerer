@@ -1,5 +1,7 @@
 # Preprocessorcerer
 
+[![Build Status](https://travis-ci.org/mapbox/preprocessorcerer.svg?branch=master)](https://travis-ci.org/mapbox/preprocessorcerer)
+
 [wip] Makes magical adjustments to geospatial files
 
 ## Usage
