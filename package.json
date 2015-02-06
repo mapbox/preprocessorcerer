@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/jshint index.js bin/*.js parts/*.js preprocessors/*.js test/*.js && node_modules/.bin/jscs index.js bin/*.js parts/*.js preprocessors/*.js test/*.js && node test/index.js"
+    "test": "jshint index.js bin parts preprocessors test && jscs index.js bin parts preprocessors test && tape test/*.test.js"
   },
   "bin": {
     "perform-preprocessorcery": "bin/perform-preprocessorcery.js"

@@ -1,28 +1,33 @@
-var fs = require('fs'),
+var assert = require('assert'),
     crypto = require('crypto'),
     path = require('path'),
     queue = require('queue-async'),
-    files = fs.readdirSync(__dirname),
-    preprocessors = [];
+
+    // The order here determines the order in which preprocessors will be run
+    preprocessors = [
+      'tif-toBytes.preprocessor',
+      'tif-reproject.preprocessor',
+      'shp-reproject.preprocessor',
+      'shp-index.preprocessor'
+    ];
+
+// Loads each *.preprocessor.js file and builds an array of them
+// Throws errors if the file does not export a `criteria` and `preprocess`
+// function
+preprocessors = preprocessors.map(function(filename) {
+  var preprocessor = require(path.resolve(__dirname, filename));
+
+  assert.equal(typeof preprocessor.criteria, 'function', filename + ' should expose criteria function');
+  assert.equal(typeof preprocessor.description, 'string', filename + ' should expose a description');
+  assert.equal(typeof preprocessor, 'function', filename + ' should expose a preprocessor');
+
+  return preprocessor;
+});
 
 module.exports = preprocessorcery;
 module.exports.preprocessors = preprocessors;
 module.exports.applicable = applicable;
 module.exports.descriptions = descriptions;
-
-// Loads each *.preprocessor.js file and builds an array of them
-// Throws errors if the file does not export a `criteria` and `preprocess`
-// function
-files.forEach(function(filename) {
-  if (!/^.*\.preprocessor\.js$/.test(filename)) return;
-  var preprocessor = require(path.join(__dirname, filename));
-  if (
-    typeof preprocessor.criteria === 'function' &&
-    typeof preprocessor === 'function'
-  ) return preprocessors.push(preprocessor);
-
-  throw new Error(filename + ' does not appear to be a valid preprocessor');
-});
 
 // A function that checks a file against each preprocessor's criteria
 // callback returns only those applicable to this file

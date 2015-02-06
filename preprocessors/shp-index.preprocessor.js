@@ -4,7 +4,7 @@ var path = require('path'),
     shapeindex = path.resolve(__dirname, '..', 'node_modules', '.bin', 'mapnik-shapeindex.js');
 
 module.exports = function(infile, outfile, callback) {
-  spawn(shapeindex, ['--shape_files', infile])
+  spawn(process.execPath, [shapeindex, '--shape_files', infile])
     .once('error', function(err) {
       callback(err);
     })

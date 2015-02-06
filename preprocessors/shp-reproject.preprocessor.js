@@ -5,7 +5,7 @@ module.exports = function(infile, outfile, callback) {
   wmshp(infile, outfile, callback);
 };
 
-module.exports.desciption = 'Reproject shapefile to EPSG:3857';
+module.exports.description = 'Reproject shapefile to EPSG:3857';
 
 module.exports.criteria = function(infile, info, callback) {
   if (info.filetype !== 'shp') return callback(null, false);
