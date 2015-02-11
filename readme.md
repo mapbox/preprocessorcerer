@@ -26,5 +26,6 @@ shp-index | Shapefile that has no mapnik index | Add a spatial index to shapefil
 
 splitter | criteria | description
 --- | --- | ---
-mbtiles-byTiles | mbtiles file | Try to get 100,000 tiles per part, up to max 50 parts
+mbtiles-byTiles | mbtiles file | 100,000 tiles per part, up to 50 parts max
+serialtiles-byTiles | serialtiles file | 200,000 tiles per part, up to 50 parts max
 default | none of above criteria matched | Split into parts based on file size
