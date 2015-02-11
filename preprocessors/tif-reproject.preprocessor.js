@@ -1,6 +1,6 @@
-var gdal = require('gdal'),
-    srs = require('srs'),
-    wmtiff = require('wmtiff').reproject;
+var gdal = require('gdal');
+var srs = require('srs');
+var wmtiff = require('wmtiff').reproject;
 
 module.exports = function(infile, outfile, callback) {
   wmtiff(infile, outfile, callback);
@@ -11,8 +11,9 @@ module.exports.description = 'Reproject TIFF file to EPSG:3857';
 module.exports.criteria = function(filepath, info, callback) {
   if (info.filetype !== 'tif') return callback(null, false);
 
-  var sm = gdal.SpatialReference.fromEPSG(3857),
-      ds, projection;
+  var sm = gdal.SpatialReference.fromEPSG(3857);
+  var ds;
+  var projection;
 
   try { ds = gdal.open(filepath); }
   catch (err) { return callback(err); }

@@ -1,9 +1,9 @@
-var test = require('tape'),
-    path = require('path'),
-    os = require('os'),
-    crypto = require('crypto'),
-    gdal = require('gdal'),
-    reproject = require('../preprocessors/shp-reproject.preprocessor');
+var test = require('tape');
+var path = require('path');
+var os = require('os');
+var crypto = require('crypto');
+var gdal = require('gdal');
+var reproject = require('../preprocessors/shp-reproject.preprocessor');
 
 function truncate(num) {
   return Math.floor(num * Math.pow(10, 6)) / Math.pow(10, 6);
@@ -47,35 +47,35 @@ test('[shp-reproject] criteria: in epsg:3857', function(assert) {
 });
 
 test('[shp-reproject] reprojects', function(assert) {
-  var outfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex') + '.shp'),
-      infile = path.join(__dirname, 'fixtures', 'wgs84.shapefile', 'wgs84.shp');
+  var outfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex') + '.shp');
+  var infile = path.join(__dirname, 'fixtures', 'wgs84.shapefile', 'wgs84.shp');
 
   reproject(infile, outfile, function(err) {
     assert.ifError(err, 'no error');
-    var ds = gdal.open(outfile),
-        sm = gdal.SpatialReference.fromEPSG(3857),
-        i = 0,
-        expectedGeom = {
-          type: 'MultiPolygon',
-          coordinates: [
-            [
-              [
-                [-6866928.470493725501001, 1936250.700885409722105],
-                [-6889254.039650277234614, 1945721.30792881315574],
-                [-6878926.596530904062092, 1952525.806653905194253],
-                [-6866928.470493725501001, 1936250.700885409722105]
-              ]
-            ],
-            [
-              [
-                [-6871659.994130388833582, 2004785.506589464843273],
-                [-6885450.920566814951599, 2001782.969531796174124],
-                [-6887677.755660644732416, 2015984.397128761047497],
-                [-6871659.994130388833582, 2004785.506589464843273]
-              ]
-            ]
+    var ds = gdal.open(outfile);
+    var sm = gdal.SpatialReference.fromEPSG(3857);
+    var i = 0;
+    var expectedGeom = {
+      type: 'MultiPolygon',
+      coordinates: [
+        [
+          [
+            [-6866928.470493725501001, 1936250.700885409722105],
+            [-6889254.039650277234614, 1945721.30792881315574],
+            [-6878926.596530904062092, 1952525.806653905194253],
+            [-6866928.470493725501001, 1936250.700885409722105]
           ]
-        };
+        ],
+        [
+          [
+            [-6871659.994130388833582, 2004785.506589464843273],
+            [-6885450.920566814951599, 2001782.969531796174124],
+            [-6887677.755660644732416, 2015984.397128761047497],
+            [-6871659.994130388833582, 2004785.506589464843273]
+          ]
+        ]
+      ]
+    };
 
     expectedGeom.coordinates = expectedGeom.coordinates.map(function(polygon) {
       return polygon.map(function(ring) {
@@ -92,8 +92,8 @@ test('[shp-reproject] reprojects', function(assert) {
       assert.ok(layer.srs.isSame(sm), 'reprojected');
       assert.equal(layer.features.count(), 245, 'reprojected all features');
 
-      var feature = layer.features.get(0),
-          geojson = JSON.parse(feature.getGeometry().toJSON());
+      var feature = layer.features.get(0);
+      var geojson = JSON.parse(feature.getGeometry().toJSON());
 
       geojson.coordinates = geojson.coordinates.map(function(polygon) {
         return polygon.map(function(ring) {

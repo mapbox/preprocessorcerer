@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-var preprocessorcerize = require('..'),
-    path = require('path'),
-    args = process.argv.slice(2),
-    infile = args.shift();
+var preprocessorcerize = require('..');
+var path = require('path');
+var args = process.argv.slice(2);
+var infile = args.shift();
 
 if (!infile) {
   console.error('Usage:');

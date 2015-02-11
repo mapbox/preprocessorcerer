@@ -1,15 +1,15 @@
-var assert = require('assert'),
-    crypto = require('crypto'),
-    path = require('path'),
-    queue = require('queue-async'),
+var assert = require('assert');
+var crypto = require('crypto');
+var path = require('path');
+var queue = require('queue-async');
 
-    // The order here determines the order in which preprocessors will be run
-    preprocessors = [
-      'tif-toBytes.preprocessor',
-      'tif-reproject.preprocessor',
-      'shp-reproject.preprocessor',
-      'shp-index.preprocessor'
-    ];
+// The order here determines the order in which preprocessors will be run
+var preprocessors = [
+  'tif-toBytes.preprocessor',
+  'tif-reproject.preprocessor',
+  'shp-reproject.preprocessor',
+  'shp-index.preprocessor'
+];
 
 // Loads each *.preprocessor.js file and builds an array of them
 // Throws errors if the file does not export a `criteria` and `preprocess`
@@ -56,8 +56,8 @@ function descriptions(filepath, info, callback) {
 
 // A function that hands out a new filepath in the same directory as the given file
 function newfile(filepath) {
-  var dir = path.dirname(filepath),
-      name = crypto.randomBytes(8).toString('hex');
+  var dir = path.dirname(filepath);
+  var name = crypto.randomBytes(8).toString('hex');
   return path.join(dir, name);
 }
 

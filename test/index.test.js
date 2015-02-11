@@ -1,13 +1,13 @@
-var test = require('tape'),
-    path = require('path'),
-    fs = require('fs'),
-    os = require('os'),
-    crypto = require('crypto'),
-    preprocess = require('..');
+var test = require('tape');
+var path = require('path');
+var fs = require('fs');
+var os = require('os');
+var crypto = require('crypto');
+var preprocess = require('..');
 
 test('preprocesses', function(assert) {
-  var infile = path.resolve(__dirname, 'fixtures', 'wgs84.tif'),
-      tmpfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
+  var infile = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
+  var tmpfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
 
   fs.createReadStream(infile)
     .pipe(fs.createWriteStream(tmpfile))
