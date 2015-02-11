@@ -36,6 +36,17 @@ test('mbtiles file is split by tiles', function(assert) {
   });
 });
 
+test('serialtiles file is split by tiles', function(assert) {
+  var fixture = path.resolve(__dirname, 'fixtures', '423567-lines.gz');
+  var info = fs.statSync(fixture);
+  info.filetype = 'serialtiles';
+  splitToParts(fixture, info, function(err, parts) {
+    assert.ifError(err, 'no error');
+    assert.equal(parts, 3, 'three parts');
+    assert.end();
+  });
+});
+
 test('default path is to split by size', function(assert) {
   var mbs = 22;
   var expected = Math.ceil(mbs / 10);
