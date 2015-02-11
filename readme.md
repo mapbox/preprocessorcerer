@@ -21,3 +21,10 @@ tif-toBytes | TIF file with 16-bit pixels | Scale 16-bit TIFF files to 8-bit
 tif-reproject | TIF file that is not in EPSG:3857 | Reproject TIFF file to EPSG:3857
 shp-reproject | Shapefile that is not in EPSG:3857 | Reproject shapefile to EPSG:3857
 shp-index | Shapefile that has no mapnik index | Add a spatial index to shapefile
+
+## Part Splitting
+
+splitter | criteria | description
+--- | --- | ---
+mbtiles-byTiles | mbtiles file | Try to get 100,000 tiles per part, up to max 50 parts
+default | none of above criteria matched | Split into parts based on file size
