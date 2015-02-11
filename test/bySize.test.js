@@ -1,15 +1,15 @@
-var test = require('tape'),
-    bySize = require('../parts/bySize'),
-    fs = require('fs'),
-    os = require('os'),
-    path = require('path'),
-    crypto = require('crypto');
+var test = require('tape');
+var bySize = require('../parts/bySize');
+var fs = require('fs');
+var os = require('os');
+var path = require('path');
+var crypto = require('crypto');
 
 function randomFile(mbs, callback) {
-  var filepath = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex')),
-      tmpfile = fs.createWriteStream(filepath),
-      data = crypto.pseudoRandomBytes(1024 * 1024),
-      i;
+  var filepath = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
+  var tmpfile = fs.createWriteStream(filepath);
+  var data = crypto.pseudoRandomBytes(1024 * 1024);
+  var i;
 
   tmpfile.on('finish', function() {
     callback(null, filepath);
@@ -20,12 +20,12 @@ function randomFile(mbs, callback) {
 }
 
 test('tilejson split per 100MB', function(assert) {
-  var mbs = 250,
-      expected = Math.ceil(mbs / 100),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'tilejson'
-      };
+  var mbs = 250;
+  var expected = Math.ceil(mbs / 100);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'tilejson'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -39,12 +39,12 @@ test('tilejson split per 100MB', function(assert) {
 });
 
 test('mbtiles split per 100MB', function(assert) {
-  var mbs = 250,
-      expected = Math.ceil(mbs / 100),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'mbtiles'
-      };
+  var mbs = 250;
+  var expected = Math.ceil(mbs / 100);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'mbtiles'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -58,12 +58,12 @@ test('mbtiles split per 100MB', function(assert) {
 });
 
 test('serialtiles split per 100MB', function(assert) {
-  var mbs = 250,
-      expected = Math.ceil(mbs / 100),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'serialtiles'
-      };
+  var mbs = 250;
+  var expected = Math.ceil(mbs / 100);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'serialtiles'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -77,12 +77,12 @@ test('serialtiles split per 100MB', function(assert) {
 });
 
 test('pretiled max at 50 parts', function(assert) {
-  var mbs = 5100,
-      expected = 50,
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'serialtiles'
-      };
+  var mbs = 5100;
+  var expected = 50;
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'serialtiles'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -96,12 +96,12 @@ test('pretiled max at 50 parts', function(assert) {
 });
 
 test('zip split per 10MB', function(assert) {
-  var mbs = 25,
-      expected = Math.ceil(mbs / 10),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'zip'
-      };
+  var mbs = 25;
+  var expected = Math.ceil(mbs / 10);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'zip'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -115,12 +115,12 @@ test('zip split per 10MB', function(assert) {
 });
 
 test('gpx split per 10MB', function(assert) {
-  var mbs = 25,
-      expected = Math.ceil(mbs / 10),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'gpx'
-      };
+  var mbs = 25;
+  var expected = Math.ceil(mbs / 10);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'gpx'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -134,12 +134,12 @@ test('gpx split per 10MB', function(assert) {
 });
 
 test('kml split per 10MB', function(assert) {
-  var mbs = 25,
-      expected = Math.ceil(mbs / 10),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'kml'
-      };
+  var mbs = 25;
+  var expected = Math.ceil(mbs / 10);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'kml'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -153,12 +153,12 @@ test('kml split per 10MB', function(assert) {
 });
 
 test('geojson split per 10MB', function(assert) {
-  var mbs = 25,
-      expected = Math.ceil(mbs / 10),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'geojson'
-      };
+  var mbs = 25;
+  var expected = Math.ceil(mbs / 10);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'geojson'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -172,12 +172,12 @@ test('geojson split per 10MB', function(assert) {
 });
 
 test('csv split per 10MB', function(assert) {
-  var mbs = 25,
-      expected = Math.ceil(mbs / 10),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'csv'
-      };
+  var mbs = 25;
+  var expected = Math.ceil(mbs / 10);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'csv'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -191,12 +191,12 @@ test('csv split per 10MB', function(assert) {
 });
 
 test('tif split per 10MB', function(assert) {
-  var mbs = 25,
-      expected = Math.ceil(mbs / 10),
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'tif'
-      };
+  var mbs = 25;
+  var expected = Math.ceil(mbs / 10);
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'tif'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -210,12 +210,12 @@ test('tif split per 10MB', function(assert) {
 });
 
 test('untiled max at 50 parts', function(assert) {
-  var mbs = 510,
-      expected = 50,
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'geojson'
-      };
+  var mbs = 510;
+  var expected = 50;
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'geojson'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;
@@ -229,12 +229,12 @@ test('untiled max at 50 parts', function(assert) {
 });
 
 test('unrecognized file type in 1 part', function(assert) {
-  var mbs = 510,
-      expected = 1,
-      info = {
-        size: mbs * 1024 * 1024,
-        filetype: 'tm2z'
-      };
+  var mbs = 510;
+  var expected = 1;
+  var info = {
+    size: mbs * 1024 * 1024,
+    filetype: 'tm2z'
+  };
 
   randomFile(mbs, function(err, filepath) {
     if (err) throw err;

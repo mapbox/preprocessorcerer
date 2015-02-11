@@ -29,6 +29,7 @@
     "gdal": "0.4.1",
     "mapbox-file-sniff": "0.0.9",
     "mapnik": "^3.1.4",
+    "mbtiles": "^0.7.8",
     "queue-async": "^1.0.7",
     "srs": "^0.4.6",
     "wmshp": "0.0.1",
@@ -43,6 +44,8 @@
   },
   "jscsConfig": {
     "preset": "airbnb",
-    "requireCamelCaseOrUpperCaseIdentifiers": null
+    "requireCamelCaseOrUpperCaseIdentifiers": null,
+    "disallowMultipleVarDecl": true,
+    "requireMultipleVarDecl": null
   }
 }

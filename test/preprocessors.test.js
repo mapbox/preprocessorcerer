@@ -1,10 +1,10 @@
-var test = require('tape'),
-    fs = require('fs'),
-    os = require('os'),
-    path = require('path'),
-    crypto = require('crypto'),
-    queue = require('queue-async'),
-    preprocessorcery = require('../preprocessors');
+var test = require('tape');
+var fs = require('fs');
+var os = require('os');
+var path = require('path');
+var crypto = require('crypto');
+var queue = require('queue-async');
+var preprocessorcery = require('../preprocessors');
 
 test('finds preprocessors', function(assert) {
   var files = fs.readdirSync(path.resolve(__dirname, '..', 'preprocessors'))
@@ -21,10 +21,10 @@ test('finds preprocessors', function(assert) {
 });
 
 test('finds applicable preprocessors', function(assert) {
-  var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson'),
-      geojsonInfo = fs.statSync(geojson),
-      tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif'),
-      tifInfo = fs.statSync(tif);
+  var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
+  var geojsonInfo = fs.statSync(geojson);
+  var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
+  var tifInfo = fs.statSync(tif);
   geojsonInfo.filetype = 'geojson';
   tifInfo.filetype = 'tif';
 
@@ -40,8 +40,8 @@ test('finds applicable preprocessors', function(assert) {
 });
 
 test('describes preprocessing steps', function(assert) {
-  var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif'),
-      info = fs.statSync(tif);
+  var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
+  var info = fs.statSync(tif);
   info.filetype = 'tif';
 
   preprocessorcery.descriptions(tif, info, function(err, descriptions) {
@@ -52,8 +52,8 @@ test('describes preprocessing steps', function(assert) {
 });
 
 test('preprocessorize', function(assert) {
-  var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif'),
-      tmpfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
+  var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
+  var tmpfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
 
   fs.createReadStream(tif)
     .pipe(fs.createWriteStream(tmpfile))
@@ -65,8 +65,8 @@ test('preprocessorize', function(assert) {
 
     preprocessorcery(tmpfile, tmpfileInfo, function(err, outfile) {
       assert.ifError(err, 'no error');
-      var indir = path.dirname(tmpfile),
-          outdir = path.dirname(outfile);
+      var indir = path.dirname(tmpfile);
+      var outdir = path.dirname(outfile);
       assert.equal(outdir, indir, 'places output files in same directory as input');
       fs.unlink(tmpfile);
       assert.end();

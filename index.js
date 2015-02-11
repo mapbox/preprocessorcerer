@@ -1,12 +1,13 @@
-var fs = require('fs'),
-    sniffer = require('mapbox-file-sniff'),
-    preprocessors = require('./preprocessors'),
-    parts = require('./parts');
+var fs = require('fs');
+var sniffer = require('mapbox-file-sniff');
+var preprocessors = require('./preprocessors');
+var parts = require('./parts');
 
 module.exports = preprocess;
 
 function preprocess(infile, callback) {
-  var info, descriptions;
+  var info;
+  var descriptions;
 
   fs.stat(infile, getType);
 

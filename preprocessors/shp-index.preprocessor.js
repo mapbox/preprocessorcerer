@@ -1,7 +1,7 @@
-var path = require('path'),
-    fs = require('fs'),
-    spawn = require('child_process').spawn,
-    shapeindex = path.resolve(__dirname, '..', 'node_modules', '.bin', 'mapnik-shapeindex.js');
+var path = require('path');
+var fs = require('fs');
+var spawn = require('child_process').spawn;
+var shapeindex = path.resolve(__dirname, '..', 'node_modules', '.bin', 'mapnik-shapeindex.js');
 
 module.exports = function(infile, outfile, callback) {
   spawn(process.execPath, [shapeindex, '--shape_files', infile])
@@ -18,14 +18,15 @@ module.exports.description = 'Add a spatial index to shapefile';
 module.exports.criteria = function(infile, info, callback) {
   if (info.filetype !== 'shp') return callback(null, false);
 
-  var ext = path.extname(infile),
-      dir = ext === '.shp' ? path.dirname(infile) : infile,
-      name = ext === '.shp' ? path.basename(infile, '.shp') : '';
+  var ext = path.extname(infile);
+  var dir = ext === '.shp' ? path.dirname(infile) : infile;
+  var name = ext === '.shp' ? path.basename(infile, '.shp') : '';
 
   fs.readdir(dir, function(err, files) {
     if (err) return callback(err);
 
-    var shp, re;
+    var shp;
+    var re;
 
     if (!name) {
       shp = files.filter(function(filename) {

@@ -1,13 +1,13 @@
-var test = require('tape'),
-    toBytes = require('../preprocessors/tif-toBytes.preprocessor'),
-    os = require('os'),
-    path = require('path'),
-    crypto = require('crypto'),
-    geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson'),
-    malformed = path.resolve(__dirname, 'fixtures', 'malformed.tif'),
-    wgs84 = path.resolve(__dirname, 'fixtures', 'wgs84.tif'),
-    uint16 = path.resolve(__dirname, 'fixtures', 'wgs84.16.tif'),
-    gdal = require('gdal');
+var test = require('tape');
+var toBytes = require('../preprocessors/tif-toBytes.preprocessor');
+var os = require('os');
+var path = require('path');
+var crypto = require('crypto');
+var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
+var malformed = path.resolve(__dirname, 'fixtures', 'malformed.tif');
+var wgs84 = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
+var uint16 = path.resolve(__dirname, 'fixtures', 'wgs84.16.tif');
+var gdal = require('gdal');
 
 test('[tif-toBytes] criteria: not a tif', function(assert) {
   toBytes.criteria(geojson, { filetype: 'geojson' }, function(err, process) {
