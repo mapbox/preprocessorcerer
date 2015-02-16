@@ -5,8 +5,6 @@ var fs = require('fs');
 var crypto = require('crypto');
 var index = require('../preprocessors/shp-index.preprocessor');
 var mkdirp = require('mkdirp');
-var fixtureDir = path.resolve(__dirname, 'fixtures', 'sm.shapefile');
-var queue = require('queue-async');
 
 function tmpfile(callback) {
   var dir = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
