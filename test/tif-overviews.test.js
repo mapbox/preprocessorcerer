@@ -1,7 +1,6 @@
 var test = require('tape');
 var overviews = require('../preprocessors/tif-overviews');
 var path = require('path');
-var fs = require('fs');
 var os = require('os');
 var crypto = require('crypto');
 var gdal = require('gdal');
