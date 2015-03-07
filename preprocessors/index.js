@@ -9,7 +9,8 @@ var preprocessors = [
   'tif-reproject.preprocessor',
   'tif-overviews.preprocessor',
   'shp-reproject.preprocessor',
-  'shp-index.preprocessor'
+  'shp-index.preprocessor',
+  'geojson-bom.preprocessor'
 ];
 
 // Loads each *.preprocessor.js file and builds an array of them
