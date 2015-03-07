@@ -19,8 +19,10 @@ preprocessor | criteria | description
 --- | --- | ---
 tif-toBytes | TIF file with 16-bit pixels | Scale 16-bit TIFF files to 8-bit
 tif-reproject | TIF file that is not in EPSG:3857 | Reproject TIFF file to EPSG:3857
+tif-overviews | TIF file | Generate overviews for TIFF files
 shp-reproject | Shapefile that is not in EPSG:3857 | Reproject shapefile to EPSG:3857
 shp-index | Shapefile that has no mapnik index | Add a spatial index to shapefile
+geojson-bom | GeoJSON string with a BOM char | Remove a byte-order-mark from a geojson string
 
 ## Part Splitting
 
