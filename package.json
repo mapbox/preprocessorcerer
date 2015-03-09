@@ -28,7 +28,7 @@
   "dependencies": {
     "bytetiff": "^0.1.0",
     "gdal": "0.4.1",
-    "mapbox-file-sniff": "0.0.9",
+    "mapbox-file-sniff": "0.3.0",
     "mapnik": "3.1.5",
     "mbtiles": "0.7.8",
     "queue-async": "^1.0.7",
