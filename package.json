@@ -1,6 +1,6 @@
 {
   "name": "preprocessorcerer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "split": "^0.3.3",
     "srs": "^0.4.6",
     "wmshp": "0.0.1",
-    "wmtiff": "0.0.1"
+    "wmtiff": "0.0.2"
   },
   "jshintConfig": {
     "node": true,

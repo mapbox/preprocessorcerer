@@ -59,6 +59,7 @@ function descriptions(filepath, info, callback) {
 // A function that hands out a new filepath in the same directory as the given file
 function newfile(filepath) {
   var dir = path.dirname(filepath);
+  if (path.extname(filepath) === '.shp') dir = path.resolve(dir, '..');
   var name = crypto.randomBytes(8).toString('hex');
   return path.join(dir, name);
 }

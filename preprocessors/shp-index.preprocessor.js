@@ -3,6 +3,7 @@ var fs = require('fs');
 var spawn = require('child_process').spawn;
 var shapeindex = path.resolve(__dirname, '..', 'node_modules', '.bin', 'mapnik-shapeindex.js');
 var queue = require('queue-async');
+var mkdirp = require('mkdirp');
 
 module.exports = function(infile, outfile, callback) {
   // Determine whether we've been fed a folder containing a shapefile or a .shp
@@ -30,27 +31,31 @@ module.exports = function(infile, outfile, callback) {
     var outName = outExt === '.shp' ? path.basename(outfile, '.shp') : inName;
     var outPath = path.join(outDir, outName);
 
-    // Loop through files in the input dir, copy each .shp-related one to output dir
-    var q = queue();
-    files.forEach(function(filename) {
-      var ext = path.extname(filename);
-      if (path.basename(filename, ext) === inName) {
-        q.defer(function(next) {
-          fs.createReadStream(path.join(inDir, filename))
-            .once('error', next)
-            .pipe(fs.createWriteStream(path.join(outDir, outName + ext)))
-            .once('error', next)
-            .on('finish', next);
-        });
-      }
-    });
-    q.awaitAll(function(err) {
+    mkdirp(outDir, function(err) {
       if (err) return callback(err);
 
-      // Finally, create an .index file in the output dir
-      spawn(process.execPath, [shapeindex, '--shape_files', outPath])
-        .once('error', callback)
-        .on('exit', callback);
+      // Loop through files in the input dir, copy each .shp-related one to output dir
+      var q = queue();
+      files.forEach(function(filename) {
+        var ext = path.extname(filename);
+        if (path.basename(filename, ext) === inName) {
+          q.defer(function(next) {
+            fs.createReadStream(path.join(inDir, filename))
+              .once('error', next)
+              .pipe(fs.createWriteStream(path.join(outDir, outName + ext)))
+              .once('error', next)
+              .on('finish', next);
+          });
+        }
+      });
+      q.awaitAll(function(err) {
+        if (err) return callback(err);
+
+        // Finally, create an .index file in the output dir
+        spawn(process.execPath, [shapeindex, '--shape_files', outPath + '.shp'])
+          .once('error', callback)
+          .on('exit', callback);
+      });
     });
   });
 };
@@ -59,34 +64,5 @@ module.exports.description = 'Add a spatial index to shapefile';
 
 module.exports.criteria = function(infile, info, callback) {
   if (info.filetype !== 'shp') return callback(null, false);
-
-  var ext = path.extname(infile);
-  var dir = ext === '.shp' ? path.dirname(infile) : infile;
-  var name = ext === '.shp' ? path.basename(infile, '.shp') : '';
-
-  fs.readdir(dir, function(err, files) {
-    if (err) return callback(err);
-
-    var shp;
-    var re;
-
-    if (!name) {
-      shp = files.filter(function(filename) {
-        return path.extname(filename) === '.shp';
-      });
-
-      if (!shp.length) return callback(new Error('Could not locate shapefile'));
-      name = path.basename(shp[0], '.shp');
-    }
-
-    re = new RegExp('^' + name);
-
-    files = files.filter(function(filename) {
-      var ext = path.extname(filename);
-      return re.test(filename) && ext === '.index';
-    });
-
-    if (files.length) return callback(null, false);
-    callback(null, true);
-  });
+  callback(null, true);
 };
