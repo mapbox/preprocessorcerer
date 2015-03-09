@@ -28,7 +28,7 @@ test('[shp-index] criteria: has an index', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', 'sm.indexed.shapefile');
   index.criteria(fixture, { filetype: 'shp' }, function(err, process) {
     assert.ifError(err, 'no error');
-    assert.notOk(process, 'do not process');
+    assert.ok(process, 'do process');
     assert.end();
   });
 });

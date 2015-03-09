@@ -15,6 +15,7 @@ function preprocess(infile, callback) {
     if (err) return callback(err);
     info = stats;
     sniffer.quaff(infile, function(err, type) {
+      if (err) return callback(err);
       info.filetype = type;
       preprocessors.descriptions(infile, info, performPreprocessorcery);
     });
@@ -27,6 +28,8 @@ function preprocess(infile, callback) {
   }
 
   function getParts(err, outfile) {
+    if (err) return callback(err);
+
     parts(outfile, info, function(err, parts) {
       if (err) return callback(err);
       callback(null, outfile, parts, descriptions);
