@@ -1,7 +1,8 @@
 var path = require('path');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
-var shapeindex = path.resolve(__dirname, '..', 'node_modules', '.bin', 'mapnik-shapeindex.js');
+var mapnik = require('mapnik');
+var shapeindex = path.resolve(mapnik.module_path, 'shapeindex');
 var queue = require('queue-async');
 var mkdirp = require('mkdirp');
 
@@ -52,7 +53,7 @@ module.exports = function(infile, outfile, callback) {
         if (err) return callback(err);
 
         // Finally, create an .index file in the output dir
-        spawn(process.execPath, [shapeindex, '--shape_files', outPath + '.shp'])
+        spawn(shapeindex, [ '--shape_files', outPath + '.shp'])
           .once('error', callback)
           .on('exit', callback);
       });
