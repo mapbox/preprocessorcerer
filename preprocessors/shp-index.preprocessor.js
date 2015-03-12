@@ -53,7 +53,7 @@ module.exports = function(infile, outfile, callback) {
         if (err) return callback(err);
 
         // Finally, create an .index file in the output dir
-        spawn(shapeindex, [ '--shape_files', outPath + '.shp'])
+        spawn(shapeindex, ['--shape_files', outPath + '.shp'])
           .once('error', callback)
           .on('exit', callback);
       });
