@@ -6,7 +6,6 @@ var os = require('os');
 var fs = require('fs');
 var crypto = require('crypto');
 
-
 test('correct number of parts for mbtiles without grids table', function(assert) {
   var fixture = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
   makeMbtiles(fixture, 305000, function(err) {
