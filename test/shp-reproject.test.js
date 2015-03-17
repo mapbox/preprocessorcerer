@@ -46,6 +46,20 @@ test('[shp-reproject] criteria: in epsg:3857', function(assert) {
   });
 });
 
+test('[shp-reproject] criteria: in web mercator (auxiliary sphere)', function(assert) {
+  var fixture = path.join(__dirname, 'fixtures', 'web-merc-aux-sphere.shapefile', 'web-merc-aux-sphere.shp');
+  reproject.criteria(fixture, { filetype: 'shp' }, function(err, process) {
+    assert.ifError(err, 'no error (by file)');
+    assert.notOk(process, 'do not process (by file)');
+
+    reproject.criteria(path.dirname(fixture), { filetype: 'shp' }, function(err, process) {
+      assert.ifError(err, 'no error (by folder)');
+      assert.notOk(process, 'do not process (by folder)');
+      assert.end();
+    });
+  });
+});
+
 test('[shp-reproject] reprojects', function(assert) {
   var outfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex') + '.shp');
   var infile = path.join(__dirname, 'fixtures', 'wgs84.shapefile', 'wgs84.shp');

@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var serialtilesByTiles = require('../parts/serialtiles-byTiles');
 
-test('correct number of parts', function(assert) {
+test('[parts serialtiles] correct number of parts', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', '423567-lines.gz');
   var info = fs.statSync(fixture);
   info.filetype = 'serialtiles';

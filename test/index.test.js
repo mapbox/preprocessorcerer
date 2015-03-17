@@ -5,7 +5,7 @@ var os = require('os');
 var crypto = require('crypto');
 var preprocess = require('..');
 
-test('preprocesses', function(assert) {
+test('[index] preprocesses', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
   var tmpfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
 

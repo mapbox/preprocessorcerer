@@ -6,7 +6,7 @@ var crypto = require('crypto');
 var queue = require('queue-async');
 var preprocessorcery = require('../preprocessors');
 
-test('finds preprocessors', function(assert) {
+test('[preprocessorcery] finds preprocessors', function(assert) {
   var files = fs.readdirSync(path.resolve(__dirname, '..', 'preprocessors'))
     .filter(function(filename) {
       return /\.preprocessor\.js$/.test(filename);
@@ -20,7 +20,7 @@ test('finds preprocessors', function(assert) {
   assert.end();
 });
 
-test('finds applicable preprocessors', function(assert) {
+test('[preprocessorcery] finds applicable preprocessors', function(assert) {
   var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
   var geojsonInfo = fs.statSync(geojson);
   var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
@@ -39,7 +39,7 @@ test('finds applicable preprocessors', function(assert) {
     });
 });
 
-test('describes preprocessing steps', function(assert) {
+test('[preprocessorcery] describes preprocessing steps', function(assert) {
   var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
   var info = fs.statSync(tif);
   info.filetype = 'tif';
@@ -55,7 +55,7 @@ test('describes preprocessing steps', function(assert) {
   });
 });
 
-test('preprocessorize', function(assert) {
+test('[preprocessorcery] preprocessorize', function(assert) {
   var tif = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
   var tmpfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
 
