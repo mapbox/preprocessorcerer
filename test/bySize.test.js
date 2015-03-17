@@ -19,7 +19,7 @@ function randomFile(mbs, callback) {
   tmpfile.end();
 }
 
-test('tilejson split per 100MB', function(assert) {
+test('[parts bySize] tilejson split per 100MB', function(assert) {
   var mbs = 250;
   var expected = Math.ceil(mbs / 100);
   var info = {
@@ -38,7 +38,7 @@ test('tilejson split per 100MB', function(assert) {
   });
 });
 
-test('mbtiles split per 100MB', function(assert) {
+test('[parts bySize] mbtiles split per 100MB', function(assert) {
   var mbs = 250;
   var expected = Math.ceil(mbs / 100);
   var info = {
@@ -57,7 +57,7 @@ test('mbtiles split per 100MB', function(assert) {
   });
 });
 
-test('serialtiles split per 100MB', function(assert) {
+test('[parts bySize] serialtiles split per 100MB', function(assert) {
   var mbs = 250;
   var expected = Math.ceil(mbs / 100);
   var info = {
@@ -76,7 +76,7 @@ test('serialtiles split per 100MB', function(assert) {
   });
 });
 
-test('pretiled max at 50 parts', function(assert) {
+test('[parts bySize] pretiled max at 50 parts', function(assert) {
   var mbs = 5100;
   var expected = 50;
   var info = {
@@ -95,7 +95,7 @@ test('pretiled max at 50 parts', function(assert) {
   });
 });
 
-test('zip split per 10MB', function(assert) {
+test('[parts bySize] zip split per 10MB', function(assert) {
   var mbs = 25;
   var expected = Math.ceil(mbs / 10);
   var info = {
@@ -114,7 +114,7 @@ test('zip split per 10MB', function(assert) {
   });
 });
 
-test('gpx split per 10MB', function(assert) {
+test('[parts bySize] gpx split per 10MB', function(assert) {
   var mbs = 25;
   var expected = Math.ceil(mbs / 10);
   var info = {
@@ -133,7 +133,7 @@ test('gpx split per 10MB', function(assert) {
   });
 });
 
-test('kml split per 10MB', function(assert) {
+test('[parts bySize] kml split per 10MB', function(assert) {
   var mbs = 25;
   var expected = Math.ceil(mbs / 10);
   var info = {
@@ -152,7 +152,7 @@ test('kml split per 10MB', function(assert) {
   });
 });
 
-test('geojson split per 10MB', function(assert) {
+test('[parts bySize] geojson split per 10MB', function(assert) {
   var mbs = 25;
   var expected = Math.ceil(mbs / 10);
   var info = {
@@ -171,7 +171,7 @@ test('geojson split per 10MB', function(assert) {
   });
 });
 
-test('csv split per 10MB', function(assert) {
+test('[parts bySize] csv split per 10MB', function(assert) {
   var mbs = 25;
   var expected = Math.ceil(mbs / 10);
   var info = {
@@ -190,7 +190,7 @@ test('csv split per 10MB', function(assert) {
   });
 });
 
-test('tif split per 10MB', function(assert) {
+test('[parts bySize] tif split per 10MB', function(assert) {
   var mbs = 25;
   var expected = Math.ceil(mbs / 10);
   var info = {
@@ -209,7 +209,7 @@ test('tif split per 10MB', function(assert) {
   });
 });
 
-test('untiled max at 50 parts', function(assert) {
+test('[parts bySize] untiled max at 50 parts', function(assert) {
   var mbs = 510;
   var expected = 50;
   var info = {
@@ -228,7 +228,7 @@ test('untiled max at 50 parts', function(assert) {
   });
 });
 
-test('unrecognized file type in 1 part', function(assert) {
+test('[parts bySize] unrecognized file type in 1 part', function(assert) {
   var mbs = 510;
   var expected = 1;
   var info = {

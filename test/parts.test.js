@@ -20,7 +20,7 @@ function randomFile(mbs, callback) {
   tmpfile.end();
 }
 
-test('mbtiles file is split by tiles', function(assert) {
+test('[parts] mbtiles file is split by tiles', function(assert) {
   var fixture = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
   makeMbtiles(fixture, 100001, function(err) {
     assert.ifError(err, 'no error');
@@ -36,7 +36,7 @@ test('mbtiles file is split by tiles', function(assert) {
   });
 });
 
-test('serialtiles file is split by tiles', function(assert) {
+test('[parts] serialtiles file is split by tiles', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', '423567-lines.gz');
   var info = fs.statSync(fixture);
   info.filetype = 'serialtiles';
@@ -47,7 +47,7 @@ test('serialtiles file is split by tiles', function(assert) {
   });
 });
 
-test('default path is to split by size', function(assert) {
+test('[parts] default path is to split by size', function(assert) {
   var mbs = 22;
   var expected = Math.ceil(mbs / 10);
 

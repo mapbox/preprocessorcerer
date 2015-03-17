@@ -16,13 +16,13 @@ module.exports.criteria = function(filepath, info, callback) {
   var projection;
 
   try { ds = gdal.open(filepath); }
-  catch (err) { return callback(null, false); }
+  catch (err) { return callback(err); }
 
   try {
     sm = srs.parse(sm.toProj4());
-    projection = srs.parse(ds.srs.toProj4());
+    projection = srs.parse(ds.srs.toWKT());
   }
-  catch (err) { return callback(null, false); }
+  catch (err) { return callback(err); }
 
   if (projection === sm) callback(null, false);
   else callback(null, true);

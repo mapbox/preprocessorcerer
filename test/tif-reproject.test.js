@@ -5,6 +5,7 @@ var path = require('path');
 var crypto = require('crypto');
 var googleMerc = path.resolve(__dirname, 'fixtures', 'google-merc.tif');
 var sphericalMerc = path.resolve(__dirname, 'fixtures', 'spherical-merc.tif');
+var esriMerc = path.resolve(__dirname, 'fixtures', 'web-merc-aux-sphere.tif');
 var wgs84 = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
 var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
 var gdal = require('gdal');
@@ -28,7 +29,15 @@ test('[tif-reproject] criteria: in epsg:3857', function(assert) {
 test('[tif-reproject] criteria: in epsg:900913', function(assert) {
   reproject.criteria(googleMerc, { filetype: 'tif' }, function(err, process) {
     assert.ifError(err, 'no error');
-    assert.ok(process, 'do process');
+    assert.notOk(process, 'do not process');
+    assert.end();
+  });
+});
+
+test('[tif-reproject] criteria: in web mercator (auxiliary sphere)', function(assert) {
+  reproject.criteria(esriMerc, { filetype: 'tif' }, function(err, process) {
+    assert.ifError(err, 'no error');
+    assert.notOk(process, 'do not process');
     assert.end();
   });
 });

@@ -6,7 +6,7 @@ var os = require('os');
 var fs = require('fs');
 var crypto = require('crypto');
 
-test('correct number of parts for mbtiles without grids table', function(assert) {
+test('[parts mbtiles] correct number of parts for mbtiles without grids table', function(assert) {
   var fixture = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
   makeMbtiles(fixture, 305000, function(err) {
     if (err) throw err;
@@ -20,7 +20,7 @@ test('correct number of parts for mbtiles without grids table', function(assert)
   });
 });
 
-test('correct number of parts for mbtiles without tiles table', function(assert) {
+test('[parts mbtiles] correct number of parts for mbtiles without tiles table', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', 'valid.grids.mbtiles');
   var info = fs.statSync(fixture);
   info.filetype = 'mbtiles';
@@ -31,7 +31,7 @@ test('correct number of parts for mbtiles without tiles table', function(assert)
   });
 });
 
-test('correct number of parts for mbtiles with both tables', function(assert) {
+test('[parts mbtiles] correct number of parts for mbtiles with both tables', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', 'valid-tilesgrid.mbtiles');
   var info = fs.statSync(fixture);
   info.filetype = 'mbtiles';

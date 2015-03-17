@@ -1,3 +1,4 @@
+var srs = require('srs');
 var wmshp = require('wmshp');
 var gdal = require('gdal');
 
@@ -13,6 +14,7 @@ module.exports.criteria = function(infile, info, callback) {
   var sm = gdal.SpatialReference.fromEPSG(3857);
   var ds;
   var layer;
+  var projection;
 
   try {
     ds = gdal.open(infile);
@@ -20,6 +22,9 @@ module.exports.criteria = function(infile, info, callback) {
   }
   catch (err) { return callback(err); }
 
-  if (!layer.srs.isSame(sm)) return callback(null, true);
+  sm = srs.parse(sm.toProj4());
+  projection = srs.parse(layer.srs.toWKT());
+
+  if (sm !== projection) return callback(null, true);
   callback(null, false);
 };
