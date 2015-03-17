@@ -2,17 +2,21 @@ var gdal = require('gdal');
 var fs = require('fs');
 
 module.exports = function(infile, outfile, callback) {
-  fs.createReadStream(infile)
-    .pipe(fs.createWriteStream(outfile))
-    .on('finish', function() {
-      var ds;
-      try { ds = gdal.open(outfile, 'r+'); }
-      catch (err) { callback(err); }
+  function copy(finished) {
+    fs.createReadStream(infile)
+      .pipe(fs.createWriteStream(outfile))
+      .on('finish', finished);
+  }
 
-      ds.buildOverviews('CUBIC', [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]);
-      callback();
-    });
+  copy(function() {
+    var ds;
+    try { ds = gdal.open(outfile, 'r+'); }
+    catch (err) { return copy(callback); }
 
+    try { ds.buildOverviews('CUBIC', [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]); }
+    catch (err) { return copy(callback); }
+    callback();
+  });
 };
 
 module.exports.description = 'Generate overviews for TIFF files';
