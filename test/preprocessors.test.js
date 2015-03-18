@@ -34,7 +34,8 @@ test('[preprocessorcery] finds applicable preprocessors', function(assert) {
     .await(function(err, geojsonResult, tifResult) {
       assert.ifError(err, 'no errors');
       assert.equal(geojsonResult.length, 0, 'no geojson preprocessors');
-      assert.equal(tifResult.length, 2, '2 tif preprocessors');
+      // assert.equal(tifResult.length, 2, '2 tif preprocessors');
+      assert.equal(tifResult.length, 1, '1 tif preprocessor');
       assert.end();
     });
 });
@@ -48,7 +49,8 @@ test('[preprocessorcery] describes preprocessing steps', function(assert) {
     assert.ifError(err, 'no error');
     assert.deepEqual(
       descriptions,
-      ['Reproject TIFF file to EPSG:3857', 'Generate overviews for TIFF files'],
+      // ['Reproject TIFF file to EPSG:3857', 'Generate overviews for TIFF files'],
+      ['Reproject TIFF file to EPSG:3857'],
       'expected descriptions'
     );
     assert.end();

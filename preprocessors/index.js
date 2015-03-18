@@ -7,7 +7,7 @@ var queue = require('queue-async');
 var preprocessors = [
   'tif-toBytes.preprocessor',
   'tif-reproject.preprocessor',
-  'tif-overviews.preprocessor',
+  // 'tif-overviews.preprocessor',
   'shp-reproject.preprocessor',
   'shp-index.preprocessor',
   'geojson-bom.preprocessor'
