@@ -35,7 +35,7 @@
     "split": "^0.3.3",
     "srs": "^0.4.6",
     "wmshp": "0.0.2",
-    "wmtiff": "0.0.2"
+    "wmtiff": "0.0.3"
   },
   "jshintConfig": {
     "node": true,
