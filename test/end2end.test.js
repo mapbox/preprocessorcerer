@@ -66,6 +66,7 @@ function outputCheck(outfile, type, assert) {
     var index = fs.readdirSync(outfile).filter(function(filename) {
       return path.extname(filename) === '.index';
     });
+
     assert.equal(index.length, 1, 'created .index');
 
     // ends up in epsg:3857
@@ -89,6 +90,7 @@ function outputCheck(outfile, type, assert) {
     // each band is 8-bit and has overviews
     ds.bands.forEach(function(band) {
       assert.equal(band.dataType, gdal.GDT_Byte, 'band '  + band.id + ' is 8-bit');
+
       // assert.ok(band.overviews.count() >= 10, 'band ' + band.id + ' has overviews');
     });
   }

@@ -49,6 +49,7 @@ module.exports = function(infile, outfile, callback) {
           });
         }
       });
+
       q.awaitAll(function(err) {
         if (err) return callback(err);
 

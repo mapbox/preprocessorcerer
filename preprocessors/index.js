@@ -7,7 +7,6 @@ var queue = require('queue-async');
 var preprocessors = [
   'tif-toBytes.preprocessor',
   'tif-reproject.preprocessor',
-  // 'tif-overviews.preprocessor',
   'shp-reproject.preprocessor',
   'shp-index.preprocessor',
   'geojson-bom.preprocessor'
@@ -38,6 +37,7 @@ function applicable(filepath, info, callback) {
   preprocessors.forEach(function(preprocessor) {
     q.defer(preprocessor.criteria, filepath, info);
   });
+
   q.awaitAll(function(err, results) {
     if (err) return callback(err);
     callback(null, preprocessors.filter(function(preprocessor, i) {
@@ -82,8 +82,10 @@ function preprocessorcery(infile, info, callback) {
         });
       });
     });
+
     q.await(function(err) {
       if (err) return callback(err);
+
       // infile has been changed to the output file by this point
       callback(null, infile);
     });

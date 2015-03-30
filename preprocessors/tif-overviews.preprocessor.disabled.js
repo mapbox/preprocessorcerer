@@ -15,6 +15,7 @@ module.exports = function(infile, outfile, callback) {
 
     try { ds.buildOverviews('CUBIC', [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]); }
     catch (err) { return copy(callback); }
+
     callback();
   });
 };
