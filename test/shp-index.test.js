@@ -42,6 +42,7 @@ test('[shp-index] indexes (input folder output file)', function(assert) {
         .filter(function(filename) {
           return path.extname(filename) === '.index';
         });
+
       assert.equal(files.length, 1, 'created index file');
       assert.end();
     });
@@ -57,6 +58,7 @@ test('[shp-index] indexes (input folder output folder)', function(assert) {
         .filter(function(filename) {
           return path.extname(filename) === '.index';
         });
+
       assert.equal(files.length, 1, 'created index file');
       assert.end();
     });
@@ -72,6 +74,7 @@ test('[shp-index] indexes (input file output file)', function(assert) {
         .filter(function(filename) {
           return path.extname(filename) === '.index';
         });
+
       assert.equal(files.length, 1, 'created index file');
       assert.end();
     });
@@ -87,6 +90,7 @@ test('[shp-index] indexes (input file output folder)', function(assert) {
         .filter(function(filename) {
           return path.extname(filename) === '.index';
         });
+
       assert.equal(files.length, 1, 'created index file');
       assert.end();
     });

@@ -34,6 +34,7 @@ test('[tif-overviews] build overviews', function(assert) {
     ds.bands.forEach(function(band) {
       assert.ok(band.overviews.count() > 0, 'band ' + band.id + ' has overviews');
     });
+
     assert.end();
   });
 });
