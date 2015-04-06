@@ -34,8 +34,8 @@
     "queue-async": "^1.0.7",
     "split": "^0.3.3",
     "srs": "^0.4.6",
-    "wmshp": "0.0.2",
-    "wmtiff": "0.0.3"
+    "wmshp": "0.0.3",
+    "wmtiff": "0.1.1"
   },
   "jshintConfig": {
     "node": true,
