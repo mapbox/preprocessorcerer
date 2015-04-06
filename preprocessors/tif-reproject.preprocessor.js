@@ -3,7 +3,10 @@ var srs = require('srs');
 var wmtiff = require('wmtiff').reproject;
 
 module.exports = function(infile, outfile, callback) {
-  wmtiff(infile, outfile, callback);
+  try { wmtiff(infile, outfile); }
+  catch (err) { return callback(err); }
+
+  callback();
 };
 
 module.exports.description = 'Reproject TIFF file to EPSG:3857';
