@@ -1,6 +1,6 @@
 {
   "name": "preprocessorcerer",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "queue-async": "^1.0.7",
     "split": "^0.3.3",
     "srs": "^0.4.6",
-    "wmshp": "0.0.3",
+    "wmshp": "0.0.5",
     "wmtiff": "0.1.1"
   },
   "jshintConfig": {
