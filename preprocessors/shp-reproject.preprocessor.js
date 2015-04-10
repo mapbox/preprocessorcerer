@@ -3,7 +3,10 @@ var wmshp = require('wmshp');
 var gdal = require('gdal');
 
 module.exports = function(infile, outfile, callback) {
-  wmshp(infile, outfile, callback);
+  try { wmshp(infile, outfile); }
+  catch (err) { return callback(err); }
+
+  callback();
 };
 
 module.exports.description = 'Reproject shapefile to EPSG:3857';
