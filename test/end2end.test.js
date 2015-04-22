@@ -109,7 +109,7 @@ function outputCheck(outfile, type, assert, callback) {
   }
 
   if (type === '.mbtiles') {
-    return new MBtiles(outfile, function(err, mbtiles) {
+    return new MBtiles(outfile, function(err) {
       assert.ifError(err, 'creates a parseable mbtiles file');
       callback();
     });
