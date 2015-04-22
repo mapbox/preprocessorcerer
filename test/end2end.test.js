@@ -7,6 +7,7 @@ var gdal = require('gdal');
 var preprocess = require('..');
 var exec = require('child_process').exec;
 var preprocessorDir = path.resolve(__dirname, '..', 'preprocessors');
+var MBtiles = require('mbtiles');
 
 // Perform all preprocessorcery in a temporary directory. Otherwise output files
 // with random names will litter the fixture directory
@@ -46,22 +47,24 @@ exec(cmd, function(err) {
       preprocess(fixture.filepath, function(err, outfile, parts, descriptions) {
         assert.ifError(err, 'preprocessed');
         assert.deepEqual(descriptions, fixture.descriptions, 'expected preprocessorcery performed');
-        outputCheck(outfile, fixture.type, assert);
-
-        assert.end();
+        outputCheck(outfile, fixture.type, assert, function() {
+          assert.end();
+        });
       });
     });
   });
 });
 
 // Given only a filetype, what assertions can we make about the outfile?
-function outputCheck(outfile, type, assert) {
+function outputCheck(outfile, type, assert, callback) {
   assert.ok(fs.existsSync(outfile), 'output file exists');
 
-  var ds = gdal.open(outfile);
+  var ds;
   var mercator = gdal.SpatialReference.fromEPSG(3857);
 
   if (type === '.shapefile') {
+    ds = gdal.open(outfile);
+
     // ends up indexed
     var index = fs.readdirSync(outfile).filter(function(filename) {
       return path.extname(filename) === '.index';
@@ -73,17 +76,25 @@ function outputCheck(outfile, type, assert) {
     ds.layers.forEach(function(layer) {
       assert.ok(layer.srs.isSame(mercator), layer.name + ' projected to spherical mercator');
     });
+
+    return callback();
   }
 
   if (type === '.geojson') {
+    ds = gdal.open(outfile);
+
     // ends up with no BOM
     var buf = new Buffer(3);
     var fd = fs.openSync(outfile, 'r');
     fs.readSync(fd, buf, 0, 3, 0);
     assert.notOk(buf[0] === 0xef && buf[1] === 0xbb && buf[2] == 0xbf, 'no BOM');
+
+    return callback();
   }
 
   if (type === '.tif') {
+    ds = gdal.open(outfile);
+
     // ends up in epsg:3857
     assert.ok(ds.srs.isSame(mercator), 'projected to spherical mercator');
 
@@ -92,6 +103,15 @@ function outputCheck(outfile, type, assert) {
       assert.equal(band.dataType, gdal.GDT_Byte, 'band '  + band.id + ' is 8-bit');
 
       // assert.ok(band.overviews.count() >= 10, 'band ' + band.id + ' has overviews');
+    });
+
+    return callback();
+  }
+
+  if (type === '.mbtiles') {
+    return new MBtiles(outfile, function(err) {
+      assert.ifError(err, 'creates a parseable mbtiles file');
+      callback();
     });
   }
 }
