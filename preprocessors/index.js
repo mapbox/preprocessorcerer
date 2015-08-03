@@ -5,6 +5,7 @@ var queue = require('queue-async');
 
 // The order here determines the order in which preprocessors will be run
 var preprocessors = [
+  'tif-corrupt.preprocessor',
   'tif-toBytes.preprocessor',
   'tif-reproject.preprocessor',
   'shp-index.preprocessor',
