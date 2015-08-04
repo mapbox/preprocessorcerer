@@ -22,7 +22,7 @@ test('[exec] fails corrupt TIFF', function(t) {
   var cmd = [preprocess_exec, infile, tmpfile].join(' ');
   exec(cmd, function(err, stderr) {
     t.equal(err.code, 3, 'exit 3');
-    t.equal(stderr, 'Corrupt TIFF file', 'expected message');
+    t.ok(/corrupt/i.test(stderr), 'expected message');
     t.end();
   });
 });
