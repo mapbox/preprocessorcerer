@@ -192,7 +192,7 @@ test('[parts bySize] csv split per 10MB', function(assert) {
 
 test('[parts bySize] tif split per 10MB', function(assert) {
   var mbs = 25;
-  var expected = Math.ceil(mbs / 10);
+  var expected = Math.ceil(mbs / 100);
   var info = {
     size: mbs * 1024 * 1024,
     filetype: 'tif'
