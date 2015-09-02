@@ -28,7 +28,7 @@
     "tilelive": "^5.7.0"
   },
   "dependencies": {
-    "bytetiff": "~0.1.3",
+    "bytetiff": "https://github.com/mapbox/node-bytetiff/archive/lentil-gdal.tar.gz",
     "gdal": "~0.7.0",
     "mapbox-file-sniff": "~0.4.0",
     "mapnik": "~3.4.0",
@@ -37,8 +37,8 @@
     "queue-async": "^1.0.7",
     "split": "^0.3.3",
     "srs": "^0.4.6",
-    "wmshp": "~0.1.1",
-    "wmtiff": "0.1.2"
+    "wmshp": "https://github.com/mapbox/node-wmshp/archive/lentil-gdal.tar.gz",
+    "wmtiff": "https://github.com/mapbox/node-wmtiff/archive/lentil-gdal.tar.gz"
   },
   "jshintConfig": {
     "node": true,
