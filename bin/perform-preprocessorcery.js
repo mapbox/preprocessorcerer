@@ -7,7 +7,7 @@ var infile = args.shift();
 
 if (!infile) {
   console.error('Usage:');
-  console.error('preform-preprocessorcery <input file>');
+  console.error('perform-preprocessorcery <input file>');
   process.exit(1);
 }
 
