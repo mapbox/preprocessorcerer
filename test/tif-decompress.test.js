@@ -1,6 +1,5 @@
 var test = require('tape');
 var decompress = require('../preprocessors/tif-decompress.preprocessor');
-var os = require('os');
 var path = require('path');
 var crypto = require('crypto');
 var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
@@ -26,21 +25,21 @@ test('[tif-decompress] criteria: not compressed', function(assert) {
 
 test('[tif-decompress] decompress: verify exact copy', function(assert) {
   var outfile = path.join(__dirname, crypto.randomBytes(8).toString('hex'));
-  console.log(outfile);
+
   decompress(compressed, outfile, function(err) {
     assert.ifError(err, 'no error');
     var ds = gdal.open(compressed);
     var checksum = 0;
-    ds.bands.forEach(function (band) {
-        checksum = checksum + gdal.checksumImage(band);
+    ds.bands.forEach(function(band) {
+      checksum = checksum + gdal.checksumImage(band);
     });
-    console.log(checksum);
+
     var dscopy = gdal.open(outfile + '.tif');
     var checksum_copy = 0;
-    dscopy.bands.forEach(function (band) {
-        checksum_copy = checksum_copy + gdal.checksumImage(band);
+    dscopy.bands.forEach(function(band) {
+      checksum_copy = checksum_copy + gdal.checksumImage(band);
     });
-    console.log(checksum_copy);
+
     assert.equal(checksum_copy, checksum, 'outfile and infile should have same checksum');
     assert.end();
   });
