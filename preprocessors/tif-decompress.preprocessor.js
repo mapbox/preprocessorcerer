@@ -1,5 +1,4 @@
 var gdal = require('gdal');
-var fs = require('fs');
 
 module.exports = function(infile, outfile, callback) {
   var ds;
@@ -38,9 +37,7 @@ module.exports.criteria = function(filepath, info, callback) {
   try { ds = gdal.open(filepath); }
   catch (err) { return callback(err); }
 
-  if (typeof ds.getMetadata('IMAGE_STRUCTURE')['COMPRESSION'] !== undefined) {
-  	console.log("compressed");
-  } else console.log("uncompressed");
-
-  callback(null, true);
+  if (typeof ds.getMetadata('IMAGE_STRUCTURE')['COMPRESSION'] !== "undefined") {
+    callback(null, true);
+  } else callback(null, false);
 }
