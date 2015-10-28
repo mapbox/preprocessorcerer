@@ -30,9 +30,11 @@ module.exports.criteria = function(infile, info, callback) {
   if (info.filetype !== 'geojson' && info.filetype !== 'csv') {
     return callback(null, false);
   }
+
   // check size is warrants creating an index
   if (info.size > 50 * 1024 * 1024) { // 50Mb
     return callback(null, true);
   }
+
   return callback(null, false);
 };
