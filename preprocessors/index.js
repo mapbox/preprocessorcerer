@@ -5,6 +5,10 @@ var queue = require('queue-async');
 
 // The order here determines the order in which preprocessors will be run
 var preprocessors = [
+  'tif-toBytes.preprocessor',
+  'tif-reproject.preprocessor',
+  'shp-index.preprocessor',
+  'geojson-bom.preprocessor',
   'tif-decompress.preprocessor.js'
 ];
 

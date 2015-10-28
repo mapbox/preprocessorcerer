@@ -38,6 +38,6 @@ module.exports.criteria = function(filepath, info, callback) {
   catch (err) { return callback(err); }
 
   if (typeof ds.getMetadata('IMAGE_STRUCTURE').COMPRESSION !== 'undefined') {
-    callback(null, true);
-  } else callback(null, false);
+    return callback(null, true);
+  } else return callback(null, false);
 };
