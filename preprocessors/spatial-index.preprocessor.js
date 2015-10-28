@@ -10,14 +10,14 @@ module.exports = function(infile, outfile, callback) {
     if (err) return callback(err);
       var outname = path.join(outfile,path.basename(infile));
       function copy(create_index) {
-	fs.createReadStream(infile)
-	  .pipe(fs.createWriteStream(outname))
-	  .on('finish', create_index);
+  fs.createReadStream(infile)
+    .pipe(fs.createWriteStream(outname))
+    .on('finish', create_index);
        }
        copy(function() {
-	 spawn(mapnik_index,[ outname ])
-	   .once('error', callback)
-	   .on('exit', callback);
+   spawn(mapnik_index,[ outname ])
+     .once('error', callback)
+     .on('exit', callback);
     });
   });
 };
