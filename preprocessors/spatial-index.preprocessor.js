@@ -3,23 +3,38 @@ var fs = require('fs');
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index');
-var queue = require('queue-async');
-//var mkdirp = require('mkdirp');
+var mkdirp = require('mkdirp');
 
 module.exports = function(infile, outfile, callback) {
-    // TODO
-    console.error(infile);
-    console.error(mapnik_index);
-    console.error(typeof infile);
+    mkdirp(outfile, function(err) {
+	if (err) return callback(err);
+	var outname = path.join(outfile,path.basename(infile));
 
-    spawn(mapnik_index,[ infile ])
-	.once('error', callback)
-	.on('exit', callback);
+	function copy(create_index) {
+	    fs.createReadStream(infile)
+		.pipe(fs.createWriteStream(outname))
+		.on('finish', create_index);
+	}
+
+	copy(function() {
+	    spawn(mapnik_index,[ outname ])
+		.once('error', callback)
+		.on('exit', callback);
+	});
+    });
 };
 
 module.exports.description = 'Add a spatial index to GeoJSON or CSV';
 
 module.exports.criteria = function(infile, info, callback) {
-    if (info.filetype !== 'geojson' && info.filetype !== 'csv') return callback(null, false);
-    callback(null, true);
+    if (info.filetype !== 'geojson' && info.filetype !== 'csv')
+    {
+	return callback(null, false);
+    }
+    // check size is warrants creating an index
+    if (info.size > 50 * 1024 * 1024) // 50 Mb
+    {
+	return callback(null, true);
+    }
+    return callback(null, false);
 };
