@@ -6,6 +6,7 @@ var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
 var uncompressed = path.resolve(__dirname, 'fixtures', 'uncompressed.tif');
 var compressed = path.resolve(__dirname, 'fixtures', 'compressed.tif');
 var gdal = require('gdal');
+var os = require('os');
 
 test('[tif-decompress] criteria: not a tif', function(assert) {
   decompress.criteria(geojson, { filetype: 'geojson' }, function(err, process) {
@@ -24,7 +25,7 @@ test('[tif-decompress] criteria: not compressed', function(assert) {
 });
 
 test('[tif-decompress] decompress: verify exact copy', function(assert) {
-  var outfile = path.join(__dirname, crypto.randomBytes(8).toString('hex'));
+  var outfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
 
   decompress(compressed, outfile, function(err) {
     assert.ifError(err, 'no error');
@@ -34,7 +35,7 @@ test('[tif-decompress] decompress: verify exact copy', function(assert) {
       checksum = checksum + gdal.checksumImage(band);
     });
 
-    var dscopy = gdal.open(outfile + '.tif');
+    var dscopy = gdal.open(outfile);
     var checksum_copy = 0;
     dscopy.bands.forEach(function(band) {
       checksum_copy = checksum_copy + gdal.checksumImage(band);

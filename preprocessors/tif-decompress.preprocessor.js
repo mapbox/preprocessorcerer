@@ -4,7 +4,6 @@ module.exports = function(infile, outfile, callback) {
   var ds;
   var dscopy;
   var driver = gdal.drivers.get('GTiff');
-  outfile = outfile + '.tif';
 
   try { ds = gdal.open(infile); }
   catch (err) { return callback(err); }
