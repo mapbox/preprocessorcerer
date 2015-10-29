@@ -10,7 +10,7 @@ module.exports = function splitBySize(filepath, info, callback) {
   } else if (untiled.indexOf(info.filetype) !== -1) {
     callback(null, Math.min(max, Math.ceil(mb / 10)));
   } else if (raster.indexOf(info.filetype) !== -1) {
-    callback(null, 1);
+    callback(null, Math.min(max, Math.ceil(mb / 1000)));
   } else {
     callback(null, 1);
   }
