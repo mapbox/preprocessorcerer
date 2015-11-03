@@ -5,6 +5,7 @@ module.exports = function(infile, outfile, callback) {
   function copy(finished) {
     fs.createReadStream(infile)
       .pipe(fs.createWriteStream(outfile))
+      .once('error', callback)
       .on('finish', finished);
   }
 
