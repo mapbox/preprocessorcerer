@@ -4,8 +4,9 @@ var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index');
 if (!fs.existsSync(mapnik_index)) {
-  throw new Error("mapnik-index does not exist at " + mapnik_index)
+  throw new Error('mapnik-index does not exist at ' + mapnik_index);
 }
+
 var mkdirp = require('mkdirp');
 
 module.exports = function(infile, outdir, callback) {
@@ -45,7 +46,7 @@ module.exports.criteria = function(infile, info, callback) {
   }
 
   if (info.size === undefined) {
-    return callback(new Error("info.size must be a valid number"));
+    return callback(new Error('info.size must be a valid number'));
   }
 
   // check size is warrants creating an index

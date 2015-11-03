@@ -25,15 +25,14 @@ test('[spatial-index] criteria: not an indexable file', function(assert) {
 });
 
 test('[spatial-index] exposes index_worthy_size', function(assert) {
-  assert.equal(index.index_worthy_size,10485760);
+  assert.equal(index.index_worthy_size, 10485760);
   assert.end();
 });
 
 test('[spatial-index] criteria: does not have an index', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', 'valid.geojson');
-  index.criteria(fixture, { filetype: 'geojson', size: index.index_worthy_size-1 }, function(err, process) {
+  index.criteria(fixture, { filetype: 'geojson', size: index.index_worthy_size - 1 }, function(err, process) {
     assert.ifError(err, 'no error');
-    // will not get index because the size is not greater than `index.index_worthy_size`
     assert.ok(!process, 'do process');
     assert.end();
   });
@@ -53,7 +52,7 @@ test('[spatial-index] indexes (input folder output file)', function(assert) {
   tmpdir(function(err, outdir) {
     index(infile, outdir, function(err) {
       assert.ifError(err, 'no error');
-      assert.ok(fs.existsSync(path.join(outdir,'valid.geojson.index')));
+      assert.ok(fs.existsSync(path.join(outdir, 'valid.geojson.index')));
       assert.end();
     });
   });
