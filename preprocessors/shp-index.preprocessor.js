@@ -3,6 +3,9 @@ var fs = require('fs');
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var shapeindex = path.resolve(mapnik.module_path, 'shapeindex');
+if (!fs.existsSync(shapeindex)) {
+  throw new Error("shapeindex does not exist at " + shapeindex)
+}
 var queue = require('queue-async');
 var mkdirp = require('mkdirp');
 
