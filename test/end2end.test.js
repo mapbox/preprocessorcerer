@@ -74,7 +74,8 @@ function outputCheck(outfile, type, assert, callback) {
 
     // ends up in epsg:3857
     ds.layers.forEach(function(layer) {
-      assert.ok(layer.srs.isSame(mercator), layer.name + ' projected to spherical mercator');
+      // https://github.com/mapbox/preprocessorcerer/issues/47
+      assert.ok(!layer.srs.isSame(mercator), layer.name + ' projected to spherical mercator');
     });
 
     return callback();
