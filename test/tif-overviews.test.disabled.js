@@ -1,5 +1,5 @@
 var test = require('tape');
-var overviews = require('../preprocessors/tif-overviews.preprocessor');
+var overviews = require('../preprocessors/tif-overviews.preprocessor.disabled');
 var path = require('path');
 var os = require('os');
 var crypto = require('crypto');
