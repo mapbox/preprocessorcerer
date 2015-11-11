@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "jshint index.js bin parts preprocessors test && jscs index.js bin parts preprocessors test",
     "test": "tape test/*.test.js",
-    "coverage": "istanbul cover tape test/*.js && coveralls < ./coverage/lcov.info"
+    "coverage": "istanbul cover tape test/*.test.js && coveralls < ./coverage/lcov.info"
   },
   "bin": {
     "perform-preprocessorcery": "bin/perform-preprocessorcery.js"
@@ -39,7 +39,7 @@
     "mbtiles": "^0.8.0",
     "queue-async": "^1.0.7",
     "split": "^0.3.3",
-    "srs": "^0.4.6",
+    "srs": "^1.0.1",
     "wmshp": "~0.2.0",
     "wmtiff": "~0.2.0"
   },
