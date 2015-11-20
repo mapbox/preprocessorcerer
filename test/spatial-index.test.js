@@ -16,7 +16,7 @@ function tmpdir(callback) {
 }
 
 test('[spatial-index] criteria: not an indexable file', function(assert) {
-  var fixture = path.resolve(__dirname, 'fixtures', 'invalid.txt');
+  var fixture = path.resolve(__dirname, 'fixtures', 'bom.geojson');
   index.criteria(fixture, { filetype: 'txt' }, function(err, process) {
     assert.ifError(err, 'no error');
     assert.notOk(process, 'do not process');
