@@ -5,6 +5,7 @@ var fs = require('fs');
 var crypto = require('crypto');
 var index = require('../preprocessors/spatial-index.preprocessor');
 var mkdirp = require('mkdirp');
+var checksum = require('checksum');
 
 function tmpdir(callback) {
   var dir = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
@@ -49,11 +50,19 @@ test('[spatial-index] criteria: does have an index', function(assert) {
 
 test('[spatial-index] indexes (input folder output file)', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'valid.geojson');
+  var original;
+  checksum.file(infile, function(error, sum) {
+    original = sum;
+  });
+
   tmpdir(function(err, outdir) {
     index(infile, outdir, function(err) {
-      assert.ifError(err, 'no error');
-      assert.ok(fs.existsSync(path.join(outdir, 'valid.geojson.index')));
-      assert.end();
+      checksum.file(path.join(outdir, 'valid.geojson'), function(error, sum) {
+        assert.equal(original, sum);
+        assert.ifError(err, 'no error');
+        assert.ok(fs.existsSync(path.join(outdir, 'valid.geojson.index')));
+        assert.end();
+      });
     });
   });
 });

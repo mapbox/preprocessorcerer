@@ -28,7 +28,8 @@
     "tape": "^3.4.0",
     "tilelive": "^5.7.0",
     "istanbul": "~0.3.17",
-    "coveralls": "~2.11.2"
+    "coveralls": "~2.11.2",
+    "checksum": "^0.1.1"
   },
   "dependencies": {
     "bytetiff": "~0.2.0",
