@@ -5,6 +5,7 @@ var fs = require('fs');
 var crypto = require('crypto');
 var index = require('../preprocessors/spatial-index.preprocessor');
 var mkdirp = require('mkdirp');
+var checksum = require('checksum');
 
 function tmpdir(callback) {
   var dir = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
@@ -16,7 +17,7 @@ function tmpdir(callback) {
 }
 
 test('[spatial-index] criteria: not an indexable file', function(assert) {
-  var fixture = path.resolve(__dirname, 'fixtures', 'invalid.txt');
+  var fixture = path.resolve(__dirname, 'fixtures', 'bom.geojson');
   index.criteria(fixture, { filetype: 'txt' }, function(err, process) {
     assert.ifError(err, 'no error');
     assert.notOk(process, 'do not process');
@@ -29,16 +30,16 @@ test('[spatial-index] exposes index_worthy_size', function(assert) {
   assert.end();
 });
 
-test('[spatial-index] criteria: does not have an index', function(assert) {
+test('[spatial-index] criteria: does not need an index', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', 'valid.geojson');
   index.criteria(fixture, { filetype: 'geojson', size: index.index_worthy_size - 1 }, function(err, process) {
     assert.ifError(err, 'no error');
-    assert.ok(!process, 'do process');
+    assert.ok(!process, 'dont do process');
     assert.end();
   });
 });
 
-test('[spatial-index] criteria: does have an index', function(assert) {
+test('[spatial-index] criteria: does need an index', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', 'valid.geojson');
   index.criteria(fixture, { filetype: 'geojson', size: index.index_worthy_size + 1 }, function(err, process) {
     assert.ifError(err, 'no error');
@@ -49,11 +50,19 @@ test('[spatial-index] criteria: does have an index', function(assert) {
 
 test('[spatial-index] indexes (input folder output file)', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'valid.geojson');
+  var original;
+  checksum.file(infile, function(error, sum) {
+    original = sum;
+  });
+
   tmpdir(function(err, outdir) {
     index(infile, outdir, function(err) {
-      assert.ifError(err, 'no error');
-      assert.ok(fs.existsSync(path.join(outdir, 'valid.geojson.index')));
-      assert.end();
+      checksum.file(path.join(outdir, 'valid.geojson'), function(error, sum) {
+        assert.equal(original, sum);
+        assert.ifError(err, 'no error');
+        assert.ok(fs.existsSync(path.join(outdir, 'valid.geojson.index')));
+        assert.end();
+      });
     });
   });
 });
