@@ -30,16 +30,16 @@ test('[spatial-index] exposes index_worthy_size', function(assert) {
   assert.end();
 });
 
-test('[spatial-index] criteria: does not have an index', function(assert) {
+test('[spatial-index] criteria: does not need an index', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', 'valid.geojson');
   index.criteria(fixture, { filetype: 'geojson', size: index.index_worthy_size - 1 }, function(err, process) {
     assert.ifError(err, 'no error');
-    assert.ok(!process, 'do process');
+    assert.ok(!process, 'dont do process');
     assert.end();
   });
 });
 
-test('[spatial-index] criteria: does have an index', function(assert) {
+test('[spatial-index] criteria: does need an index', function(assert) {
   var fixture = path.resolve(__dirname, 'fixtures', 'valid.geojson');
   index.criteria(fixture, { filetype: 'geojson', size: index.index_worthy_size + 1 }, function(err, process) {
     assert.ifError(err, 'no error');
