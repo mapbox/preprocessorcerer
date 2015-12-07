@@ -30,7 +30,9 @@ module.exports = function(infile, outdir, callback) {
       // mapnik-index will automatically add ".index" to the end of the original filename
       spawn(mapnik_index, [outfile])
         .once('error', callback)
-        .on('exit', callback);
+        .on('exit', function() {
+          callback();
+        });
     });
   });
 };
