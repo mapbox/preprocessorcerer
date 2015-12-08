@@ -67,7 +67,7 @@ test('[spatial-index] indexes (input folder output file)', function(assert) {
   });
 });
 
-test('[spatial-index] indexes (input folder output file)', function(assert) {
+test('[spatial-index] handles error in case of invalid feature', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'index-validate-flag.geojson');
   var original;
   checksum.file(infile, function(error, sum) {
