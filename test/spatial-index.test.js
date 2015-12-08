@@ -66,3 +66,23 @@ test('[spatial-index] indexes (input folder output file)', function(assert) {
     });
   });
 });
+
+test('[spatial-index] indexes (input folder output file)', function(assert) {
+  var infile = path.resolve(__dirname, 'fixtures', 'index-validate-flag.geojson');
+  var original;
+  checksum.file(infile, function(error, sum) {
+    original = sum;
+  });
+
+  tmpdir(function(err, outdir) {
+    index(infile, outdir, function(err) {
+      assert.ok(err, 'error properly handled');
+      assert.equal(err, 'Invalid geojson feature', 'expected error message');
+      checksum.file(path.join(outdir, 'index-validate-flag.geojson'), function(error, sum) {
+        assert.equal(original, sum);
+        assert.notOk(fs.existsSync(path.join(outdir, 'index-validate-flag.geojson.index')), 'index file should not exist due to feature error');
+        assert.end();
+      });
+    });
+  });
+});
