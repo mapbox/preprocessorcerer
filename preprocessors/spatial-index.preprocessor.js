@@ -28,7 +28,7 @@ module.exports = function(infile, outdir, callback) {
     copy(function() {
       // Finally, create an .index file in the output dir
       // mapnik-index will automatically add ".index" to the end of the original filename
-      spawn(mapnik_index, [outfile])
+      spawn(mapnik_index, [outfile, '--validate-features'])
         .once('error', callback)
         .on('exit', function() {
           callback();
