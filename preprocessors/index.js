@@ -4,11 +4,13 @@ var path = require('path');
 var queue = require('queue-async');
 
 // The order here determines the order in which preprocessors will be run
+// spatial-index.preprocessor must be last, since it must create an index file for the final preprocessed source
 var preprocessors = [
   'tif-toBytes.preprocessor',
   'tif-reproject.preprocessor',
   'shp-index.preprocessor',
-  'geojson-bom.preprocessor'
+  'geojson-bom.preprocessor',
+  'spatial-index.preprocessor'
 ];
 
 // Loads each *.preprocessor.js file and builds an array of them
