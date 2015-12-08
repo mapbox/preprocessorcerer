@@ -35,10 +35,10 @@ module.exports = function(infile, outdir, callback) {
           // If error printed to --validate-features log
           if (data.indexOf('Error') != -1) {
             callback('Invalid geojson feature');
-          } 
+          }
           else callback();
         });
-        
+
       p.stderr.on('data', function(d) {
         d.toString();
         data += d;
