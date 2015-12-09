@@ -28,11 +28,21 @@ module.exports = function(infile, outdir, callback) {
     copy(function() {
       // Finally, create an .index file in the output dir
       // mapnik-index will automatically add ".index" to the end of the original filename
-      spawn(mapnik_index, [outfile])
+      var data = '';
+      var p = spawn(mapnik_index, [outfile, '--validate-features'])
         .once('error', callback)
         .on('exit', function() {
-          callback();
+          // If error printed to --validate-features log
+          if (data.indexOf('Error') != -1) {
+            callback('Invalid geojson feature');
+          }
+          else callback();
         });
+
+      p.stderr.on('data', function(d) {
+        d.toString();
+        data += d;
+      });
     });
   });
 };
