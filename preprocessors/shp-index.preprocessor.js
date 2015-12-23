@@ -40,10 +40,11 @@ module.exports = function(infile, outfile, callback) {
       if (err) return callback(err);
 
       // Loop through files in the input dir, copy each .shp-related one to output dir
+      // Ignore already-existing index files
       var q = queue();
       files.forEach(function(filename) {
         var ext = path.extname(filename);
-        if (path.basename(filename, ext) === inName) {
+        if (path.basename(filename, ext) === inName && ext !== '.index') {
           q.defer(function(next) {
             fs.createReadStream(path.join(inDir, filename))
               .once('error', next)

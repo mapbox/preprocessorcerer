@@ -96,3 +96,67 @@ test('[shp-index] indexes (input file output folder)', function(assert) {
     });
   });
 });
+
+test('[shp-index] does not index (input folder output file - no index)', function(assert) {
+  var infolder = path.resolve(__dirname, 'fixtures', 'nullshapes.shapefile');
+  tmpfile(function(err, outfile) {
+    index(infolder, outfile, function(err) {
+      assert.ifError(err, 'no error');
+      var files = fs.readdirSync(path.dirname(outfile))
+        .filter(function(filename) {
+          return path.extname(filename) === '.index';
+        });
+
+      assert.equal(files.length, 0, 'did not create index file');
+      assert.end();
+    });
+  });
+});
+
+test('[shp-index] does not index (input file output file - no index)', function(assert) {
+  var infile = path.resolve(__dirname, 'fixtures', 'nullshapes.shapefile', 'regional.shp');
+  tmpfile(function(err, outfile) {
+    index(infile, outfile, function(err) {
+      assert.ifError(err, 'no error');
+      var files = fs.readdirSync(path.dirname(outfile))
+        .filter(function(filename) {
+          return path.extname(filename) === '.index';
+        });
+
+      assert.equal(files.length, 0, 'did not create index file');
+      assert.end();
+    });
+  });
+});
+
+test('[shp-index] does not index (input file output folder - no index)', function(assert) {
+  var infile = path.resolve(__dirname, 'fixtures', 'nullshapes.shapefile', 'regional.shp');
+  tmpfile(function(err, outfile) {
+    index(infile, path.dirname(outfile), function(err) {
+      assert.ifError(err, 'no error');
+      var files = fs.readdirSync(path.dirname(outfile))
+        .filter(function(filename) {
+          return path.extname(filename) === '.index';
+        });
+
+      assert.equal(files.length, 0, 'did not create index file');
+      assert.end();
+    });
+  });
+});
+
+test('[shp-index] does not contain pre-existing index (input file output folder - no index)', function(assert) {
+  var infile = path.resolve(__dirname, 'fixtures', 'hasindex.shapefile', 'regional.shp');
+  tmpfile(function(err, outfile) {
+    index(infile, path.dirname(outfile), function(err) {
+      assert.ifError(err, 'no error');
+      var files = fs.readdirSync(path.dirname(outfile))
+        .filter(function(filename) {
+          return path.extname(filename) === '.index';
+        });
+
+      assert.equal(files.length, 0, 'does not contain pre-existing index');
+      assert.end();
+    });
+  });
+});
