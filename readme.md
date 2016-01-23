@@ -24,6 +24,7 @@ tif-overviews | TIF file | Generate overviews for TIFF files
 shp-reproject | Shapefile that is not in EPSG:3857 | Reproject shapefile to EPSG:3857
 shp-index | Shapefile that has no mapnik index | Add a spatial index to shapefile
 geojson-bom | GeoJSON string with a BOM char | Remove a byte-order-mark from a geojson string
+spatial-index | GeoJSON or CSV has no mapnik index | Add spatial index (*.index) to GeoJSON or CSV
 
 ## Part Splitting
 

@@ -1,6 +1,6 @@
 {
   "name": "preprocessorcerer",
-  "version": "0.8.0",
+  "version": "0.9.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -28,13 +28,14 @@
     "tape": "^3.4.0",
     "tilelive": "^5.7.0",
     "istanbul": "~0.3.17",
-    "coveralls": "~2.11.2"
+    "coveralls": "~2.11.2",
+    "checksum": "^0.1.1"
   },
   "dependencies": {
     "bytetiff": "~0.2.0",
     "gdal": "~0.8.0",
     "mapbox-file-sniff": "~0.4.0",
-    "mapnik": "~3.4.0",
+    "mapnik": "~3.4.11",
     "mkdirp": "^0.5.0",
     "mbtiles": "^0.8.0",
     "queue-async": "^1.0.7",
