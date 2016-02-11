@@ -43,8 +43,11 @@ test('[shp-index] indexes (input folder output file)', function(assert) {
           return path.extname(filename) === '.index';
         });
 
-      assert.equal(files.length, 1, 'created index file');
-      assert.end();
+      fs.stat(outfile, function(err, stats) {
+        assert.equal(files.length, 1, 'created index file');
+        assert.equal(stats.size, 428328, 'index created using index-parts');
+        assert.end();
+      });
     });
   });
 });
@@ -59,8 +62,11 @@ test('[shp-index] indexes (input folder output folder)', function(assert) {
           return path.extname(filename) === '.index';
         });
 
-      assert.equal(files.length, 1, 'created index file');
-      assert.end();
+      fs.stat(outfile, function(err, stats) {
+        assert.equal(files.length, 1, 'created index file');
+        assert.equal(stats.size, 428328, 'index created using index-parts');
+        assert.end();
+      });
     });
   });
 });
@@ -75,8 +81,11 @@ test('[shp-index] indexes (input file output file)', function(assert) {
           return path.extname(filename) === '.index';
         });
 
-      assert.equal(files.length, 1, 'created index file');
-      assert.end();
+      fs.stat(outfile, function(err, stats) {
+        assert.equal(files.length, 1, 'created index file');
+        assert.equal(stats.size, 428328, 'index created using index-parts');
+        assert.end();
+      });
     });
   });
 });
@@ -91,8 +100,11 @@ test('[shp-index] indexes (input file output folder)', function(assert) {
           return path.extname(filename) === '.index';
         });
 
-      assert.equal(files.length, 1, 'created index file');
-      assert.end();
+      fs.stat(outfile, function(err, stats) {
+        assert.equal(files.length, 1, 'created index file');
+        assert.equal(stats.size, 428328, 'index created using index-parts');
+        assert.end();
+      });
     });
   });
 });
