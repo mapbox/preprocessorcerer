@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.0
+
+ - Updated mapnik to 3.5.0
+
 ## 0.10.2
 
  - Packaged without 68 MB test data
