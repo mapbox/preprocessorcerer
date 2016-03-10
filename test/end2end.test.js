@@ -13,7 +13,15 @@ var MBtiles = require('mbtiles');
 // with random names will litter the fixture directory
 var fixtureDir = path.resolve(__dirname, 'fixtures', 'end2end');
 var tmpdir = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
-var cmd = ['cp -r', fixtureDir, tmpdir].join(' ');
+var copy_cmd = 'cp -r';
+if (process.platform === 'win32') {
+  //during tests %PATH% env var is completely stripped. add Windows system dir back to get xcopy
+  process.env.Path += ';' + path.join(process.env.windir, 'system32');
+  copy_cmd = 'xcopy /s /y';
+  tmpdir += '\\';
+}
+
+var cmd = [copy_cmd, fixtureDir, tmpdir].join(' ');
 exec(cmd, function(err) {
   if (err) throw err;
 

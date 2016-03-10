@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
-var shapeindex = path.resolve(mapnik.module_path, 'shapeindex');
+var shapeindex = path.resolve(mapnik.module_path, 'shapeindex' + (process.platform === 'win32' ? '.exe' : ''));
 if (!fs.existsSync(shapeindex)) {
   throw new Error('shapeindex does not exist at ' + shapeindex);
 }
