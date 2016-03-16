@@ -1,7 +1,15 @@
 var gdal = require('gdal');
+var fs = require('fs');
 var mkdirp = require('mkdirp');
 var path = require('path');
 var util = require('util');
+var digest = require('mapnik-omnivore').digest;
+var mapnik = require('mapnik');
+var spawn = require('child_process').spawn;
+var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index' + (process.platform === 'win32' ? '.exe' : ''));
+if (!fs.existsSync(mapnik_index)) {
+  throw new Error('mapnik-index does not exist at ' + mapnik_index);
+}
 
 //disable in production
 //gdal.verbose();
@@ -44,7 +52,7 @@ module.exports = function(infile, outdirectory, callback) {
           .replace(/.kml/gi, '')
           .replace(/[ \\/&?]/g, '_')
           .replace(/[();:,\]\[{}]/g, '');
-        var out_name = path.join(outdirectory, lyr_name);
+        var out_name = path.join(outdirectory, lyr_name + '.geojson');
         var out_ds = gdal.open(out_name, 'w', 'GeoJSON');
         var geojson = out_ds.layers.create(lyr_name, wgs84, lyr_kml.geomType);
         lyr_kml.features.forEach(function(kml_feat) {
@@ -63,6 +71,11 @@ module.exports = function(infile, outdirectory, callback) {
 
           geojson.features.add(kml_feat);
           full_feature_cnt++;
+
+          // create mapnik index for each geojson layer
+          createIndex(out_name, function(err) {
+            if (err) return callback(err);
+          });
         });
 
         geojson.flush();
@@ -78,8 +91,36 @@ module.exports = function(infile, outdirectory, callback) {
     catch (err) {
       return callback(err);
     }
+    
+    // Create metadata file for original gpx source
+    var metadatafile = path.join(outdirectory, '/metadata.json');
+    digest(infile, function(err, metadata) {
+      fs.writeFile(metadatafile, JSON.stringify(metadata), function(err) {
+        if (err) return callback(err);
+        return callback();
+      });
+    });
 
-    callback();
+    function createIndex(layerfile, callback) { 
+    // Finally, create an .index file in the output dir
+    // mapnik-index will automatically add ".index" to the end of the original filename
+    var data = '';
+    var p = spawn(mapnik_index, [layerfile, '--validate-features'])
+      .once('error', callback)
+      .on('exit', function() {
+        // If error printed to --validate-features log
+        if (data.indexOf('Error') != -1) {
+          console.log(data);
+          callback(data);
+        }
+        else callback();
+      });
+
+      p.stderr.on('data', function(d) {
+        d.toString();
+        data += d;
+      });
+    }
   });
 };
 

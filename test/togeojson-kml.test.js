@@ -34,9 +34,11 @@ exec(cmd, function(err) {
         var outdirectory = path.join(tmpdir, crypto.randomBytes(8).toString('hex'));
         togeojson(kml, outdirectory, function(err) {
           if (fixture.indexOf('ok') === 0) {
-            assert.equal(err, undefined, ': KML was procssed');
             var converted = fs.readdirSync(outdirectory);
+            console.log(converted);
+            assert.equal(err, undefined, ': KML was procssed');
             assert.notEqual(converted.length, 0, ': verify output files were created');
+            //assert.ok(fs.existsSync(path.join(outdirectory, 'metadata.json')), ': contains metadata for original kml');
           } else {
             assert.equal(typeof err, typeof new Error(), ': detected invalid KML, ' + err);
           }

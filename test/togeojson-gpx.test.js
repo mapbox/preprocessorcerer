@@ -24,7 +24,6 @@ var cmd = [copy_cmd, fixtureDir, tmpdir].join(' ');
 exec(cmd, function(err) {
   if (err) throw err;
 
-  console.log(tmpdir);
   var q = queue();
   var fixtures = fs.readdirSync(tmpdir);
   fixtures.forEach(function(fixture) {
@@ -34,9 +33,10 @@ exec(cmd, function(err) {
         var outdirectory = path.join(tmpdir, crypto.randomBytes(8).toString('hex'));
         togeojson(gpx, outdirectory, function(err) {
           if (fixture.indexOf('ok') === 0) {
-            assert.equal(err, undefined, ': GPX was processed');
             var converted = fs.readdirSync(outdirectory);
+            assert.equal(err, undefined, ': GPX was processed');
             assert.notEqual(converted.length, 0, ': verify output files were created');
+            assert.ok(fs.existsSync(path.join(outdirectory, 'metadata.json')), ': contains metadata for original gpx');
           } else {
             assert.equal(typeof err, typeof new Error(), ': detected invalid GPX, ' + err);
           }
