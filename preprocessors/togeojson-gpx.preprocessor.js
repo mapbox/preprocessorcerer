@@ -16,6 +16,11 @@ module.exports = function(infile, outdirectory, callback) {
       var full_feature_cnt = 0;
 
       ds_gpx.layers.forEach(function(lyr_gpx) {
+        //drop point layers as they can get really huge
+        if (lyr_gpx.name === 'track_points' || lyr_gpx.name === 'route_points') {
+          return;
+        }
+
         var feat_cnt = lyr_gpx.features.count(true);
         if (feat_cnt === 0) {
           return;
