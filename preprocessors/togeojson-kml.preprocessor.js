@@ -43,9 +43,7 @@ module.exports = function(infile, outdirectory, callback) {
 
       ds_kml.layers.forEach(function(lyr_kml) {
         var feat_cnt = lyr_kml.features.count(true);
-        if (feat_cnt === 0) {
-          return;
-        }
+        if (feat_cnt === 0) return;
 
         //strip kml from layer name. features at the root get the KML filename as layer name
         var lyr_name = lyr_kml.name
@@ -57,30 +55,23 @@ module.exports = function(infile, outdirectory, callback) {
         var geojson = out_ds.layers.create(lyr_name, wgs84, lyr_kml.geomType);
         lyr_kml.features.forEach(function(kml_feat) {
           var geom = kml_feat.getGeometry();
-          if (!geom) {
-            return;
-          } else {
-            if (geom.isEmpty()) {
-              return;
-            }
-
-            if (!geom.isValid()) {
-              return;
-            }
+          if (!geom) return;
+          else {
+            if (geom.isEmpty()) return;
+            if (!geom.isValid()) return;
           }
 
           geojson.features.add(kml_feat);
           full_feature_cnt++;
-
-          // create mapnik index for each geojson layer
-          createIndex(out_name, function(err) {
-            if (err) return callback(err);
-          });
         });
-
-        geojson.flush();
-        out_ds.flush();
-        out_ds.close();
+        
+        // create mapnik index for each geojson layer
+        createIndex(out_name, function(err) {
+          if (err) return callback(err);
+          geojson.flush();
+          out_ds.flush();
+          out_ds.close();
+        });
       });
 
       ds_kml.close();
@@ -91,7 +82,7 @@ module.exports = function(infile, outdirectory, callback) {
     catch (err) {
       return callback(err);
     }
-    
+
     // Create metadata file for original gpx source
     var metadatafile = path.join(outdirectory, '/metadata.json');
     digest(infile, function(err, metadata) {
@@ -100,21 +91,21 @@ module.exports = function(infile, outdirectory, callback) {
         return callback();
       });
     });
-
-    function createIndex(layerfile, callback) { 
-    // Finally, create an .index file in the output dir
-    // mapnik-index will automatically add ".index" to the end of the original filename
-    var data = '';
-    var p = spawn(mapnik_index, [layerfile, '--validate-features'])
-      .once('error', callback)
-      .on('exit', function() {
-        // If error printed to --validate-features log
-        if (data.indexOf('Error') != -1) {
-          console.log(data);
-          callback(data);
-        }
-        else callback();
-      });
+    
+    function createIndex(layerfile, callback) {
+      // Finally, create an .index file in the output dir
+      // mapnik-index will automatically add ".index" to the end of the original filename
+      var data = '';
+      var p = spawn(mapnik_index, [layerfile, '--validate-features'])
+        .once('error', callback)
+        .on('exit', function() {
+          // If error printed to --validate-features log
+          if (data.indexOf('Error') != -1) {
+            console.log(data);
+            callback('Invalid geojson feature');
+          }
+          else callback();
+        });
 
       p.stderr.on('data', function(d) {
         d.toString();
@@ -148,7 +139,7 @@ function layername_count(ds) {
   for (var name in lyr_name_cnt) {
     var cnt = lyr_name_cnt[name];
     if (cnt > 1) {
-      err += util.format('%s[%s] found %d times', err.length > 0 ? ', ' : '', name, cnt);
+      err += util.format('%s\'%s\' found %d times', err.length > 0 ? ', ' : '', name, cnt);
     }
   }
 
