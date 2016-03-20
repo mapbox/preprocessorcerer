@@ -77,6 +77,9 @@ module.exports = function(infile, outdirectory, callback) {
         out_ds.flush();
         out_ds.close();
 
+        geojson = null;
+        out_ds = null;
+
         // create mapnik index for each geojson layer
         createIndex(out_name, function(err) {
           if (err) return callback(err);
