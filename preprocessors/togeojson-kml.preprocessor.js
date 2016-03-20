@@ -77,6 +77,7 @@ module.exports = function(infile, outdirectory, callback) {
         out_ds.flush();
         out_ds.close();
 
+        //release objects to be able to index
         geojson = null;
         out_ds = null;
 

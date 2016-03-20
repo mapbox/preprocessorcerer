@@ -36,8 +36,9 @@ exec(cmd, function(err) {
           if (fixture.indexOf('ok') === 0) {
             var converted = fs.readdirSync(outdirectory);
             console.log(converted);
-            assert.equal(err, undefined, ': KML was procssed');
+            assert.equal(err, undefined, ': KML was processed');
             assert.notEqual(converted.length, 0, ': verify output files were created');
+
             //assert.ok(fs.existsSync(path.join(outdirectory, 'metadata.json')), ': contains metadata for original kml');
           } else {
             assert.equal(typeof err, typeof new Error(), ': detected invalid KML, ' + err);
