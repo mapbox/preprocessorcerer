@@ -56,15 +56,16 @@ module.exports = function(infile, outdirectory, callback) {
           geojson.features.add(gpx_feat);
           full_feature_cnt++;
 
-          // create mapnik index for each geojson layer
-          createIndex(out_name, function(err) {
-            if (err) return callback(err);
-          });
         });
 
         geojson.flush();
         out_ds.flush();
         out_ds.close();
+
+        // create mapnik index for each geojson layer
+        createIndex(out_name, function(err) {
+          if (err) return callback(err);
+        });
       });
 
       ds_gpx.close();
@@ -85,19 +86,19 @@ module.exports = function(infile, outdirectory, callback) {
       });
     });
 
-    function createIndex(layerfile, callback) { 
-    // Finally, create an .index file in the output dir
-    // mapnik-index will automatically add ".index" to the end of the original filename
-    var data = '';
-    var p = spawn(mapnik_index, [layerfile, '--validate-features'])
-      .once('error', callback)
-      .on('exit', function() {
-        // If error printed to --validate-features log
-        if (data.indexOf('Error') != -1) {
-          callback('Invalid geojson feature');
-        }
-        else callback();
-      });
+    function createIndex(layerfile, callback) {
+      // Finally, create an .index file in the output dir
+      // mapnik-index will automatically add ".index" to the end of the original filename
+      var data = '';
+      var p = spawn(mapnik_index, [layerfile, '--validate-features'])
+        .once('error', callback)
+        .on('exit', function() {
+          // If error printed to --validate-features log
+          if (data.indexOf('Error') != -1) {
+            callback('Invalid geojson feature');
+          }
+          else callback();
+        });
 
       p.stderr.on('data', function(d) {
         d.toString();
