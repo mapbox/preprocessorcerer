@@ -14,7 +14,7 @@ test('[parts mbtiles] correct number of parts for mbtiles without grids table', 
     mbtilesByTiles(fixture, { filetype: 'mbtiles' }, function(err, parts) {
       assert.ifError(err, 'no error');
       assert.equal(parts, 4, 'four parts');
-      fs.unlink(fixture);
+      fs.unlinkSync(fixture);
       assert.end();
     });
   });

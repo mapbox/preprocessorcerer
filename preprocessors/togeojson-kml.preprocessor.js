@@ -19,68 +19,87 @@ module.exports = function(infile, outdirectory, callback) {
   mkdirp(outdirectory, function(err) {
     if (err) return callback(err);
 
+    var wgs84;
+    var ds_kml;
+    var lyr_cnt;
+    var full_feature_cnt;
+
     try {
-      var wgs84 = gdal.SpatialReference.fromEPSG(4326);
-      var ds_kml = gdal.open(infile);
-      var lyr_cnt = ds_kml.layers.count();
-      var full_feature_cnt = 0;
-
-      if (lyr_cnt < 1) {
-        ds_kml.close();
-        return callback(new Error('KML does not contain any layers.'));
-      }
-
-      if (lyr_cnt > module.exports.max_layer_count) {
-        ds_kml.close();
-        return callback(new Error(util.format('%d layers found. Maximum of %d layers allowed.', lyr_cnt, module.exports.max_layer_count)));
-      }
-
-      var duplicate_lyr_msg = layername_count(ds_kml);
-      if (duplicate_lyr_msg) {
-        ds_kml.close();
-        return callback(new Error(duplicate_lyr_msg));
-      }
-
-      ds_kml.layers.forEach(function(lyr_kml) {
-        var feat_cnt = lyr_kml.features.count(true);
-        if (feat_cnt === 0) return;
-
-        //strip kml from layer name. features at the root get the KML filename as layer name
-        var lyr_name = lyr_kml.name
-          .replace(/.kml/gi, '')
-          .replace(/[ \\/&?]/g, '_')
-          .replace(/[();:,\]\[{}]/g, '');
-        var out_name = path.join(outdirectory, lyr_name + '.geojson');
-        var out_ds = gdal.open(out_name, 'w', 'GeoJSON');
-        var geojson = out_ds.layers.create(lyr_name, wgs84, lyr_kml.geomType);
-        lyr_kml.features.forEach(function(kml_feat) {
-          var geom = kml_feat.getGeometry();
-          if (!geom) return;
-          else {
-            if (geom.isEmpty()) return;
-            if (!geom.isValid()) return;
-          }
-
-          geojson.features.add(kml_feat);
-          full_feature_cnt++;
-        });
-        
-        // create mapnik index for each geojson layer
-        createIndex(out_name, function(err) {
-          if (err) return callback(err);
-          geojson.flush();
-          out_ds.flush();
-          out_ds.close();
-        });
-      });
-
-      ds_kml.close();
-      if (full_feature_cnt === 0) {
-        return callback(new Error('KML does not contain any valid features'));
-      }
+      wgs84 = gdal.SpatialReference.fromEPSG(4326);
+      ds_kml = gdal.open(infile);
+      lyr_cnt = ds_kml.layers.count();
+      full_feature_cnt = 0;
     }
     catch (err) {
-      return callback(err);
+      return callback(new Error(err));
+    }
+
+    if (lyr_cnt < 1) {
+      ds_kml.close();
+      return callback(new Error('KML does not contain any layers.'));
+    }
+
+    if (lyr_cnt > module.exports.max_layer_count) {
+      ds_kml.close();
+      return callback(new Error(util.format('%d layers found. Maximum of %d layers allowed.', lyr_cnt, module.exports.max_layer_count)));
+    }
+
+    var duplicate_lyr_msg = layername_count(ds_kml);
+    if (duplicate_lyr_msg) {
+      ds_kml.close();
+      return callback(new Error(duplicate_lyr_msg));
+    }
+
+    ds_kml.layers.forEach(function(lyr_kml) {
+      var feat_cnt = lyr_kml.features.count(true);
+      if (feat_cnt === 0) return;
+
+      //strip kml from layer name. features at the root get the KML filename as layer name
+      var out_ds;
+      var geojson;
+      var out_name = path.join(outdirectory, lyr_name + '.geojson');
+      var lyr_name = lyr_kml.name
+        .replace(/.kml/gi, '')
+        .replace(/[ \\/&?]/g, '_')
+        .replace(/[();:,\]\[{}]/g, '');
+
+      try {
+        out_ds = gdal.open(out_name, 'w', 'GeoJSON');
+        geojson = out_ds.layers.create(lyr_name, wgs84, lyr_kml.geomType);
+      }
+      catch (err) {
+        return callback(new Error(err));
+      }
+
+      lyr_kml.features.forEach(function(kml_feat) {
+        var geom = kml_feat.getGeometry();
+        if (!geom) return;
+        else {
+          if (geom.isEmpty()) return;
+          if (!geom.isValid()) return;
+        }
+
+        geojson.features.add(kml_feat);
+        full_feature_cnt++;
+      });
+
+      geojson.flush();
+      out_ds.flush();
+      out_ds.close();
+
+      //release objects to be able to index
+      geojson = null;
+      out_ds = null;
+
+      // create mapnik index for each geojson layer
+      createIndex(out_name, function(err) {
+        if (err) return callback(err);
+      });
+    });
+
+    ds_kml.close();
+    if (full_feature_cnt === 0) {
+      return callback(new Error('KML does not contain any valid features'));
     }
 
     // Create metadata file for original gpx source
@@ -91,7 +110,7 @@ module.exports = function(infile, outdirectory, callback) {
         return callback();
       });
     });
-    
+
     function createIndex(layerfile, callback) {
       // Finally, create an .index file in the output dir
       // mapnik-index will automatically add ".index" to the end of the original filename
@@ -102,7 +121,7 @@ module.exports = function(infile, outdirectory, callback) {
           // If error printed to --validate-features log
           if (data.indexOf('Error') != -1) {
             console.log(data);
-            callback('Invalid geojson feature');
+            callback(data);
           }
           else callback();
         });
