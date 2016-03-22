@@ -21,10 +21,9 @@ test('[index] preprocesses', function(assert) {
       assert.ok(fs.statSync(outfile), 'outfile exists');
       assert.ok(!isNaN(parts), 'reported a number of parts');
       assert.ok(Array.isArray(descriptions), 'returns array of descriptions');
-      fs.unlink(tmpfile, function(err) {
-        if (err) throw err;
-        assert.end();
-      });
+      fs.unlinkSync(outfile);
+      fs.unlinkSync(tmpfile);
+      assert.end();
     });
   }
 });

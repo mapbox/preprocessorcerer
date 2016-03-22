@@ -21,6 +21,10 @@ module.exports.criteria = function(filepath, info, callback) {
   try { band = ds.bands.get(1); }
   catch (err) { return callback(err); }
 
-  if (band.dataType === gdal.GDT_UInt16) return callback(null, true);
-  callback(null, false);
+  var is16 = band.dataType === gdal.GDT_UInt16;
+
+  ds.close();
+  ds = null;
+
+  callback(null, is16);
 };

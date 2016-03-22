@@ -27,6 +27,9 @@ module.exports.criteria = function(filepath, info, callback) {
   }
   catch (err) { return callback(err); }
 
+  ds.close();
+  ds = null;
+
   if (projection === sm) callback(null, false);
   else callback(null, true);
 };
