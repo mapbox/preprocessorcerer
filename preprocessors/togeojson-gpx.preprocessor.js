@@ -1,6 +1,7 @@
 var gdal = require('gdal');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
+var queue = require('queue-async');
 var spawn = require('child_process').spawn;
 var path = require('path');
 var digest = require('mapnik-omnivore').digest;
@@ -17,6 +18,7 @@ module.exports = function(infile, outdirectory, callback) {
   mkdirp(outdirectory, function(err) {
     if (err) return callback(err);
 
+    var geojson_files = [];
     var ds_gpx;
     var full_feature_cnt = 0;
     var wgs84 = gdal.SpatialReference.fromEPSG(4326);
@@ -81,10 +83,7 @@ module.exports = function(infile, outdirectory, callback) {
       geojson = null;
       out_ds = null;
 
-      // create mapnik index for each geojson layer
-      createIndex(out_name, function(err) {
-        if (err) return callback(err);
-      });
+      geojson_files.push(out_name);
     });
 
     ds_gpx.close();
@@ -95,11 +94,25 @@ module.exports = function(infile, outdirectory, callback) {
     // Create metadata file for original gpx source
     var metadatafile = path.join(outdirectory, '/metadata.json');
     digest(infile, function(err, metadata) {
+      if (err) return callback(err);
       fs.writeFile(metadatafile, JSON.stringify(metadata), function(err) {
+        if (err) return callback(err);
+        return createIndices(callback);
+      });
+    });
+
+    function createIndices(callback) {
+      // create mapnik index for each geojson layer
+      var q = queue();
+      geojson_files.forEach(function(gj) {
+        q.defer(createIndex, gj);
+      });
+
+      q.awaitAll(function(err) {
         if (err) return callback(err);
         return callback();
       });
-    });
+    }
 
     function createIndex(layerfile, callback) {
       // Finally, create an .index file in the output dir
