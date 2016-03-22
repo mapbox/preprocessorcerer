@@ -31,7 +31,14 @@ module.exports = function(filepath, numTiles, callback) {
 
         q.awaitAll(function(err) {
           if (err) return callback(err);
-          mbtiles.stopWriting(callback);
+          mbtiles.stopWriting(function(err) {
+            if (err) return callback(err);
+            mbtiles.close(function(err) {
+              if (err) return callback(err);
+              mbtiles = null;
+              callback();
+            });
+          });
         });
       });
     });

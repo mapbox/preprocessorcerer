@@ -18,11 +18,15 @@ module.exports = function splitBySize(filepath, info, callback) {
         }
         else if (err) return callback(err);
 
-        var maxTilesPerJob = 100000;
-        var result = tilesResult.count + gridsResult.count;
-        if (!result) return callback(new Error('no tiles or grids'));
+        src.close(function(err) {
+          if (err) return callback(err);
+          src = null;
+          var maxTilesPerJob = 100000;
+          var result = tilesResult.count + gridsResult.count;
+          if (!result) return callback(new Error('no tiles or grids'));
 
-        callback(null, Math.min(50, Math.ceil(result / maxTilesPerJob)));
+          callback(null, Math.min(50, Math.ceil(result / maxTilesPerJob)));
+        });
       });
     });
   });
