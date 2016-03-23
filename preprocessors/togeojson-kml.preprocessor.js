@@ -124,23 +124,31 @@ module.exports = function(infile, outdirectory, callback) {
     }
 
     function createIndex(layerfile, callback) {
-      // Finally, create an .index file in the output dir
+      // Finally, create an .index file in the output dir (if layer is greater than index_worthy_size).
       // mapnik-index will automatically add ".index" to the end of the original filename
-      var data = '';
-      var p = spawn(mapnik_index, [layerfile, '--validate-features'])
-        .once('error', callback)
-        .on('exit', function() {
-          // If error printed to --validate-features log
-          if (data.indexOf('Error') != -1) {
-            console.log(data);
-            callback(data);
-          }
-          else callback();
-        });
+      fs.stat(layerfile, function(err, stats) {
+        if (err) return callback(err);
 
-      p.stderr.on('data', function(d) {
-        d.toString();
-        data += d;
+        // check size is warrants creating an index
+        if (stats.size >= module.exports.index_worthy_size) {
+          var data = '';
+          var p = spawn(mapnik_index, [layerfile, '--validate-features'])
+            .once('error', callback)
+            .on('exit', function() {
+              // If error printed to --validate-features log
+              if (data.indexOf('Error') != -1) {
+                return callback(data);
+              }
+              else return callback();
+            });
+
+          p.stderr.on('data', function(d) {
+            d.toString();
+            data += d;
+          });
+        } else {
+          return callback();
+        }
       });
     }
   });
@@ -179,3 +187,4 @@ function layername_count(ds) {
 
 //expose this as ENV option?
 module.exports.max_layer_count = 15;
+module.exports.index_worthy_size = 10 * 1024 * 1024; // 10 MB

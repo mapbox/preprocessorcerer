@@ -58,12 +58,14 @@ test('[GPX togeojson] fails empty features only', function(assert) {
 
 test('[GPX togeojson] convert and index valid GPX', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'gpx', 'ok-valid-file.gpx');
+  togeojson.index_worthy_size = 100; // 100 bytes
 
   tmpdir(function(err, outdir) {
     togeojson(infile, outdir, function(err) {
       if (err) throw err;
       assert.ifError(err, 'no error');
       assert.ok(fs.existsSync(path.join(outdir, 'tracks.geojson')), 'converted layer');
+      assert.ok(fs.existsSync(path.join(outdir, 'tracks.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original gpx');
       assert.end();
     });
