@@ -37,7 +37,7 @@
     "bytetiff": "~0.3.0",
     "gdal": "~0.8.0",
     "mapbox-file-sniff": "~0.4.0",
-    "mapnik-omnivore": "~7.1.1",
+    "mapnik-omnivore": "~7.3.0",
     "mapnik": "~3.5.0",
     "mkdirp": "^0.5.0",
     "mbtiles": "^0.8.0",
