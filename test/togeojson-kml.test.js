@@ -101,3 +101,18 @@ test('[KML togeojson] convert and index valid kml', function(assert) {
     });
   });
 });
+
+test('[KML togeojson] handle layers with special characters', function(assert) {
+  var infile = path.resolve(__dirname, 'fixtures', 'kml', 'ok-special-character-layer.kml');
+  togeojson.index_worthy_size = 100; // 100 bytes
+
+  tmpdir(function(err, outdir) {
+    togeojson(infile, outdir, function(err) {
+      assert.ifError(err, 'no error');
+      assert.ok(fs.existsSync(path.join(outdir, 'special_characters_in___this_layer.geojson')), 'converted layer');
+      assert.ok(fs.existsSync(path.join(outdir, 'special_characters_in___this_layer.geojson.index')), 'created index');
+      assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original kml');
+      assert.end();
+    });
+  });
+});
