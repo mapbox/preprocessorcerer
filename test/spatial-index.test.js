@@ -61,8 +61,6 @@ test('[spatial-index] indexes (input folder output file)', function(assert) {
         assert.equal(original, sum);
         assert.ifError(err, 'no error');
         assert.ok(fs.existsSync(path.join(outdir, 'valid.geojson.index')));
-        fs.unlinkSync(path.join(outdir, 'valid.geojson'));
-        fs.unlinkSync(path.join(outdir, 'valid.geojson.index'));
         assert.end();
       });
     });
