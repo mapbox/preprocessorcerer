@@ -6,6 +6,7 @@ var crypto = require('crypto');
 var index = require('../preprocessors/spatial-index.preprocessor');
 var mkdirp = require('mkdirp');
 var checksum = require('checksum');
+var rimraf = require('rimraf');
 
 function tmpdir(callback) {
   var dir = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
@@ -26,7 +27,7 @@ test('[spatial-index] criteria: not an indexable file', function(assert) {
 });
 
 test('[spatial-index] exposes index_worthy_size', function(assert) {
-  assert.equal(index.index_worthy_size, 10485760);
+  assert.equal(index.index_worthy_size, 10 * 1024 * 1024); //10MB
   assert.end();
 });
 
@@ -61,7 +62,10 @@ test('[spatial-index] indexes (input folder output file)', function(assert) {
         assert.equal(original, sum);
         assert.ifError(err, 'no error');
         assert.ok(fs.existsSync(path.join(outdir, 'valid.geojson.index')));
-        assert.end();
+        rimraf(outdir, function(err) {
+          if (err) throw err;
+          assert.end();
+        });
       });
     });
   });
@@ -81,7 +85,10 @@ test('[spatial-index] handles error in case of invalid feature', function(assert
       checksum.file(path.join(outdir, 'index-validate-flag.geojson'), function(error, sum) {
         assert.equal(original, sum);
         assert.notOk(fs.existsSync(path.join(outdir, 'index-validate-flag.geojson.index')), 'index file should not exist due to feature error');
-        assert.end();
+        rimraf(outdir, function(err) {
+          if (err) throw err;
+          assert.end();
+        });
       });
     });
   });
