@@ -5,6 +5,7 @@ var fs = require('fs');
 var crypto = require('crypto');
 var index = require('../preprocessors/shp-index.preprocessor');
 var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
 
 function tmpfile(callback) {
   var dir = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
@@ -46,7 +47,9 @@ test('[shp-index] indexes (input folder output file)', function(assert) {
       fs.stat(outfile, function(err, stats) {
         assert.equal(files.length, 1, 'created index file');
         assert.equal(stats.size, 428328, 'index created using index-parts');
-        assert.end();
+        rimraf(path.dirname(outfile), function(err) {
+          assert.end(err);
+        });
       });
     });
   });
@@ -65,7 +68,9 @@ test('[shp-index] indexes (input folder output folder)', function(assert) {
       fs.stat(outfile, function(err, stats) {
         assert.equal(files.length, 1, 'created index file');
         assert.equal(stats.size, 428328, 'index created using index-parts');
-        assert.end();
+        rimraf(path.dirname(outfile), function(err) {
+          assert.end(err);
+        });
       });
     });
   });
@@ -84,7 +89,9 @@ test('[shp-index] indexes (input file output file)', function(assert) {
       fs.stat(outfile, function(err, stats) {
         assert.equal(files.length, 1, 'created index file');
         assert.equal(stats.size, 428328, 'index created using index-parts');
-        assert.end();
+        rimraf(path.dirname(outfile), function(err) {
+          assert.end(err);
+        });
       });
     });
   });
@@ -103,7 +110,9 @@ test('[shp-index] indexes (input file output folder)', function(assert) {
       fs.stat(outfile, function(err, stats) {
         assert.equal(files.length, 1, 'created index file');
         assert.equal(stats.size, 428328, 'index created using index-parts');
-        assert.end();
+        rimraf(path.dirname(outfile), function(err) {
+          assert.end(err);
+        });
       });
     });
   });
@@ -120,7 +129,9 @@ test('[shp-index] does not index (input folder output file - no index)', functio
         });
 
       assert.equal(files.length, 0, 'did not create index file');
-      assert.end();
+      rimraf(path.dirname(outfile), function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -136,7 +147,9 @@ test('[shp-index] does not index (input file output file - no index)', function(
         });
 
       assert.equal(files.length, 0, 'did not create index file');
-      assert.end();
+      rimraf(path.dirname(outfile), function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -152,7 +165,9 @@ test('[shp-index] does not index (input file output folder - no index)', functio
         });
 
       assert.equal(files.length, 0, 'did not create index file');
-      assert.end();
+      rimraf(path.dirname(outfile), function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -168,7 +183,9 @@ test('[shp-index] does not contain pre-existing index (input file output folder 
         });
 
       assert.equal(files.length, 0, 'does not contain pre-existing index');
-      assert.end();
+      rimraf(path.dirname(outfile), function(err) {
+        assert.end(err);
+      });
     });
   });
 });

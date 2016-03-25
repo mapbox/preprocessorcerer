@@ -78,6 +78,7 @@ test('[preprocessorcery] preprocessorize', function(assert) {
       var outdir = path.dirname(outfile);
       assert.equal(outdir, indir, 'places output files in same directory as input');
       fs.unlinkSync(tmpfile);
+      fs.unlinkSync(outfile);
       assert.end();
     });
   }

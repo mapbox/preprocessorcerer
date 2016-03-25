@@ -42,7 +42,8 @@ test('[geojson-bom] removes bom', function(assert) {
     assert.doesNotThrow(function() {
       JSON.parse(outData);
     }, 'outfile is JSON.parse-able');
-
-    assert.end();
+    fs.unlink(outfile, function(err) {
+      assert.end(err);
+    });
   });
 });
