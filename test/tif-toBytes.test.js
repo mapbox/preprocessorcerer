@@ -49,6 +49,7 @@ test('[tif-toBytes] convert to bytes', function(assert) {
     ds.bands.forEach(function(band) {
       assert.equal(band.dataType, gdal.GDT_Byte, 'converted band ' + band.id + ' to bytes');
     });
+
     ds.close();
     ds = null;
     console.error('TODO: unlink is stil failing, look into "toBytes"');
