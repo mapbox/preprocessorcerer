@@ -4,6 +4,7 @@ var os = require('os');
 var fs = require('fs');
 var crypto = require('crypto');
 var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
 var exec = require('child_process').exec;
 var togeojson = require('../preprocessors/togeojson-gpx.preprocessor');
 
@@ -39,7 +40,9 @@ test('[GPX togeojson] fails duplicate layer names', function(assert) {
     togeojson(infile, outdir, function(err) {
       assert.ok(err, 'error properly handled');
       assert.equal(err.message, 'GPX does not contain any valid features.', 'expected error message');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -51,7 +54,9 @@ test('[GPX togeojson] fails empty features only', function(assert) {
     togeojson(infile, outdir, function(err) {
       assert.ok(err, 'error properly handled');
       assert.equal(err.message, 'Error: Error opening dataset', 'expected error message');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -67,7 +72,9 @@ test('[GPX togeojson] convert and index valid GPX', function(assert) {
       assert.ok(fs.existsSync(path.join(outdir, 'tracks.geojson')), 'converted layer');
       assert.ok(fs.existsSync(path.join(outdir, 'tracks.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original gpx');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });

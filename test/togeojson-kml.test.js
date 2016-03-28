@@ -4,6 +4,7 @@ var os = require('os');
 var fs = require('fs');
 var crypto = require('crypto');
 var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
 var exec = require('child_process').exec;
 var togeojson = require('../preprocessors/togeojson-kml.preprocessor');
 
@@ -40,7 +41,9 @@ test('[KML togeojson] fails duplicate layer names', function(assert) {
     togeojson(infile, outdir, function(err) {
       assert.ok(err, 'error properly handled');
       assert.equal(err.message, 'Duplicate layer names! \'duplicate layer name\' found 2 times, \'layer 2\' found 2 times', 'expected error message');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -52,7 +55,9 @@ test('[KML togeojson] fails empty features only', function(assert) {
     togeojson(infile, outdir, function(err) {
       assert.ok(err, 'error properly handled');
       assert.equal(err.message, 'KML does not contain any valid features', 'expected error message');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -64,7 +69,9 @@ test('[KML togeojson] fails empty features only', function(assert) {
     togeojson(infile, outdir, function(err) {
       assert.ok(err, 'error properly handled');
       assert.equal(err.message, 'Error: Error opening dataset', 'expected error message');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -76,7 +83,9 @@ test('[KML togeojson] fails empty features only', function(assert) {
     togeojson(infile, outdir, function(err) {
       assert.ok(err, 'error properly handled');
       assert.equal(err.message, '22 layers found. Maximum of 15 layers allowed.', 'expected error message');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -97,7 +106,9 @@ test('[KML togeojson] convert and index valid kml', function(assert) {
       assert.ok(fs.existsSync(path.join(outdir, 'my-test.geojson')), 'converted layer');
       assert.ok(fs.existsSync(path.join(outdir, 'my-test.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original kml');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });
@@ -112,7 +123,9 @@ test('[KML togeojson] handle layers with special characters', function(assert) {
       assert.ok(fs.existsSync(path.join(outdir, 'special_characters_in___this_layer.geojson')), 'converted layer');
       assert.ok(fs.existsSync(path.join(outdir, 'special_characters_in___this_layer.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original kml');
-      assert.end();
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
     });
   });
 });

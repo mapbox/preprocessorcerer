@@ -52,10 +52,8 @@ test('[tif-toBytes] convert to bytes', function(assert) {
 
     ds.close();
     ds = null;
-    console.error('TODO: unlink is stil failing, look into "toBytes"');
     fs.unlink(outfile, function(err) {
       assert.end(err);
     });
-
   });
 });
