@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
-var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index' + (process.platform === 'win32' ? '.exe' : ''));
+var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index');
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);
 }
@@ -34,6 +34,7 @@ module.exports = function(infile, outdir, callback) {
         .on('exit', function() {
           // If error printed to --validate-features log
           if (data.indexOf('Error') != -1) {
+            console.log(data);
             callback('Invalid geojson feature');
           }
           else callback();
