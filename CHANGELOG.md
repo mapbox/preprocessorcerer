@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0
+
+ - Bundle support: Convert KML and GPX sources into geojson bundles
+ - Update mapnik-omnivore to ~7.4.0 (more zoom support)
+ - Update dev dependencies (eslint, checksu, rimraf)
+
 ## 0.12.0
 
  - Updated mapnik to 3.5.0
