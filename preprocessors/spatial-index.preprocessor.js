@@ -34,7 +34,6 @@ module.exports = function(infile, outdir, callback) {
         .on('exit', function() {
           // If error printed to --validate-features log
           if (data.indexOf('Error') != -1) {
-            console.log(data);
             callback('Invalid geojson feature');
           }
           else callback();
