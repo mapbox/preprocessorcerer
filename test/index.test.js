@@ -21,7 +21,8 @@ test('[index] preprocesses', function(assert) {
       assert.ok(fs.statSync(outfile), 'outfile exists');
       assert.ok(!isNaN(parts), 'reported a number of parts');
       assert.ok(Array.isArray(descriptions), 'returns array of descriptions');
-      fs.unlink(tmpfile);
+      fs.unlinkSync(outfile);
+      fs.unlinkSync(tmpfile);
       assert.end();
     });
   }
@@ -40,7 +41,7 @@ test('[index] preprocesses and creates index last', function(assert) {
       assert.ifError(err, 'no error');
       assert.ok(Array.isArray(descriptions), 'returns array of descriptions');
       assert.equal(descriptions[descriptions.length - 1], 'Add a spatial index to GeoJSON or CSV');
-      fs.unlink(tmpfile);
+      fs.unlinkSync(tmpfile);
       assert.end();
     });
   }

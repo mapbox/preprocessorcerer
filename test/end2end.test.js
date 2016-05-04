@@ -2,7 +2,9 @@ var test = require('tape');
 var path = require('path');
 var os = require('os');
 var fs = require('fs');
+var rimraf = require('rimraf');
 var crypto = require('crypto');
+var queue = require('queue-async');
 var gdal = require('gdal');
 var preprocess = require('..');
 var exec = require('child_process').exec;
@@ -13,7 +15,15 @@ var MBtiles = require('mbtiles');
 // with random names will litter the fixture directory
 var fixtureDir = path.resolve(__dirname, 'fixtures', 'end2end');
 var tmpdir = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
-var cmd = ['cp -r', fixtureDir, tmpdir].join(' ');
+var copy_cmd = 'cp -r';
+if (process.platform === 'win32') {
+  //during tests %PATH% env var is completely stripped. add Windows system dir back to get xcopy
+  process.env.Path += ';' + path.join(process.env.windir, 'system32');
+  copy_cmd = 'xcopy /s /y';
+  tmpdir += '\\';
+}
+
+var cmd = [copy_cmd, fixtureDir, tmpdir].join(' ');
 exec(cmd, function(err) {
   if (err) throw err;
 
@@ -42,16 +52,33 @@ exec(cmd, function(err) {
       };
     });
 
+  var q = queue();
   fixtures.forEach(function(fixture) {
-    test('[end2end ' + fixture.name + ']', function(assert) {
-      preprocess(fixture.filepath, function(err, outfile, parts, descriptions) {
-        assert.ifError(err, 'preprocessed');
-        assert.deepEqual(descriptions, fixture.descriptions, 'expected preprocessorcery performed');
-        outputCheck(outfile, fixture.type, assert, function() {
-          assert.end();
+    q.defer(function(next) {
+      test('[end2end ' + fixture.name + ']', function(assert) {
+        preprocess(fixture.filepath, function(err, outfile, parts, descriptions) {
+          assert.ifError(err, 'preprocessed');
+          assert.deepEqual(descriptions, fixture.descriptions, 'expected preprocessorcery performed');
+          outputCheck(outfile, fixture.type, assert, function() {
+            assert.end();
+            next();
+          });
         });
       });
     });
+  });
+
+  q.defer(function(cb) {
+    test('[end2end delete temporary data]', function(assert) {
+      rimraf(tmpdir, function(err) {
+        assert.end(err);
+        cb(err);
+      });
+    });
+  });
+
+  q.awaitAll(function(err) {
+    if (err) console.error(err);
   });
 });
 
@@ -78,6 +105,8 @@ function outputCheck(outfile, type, assert, callback) {
       assert.ok(!layer.srs.isSame(mercator), layer.name + ' projected to spherical mercator');
     });
 
+    ds.close();
+    ds = null;
     return callback();
   }
 
@@ -89,7 +118,10 @@ function outputCheck(outfile, type, assert, callback) {
     var fd = fs.openSync(outfile, 'r');
     fs.readSync(fd, buf, 0, 3, 0);
     assert.notOk(buf[0] === 0xef && buf[1] === 0xbb && buf[2] == 0xbf, 'no BOM');
+    fs.closeSync(fd);
 
+    ds.close();
+    ds = null;
     return callback();
   }
 
@@ -101,11 +133,13 @@ function outputCheck(outfile, type, assert, callback) {
 
     // each band is 8-bit and has overviews
     ds.bands.forEach(function(band) {
-      assert.equal(band.dataType, gdal.GDT_Byte, 'band '  + band.id + ' is 8-bit');
+      assert.equal(band.dataType, gdal.GDT_Byte, 'band ' + band.id + ' is 8-bit');
 
       // assert.ok(band.overviews.count() >= 10, 'band ' + band.id + ' has overviews');
     });
 
+    ds.close();
+    ds = null;
     return callback();
   }
 

@@ -1,6 +1,7 @@
 var test = require('tape');
 var reproject = require('../preprocessors/tif-reproject.preprocessor');
 var os = require('os');
+var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
 var googleMerc = path.resolve(__dirname, 'fixtures', 'google-merc.tif');
@@ -56,6 +57,9 @@ test('[tif-reproject] reprojection: to epsg:3857', function(assert) {
     assert.ifError(err, 'no error');
     var ds = gdal.open(outfile);
     assert.ok(ds.srs.isSame(gdal.SpatialReference.fromEPSG(3857)), 'reprojected correctly');
+    ds.close();
+    ds = null;
+    fs.unlinkSync(outfile);
     assert.end();
   });
 });

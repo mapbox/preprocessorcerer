@@ -1,6 +1,7 @@
 var test = require('tape');
 var toBytes = require('../preprocessors/tif-toBytes.preprocessor');
 var os = require('os');
+var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
 var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
@@ -49,6 +50,10 @@ test('[tif-toBytes] convert to bytes', function(assert) {
       assert.equal(band.dataType, gdal.GDT_Byte, 'converted band ' + band.id + ' to bytes');
     });
 
-    assert.end();
+    ds.close();
+    ds = null;
+    fs.unlink(outfile, function(err) {
+      assert.end(err);
+    });
   });
 });

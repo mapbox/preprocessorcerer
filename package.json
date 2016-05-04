@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pretest": "jshint index.js bin parts preprocessors test && jscs index.js bin parts preprocessors test",
+    "pretest": "jshint index.js bin parts preprocessors test && eslint index.js bin parts preprocessors test && jscs index.js bin parts preprocessors test",
     "test": "tape test/*.test.js",
     "coverage": "istanbul cover tape test/*.test.js && coveralls < ./coverage/lcov.info"
   },
@@ -23,18 +23,21 @@
   "homepage": "https://github.com/mapbox/preprocessorcerer",
   "devDependencies": {
     "concat-stream": "^1.4.8",
+    "eslint": "^1.6.0",
     "jscs": "^1.10.0",
     "jshint": "^2.6.0",
     "tape": "^3.4.0",
     "tilelive": "^5.7.0",
     "istanbul": "~0.3.17",
     "coveralls": "~2.11.2",
-    "checksum": "^0.1.1"
+    "checksum": "^0.1.1",
+    "rimraf": "^2.5.2"
   },
   "dependencies": {
     "bytetiff": "~0.3.0",
     "gdal": "~0.8.0",
     "mapbox-file-sniff": "~0.4.0",
+    "mapnik-omnivore": "~7.4.0",
     "mapnik": "~3.5.0",
     "mkdirp": "^0.5.0",
     "mbtiles": "^0.8.0",
@@ -55,6 +58,7 @@
     "preset": "airbnb",
     "requireCamelCaseOrUpperCaseIdentifiers": null,
     "disallowMultipleVarDecl": true,
-    "requireMultipleVarDecl": null
+    "requireMultipleVarDecl": null,
+    "validateLineBreaks": null
   }
 }

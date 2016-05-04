@@ -32,7 +32,10 @@ module.exports.criteria = function(infile, info, callback) {
     fs.read(fd, buf, 0, 3, 0, function(err) {
       if (err) return callback(err);
       var strip = buf[0] === 0xef && buf[1] === 0xbb && buf[2] == 0xbf;
-      callback(null, strip);
+      fs.close(fd, function(err) {
+        if (err) return callback(err);
+        callback(null, strip);
+      });
     });
   });
 };
