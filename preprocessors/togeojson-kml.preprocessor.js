@@ -183,7 +183,7 @@ function layername_count(ds) {
     }
   }
 
-  return err.length > 0 ? 'Duplicate layer names! ' + err : null;
+  return err.length > 0 ? 'Duplicate layer names: ' + err : null;
 }
 
 //expose this as ENV option?
