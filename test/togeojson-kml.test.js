@@ -40,7 +40,7 @@ test('[KML togeojson] fails duplicate layer names', function(assert) {
   tmpdir(function(err, outdir) {
     togeojson(infile, outdir, function(err) {
       assert.ok(err, 'error properly handled');
-      assert.equal(err.message, 'Duplicate layer names! \'duplicate layer name\' found 2 times, \'layer 2\' found 2 times', 'expected error message');
+      assert.equal(err.message, 'Duplicate layer names: \'duplicate layer name\' found 2 times, \'layer 2\' found 2 times', 'expected error message');
       rimraf(outdir, function(err) {
         assert.end(err);
       });
