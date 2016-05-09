@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.2
+
+- Properly handle expected errors/invalid files (exit 3 instead of exit 1)
+
+## 0.13.1
+
+- Add special character `#` to cleanse [during layer creation](https://github.com/mapbox/preprocessorcerer/commit/0b863be5f4afb51a63280163422db64398667882#diff-6a3ecdd8c5e09b49f32f6a629e0e52d0R65)
+
 ## 0.13.0
 
  - Bundle support: Convert KML and GPX sources into geojson bundles
