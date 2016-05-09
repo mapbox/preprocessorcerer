@@ -6,6 +6,7 @@ var spawn = require('child_process').spawn;
 var path = require('path');
 var digest = require('mapnik-omnivore').digest;
 var mapnik = require('mapnik');
+var invalid = require('../lib/invalid');
 var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index' + (process.platform === 'win32' ? '.exe' : ''));
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);
@@ -88,7 +89,7 @@ module.exports = function(infile, outdirectory, callback) {
 
     ds_gpx.close();
     if (full_feature_cnt === 0) {
-      return callback(new Error('GPX does not contain any valid features.'));
+      return callback(invalid('GPX does not contain any valid features.'));
     }
 
     // Create metadata file for original gpx source

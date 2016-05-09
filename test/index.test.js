@@ -16,7 +16,7 @@ test('[index] preprocesses', function(assert) {
     .on('finish', testProcess);
 
   function testProcess() {
-    preprocess(tmpfile, function(err, outfile, parts, descriptions) {
+    preprocess(tmpfile, function(err, valid, message, outfile, parts, descriptions) {
       assert.ifError(err, 'no error');
       assert.ok(fs.statSync(outfile), 'outfile exists');
       assert.ok(!isNaN(parts), 'reported a number of parts');

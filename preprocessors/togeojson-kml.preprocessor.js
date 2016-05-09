@@ -7,6 +7,7 @@ var util = require('util');
 var digest = require('mapnik-omnivore').digest;
 var mapnik = require('mapnik');
 var spawn = require('child_process').spawn;
+var invalid = require('../lib/invalid');
 var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index' + (process.platform === 'win32' ? '.exe' : ''));
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);
@@ -38,18 +39,18 @@ module.exports = function(infile, outdirectory, callback) {
 
     if (lyr_cnt < 1) {
       ds_kml.close();
-      return callback(new Error('KML does not contain any layers.'));
+      return callback(invalid('KML does not contain any layers.'));
     }
 
     if (lyr_cnt > module.exports.max_layer_count) {
       ds_kml.close();
-      return callback(new Error(util.format('%d layers found. Maximum of %d layers allowed.', lyr_cnt, module.exports.max_layer_count)));
+      return callback(invalid(util.format('%d layers found. Maximum of %d layers allowed.', lyr_cnt, module.exports.max_layer_count)));
     }
 
     var duplicate_lyr_msg = layername_count(ds_kml);
     if (duplicate_lyr_msg) {
       ds_kml.close();
-      return callback(new Error(duplicate_lyr_msg));
+      return callback(invalid(duplicate_lyr_msg));
     }
 
     ds_kml.layers.forEach(function(lyr_kml) {
@@ -98,7 +99,7 @@ module.exports = function(infile, outdirectory, callback) {
 
     ds_kml.close();
     if (full_feature_cnt === 0) {
-      return callback(new Error('KML does not contain any valid features'));
+      return callback(invalid('KML does not contain any valid features'));
     }
 
     // Create metadata file for original gpx source
