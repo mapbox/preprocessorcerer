@@ -11,10 +11,15 @@ if (!infile) {
   process.exit(1);
 }
 
-preprocessorcerize(path.resolve(infile), function(err, outfile, parts, descriptions) {
+preprocessorcerize(path.resolve(infile), function(err, valid, message, outfile, parts, descriptions) {
   if (err) {
     console.error(err);
     process.exit(1);
+  }
+
+  if (!valid) {
+    console.error(message);
+    process.exit(3);
   }
 
   console.log(JSON.stringify({

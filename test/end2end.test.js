@@ -56,7 +56,7 @@ exec(cmd, function(err) {
   fixtures.forEach(function(fixture) {
     q.defer(function(next) {
       test('[end2end ' + fixture.name + ']', function(assert) {
-        preprocess(fixture.filepath, function(err, outfile, parts, descriptions) {
+        preprocess(fixture.filepath, function(err, valid, message, outfile, parts, descriptions) {
           assert.ifError(err, 'preprocessed');
           assert.deepEqual(descriptions, fixture.descriptions, 'expected preprocessorcery performed');
           outputCheck(outfile, fixture.type, assert, function() {

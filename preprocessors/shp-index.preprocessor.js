@@ -2,6 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
+var invalid = require('../lib/invalid');
 var shapeindex = path.resolve(mapnik.module_path, 'shapeindex' + (process.platform === 'win32' ? '.exe' : ''));
 if (!fs.existsSync(shapeindex)) {
   throw new Error('shapeindex does not exist at ' + shapeindex);
@@ -26,7 +27,7 @@ module.exports = function(infile, outfile, callback) {
         return path.extname(filename) === '.shp';
       });
 
-      if (!shp.length) return callback(new Error('Could not locate shapefile'));
+      if (!shp.length) return callback(invalid('Could not locate shapefile'));
       inName = path.basename(shp[0], '.shp');
     }
 
