@@ -3,6 +3,7 @@ var fs = require('fs');
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index');
+var invalid = require('../lib/invalid');
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);
 }
@@ -34,7 +35,7 @@ module.exports = function(infile, outdir, callback) {
         .on('exit', function() {
           // If error printed to --validate-features log
           if (data.indexOf('Error') != -1) {
-            callback('Invalid geojson feature');
+            callback(invalid('Invalid CSV or GeoJSON.'));
           }
           else callback();
         });
