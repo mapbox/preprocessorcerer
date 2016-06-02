@@ -81,7 +81,7 @@ test('[spatial-index] handles error in case of invalid feature', function(assert
   tmpdir(function(err, outdir) {
     index(infile, outdir, function(err) {
       assert.ok(err, 'error properly handled');
-      assert.equal(err, 'Invalid geojson feature', 'expected error message');
+      assert.equal(err.message, 'Invalid CSV or GeoJSON.', 'expected error message');
       checksum.file(path.join(outdir, 'index-validate-flag.geojson'), function(error, sum) {
         assert.equal(original, sum);
         assert.notOk(fs.existsSync(path.join(outdir, 'index-validate-flag.geojson.index')), 'index file should not exist due to feature error');

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.3
+
+- Properly handle errors from `spatial-index.js` (using `lib/invalid.js`)
+
 ## 0.13.2
 
 - Properly handle expected errors/invalid files (exit 3 instead of exit 1)
