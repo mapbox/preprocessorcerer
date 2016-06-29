@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.4
+
+- mapnik-omnivore@8.0.0
+
 ## 0.13.3
 
 - Properly handle errors from `spatial-index.js` (using `lib/invalid.js`)
