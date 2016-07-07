@@ -1,90 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-<Folder>
-	<name>more than 15 layers</name>
-	<open>1</open>
-	<Folder>
-		<name>layer 1</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 2</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 3</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 4</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 5</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 6</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 7</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 8</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 9</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 10</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 11</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 12</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 13</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 14</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 15</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 16</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 17</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 18</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 19</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 20</name>
-		<open>1</open>
-	</Folder>
-	<Folder>
-		<name>layer 21</name>
-	</Folder>
-</Folder>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <Folder>
+      <name>Layer 1</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 2</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 3</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 4</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 5</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 6</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 7</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 8</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 9</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 10</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 11</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 12</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 13</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 14</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 15</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 16</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 17</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 18</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 19</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 20</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 21</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>Layer 22</name>
+      <Placemark>
+        <ExtendedData></ExtendedData>
+        <Polygon><outerBoundaryIs><LinearRing><coordinates>11.7333984375,38.61687046392973 11.7333984375,48.45835188280866 23.73046875,48.45835188280866 23.73046875,38.61687046392973 11.7333984375,38.61687046392973</coordinates></LinearRing></outerBoundaryIs></Polygon>
+      </Placemark>
+    </Folder>
+  </Document>
 </kml>
