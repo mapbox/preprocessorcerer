@@ -45,7 +45,7 @@
     "split": "^1.0.0",
     "srs": "~1.1.0",
     "wmshp": "~0.3.0",
-    "wmtiff": "~0.3.0"
+    "wmtiff": "https://github.com/mapbox/node-wmtiff/tarball/unsupported-srs"
   },
   "jshintConfig": {
     "node": true,
