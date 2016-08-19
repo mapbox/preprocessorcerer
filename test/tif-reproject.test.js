@@ -66,7 +66,7 @@ test('[tif-reproject] reprojection: to epsg:3857', function(assert) {
 });
 
 test('[tif-reproject] reprojection: failed due to unsupported srs', function(assert) {
-  reproject(unsupported, { filetype: 'tif' }, function(err, process) {
+  reproject(unsupported, { filetype: 'tif' }, function(err) {
     assert.ok(err, 'expected error');
     assert.equal(err.message, 'Unsupported SRS', 'expected error message');
     assert.end();
