@@ -10,6 +10,7 @@ var preprocessors = [
   'tif-reproject.preprocessor',
   'shp-index.preprocessor',
   'geojson-bom.preprocessor',
+  'geojson-stacker.preprocessor',
   'spatial-index.preprocessor',
   'togeojson-kml.preprocessor',
   'togeojson-gpx.preprocessor'

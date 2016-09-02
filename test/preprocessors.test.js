@@ -34,7 +34,7 @@ test('[preprocessorcery] finds applicable preprocessors', function(assert) {
     .defer(preprocessorcery.applicable, tif, tifInfo)
     .await(function(err, geojsonResult, tifResult) {
       assert.ifError(err, 'no errors');
-      assert.equal(geojsonResult.length, 0, 'no geojson preprocessors');
+      assert.equal(geojsonResult.length, 0, 'correct number of geojson preprocessors');
 
       // assert.equal(tifResult.length, 2, '2 tif preprocessors');
       assert.equal(tifResult.length, 1, '1 tif preprocessor');

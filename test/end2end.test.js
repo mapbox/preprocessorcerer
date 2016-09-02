@@ -58,6 +58,7 @@ exec(cmd, function(err) {
       test('[end2end ' + fixture.name + ']', function(assert) {
         preprocess(fixture.filepath, function(err, valid, message, outfile, parts, descriptions) {
           assert.ifError(err, 'preprocessed');
+          if (err) return next(err);
           assert.deepEqual(descriptions, fixture.descriptions, 'expected preprocessorcery performed');
           outputCheck(outfile, fixture.type, assert, function() {
             assert.end();
