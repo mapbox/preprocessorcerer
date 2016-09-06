@@ -9,6 +9,7 @@ var sphericalMerc = path.resolve(__dirname, 'fixtures', 'spherical-merc.tif');
 var esriMerc = path.resolve(__dirname, 'fixtures', 'web-merc-aux-sphere.tif');
 var wgs84 = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
 var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
+var unsupported = path.resolve(__dirname, 'fixtures', 'unsupported-srs.tif');
 var gdal = require('gdal');
 
 test('[tif-reproject] criteria: not a tif', function(assert) {
@@ -60,6 +61,14 @@ test('[tif-reproject] reprojection: to epsg:3857', function(assert) {
     ds.close();
     ds = null;
     fs.unlinkSync(outfile);
+    assert.end();
+  });
+});
+
+test('[tif-reproject] reprojection: failed due to unsupported srs', function(assert) {
+  reproject(unsupported, { filetype: 'tif' }, function(err) {
+    assert.ok(err, 'expected error');
+    assert.equal(err.message, 'Unsupported SRS', 'expected error message');
     assert.end();
   });
 });
