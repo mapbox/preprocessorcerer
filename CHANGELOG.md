@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.0
+
+- Upgrade node-gdal@0.9.3
+- Upgrade node-mapnik@3.5.14
+- Upgrade mapnik-file-sniff, mapnik-omnivore, node-srs, node-wmtiff, node-wmshp, mbtiles
+
 ## 0.13.4
 
 - mapnik-omnivore@8.0.0
