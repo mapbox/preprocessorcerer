@@ -34,7 +34,7 @@ module.exports = function(infile, outdirectory, callback) {
       full_feature_cnt = 0;
     }
     catch (err) {
-      return callback(new Error(err));
+      return callback(invalid(err.message));
     }
 
     if (lyr_cnt < 1) {
@@ -71,7 +71,7 @@ module.exports = function(infile, outdirectory, callback) {
         geojson = out_ds.layers.create(lyr_name, wgs84, lyr_kml.geomType);
       }
       catch (err) {
-        return callback(new Error(err));
+        return callback(invalid(err.message));
       }
 
       lyr_kml.features.forEach(function(kml_feat) {
