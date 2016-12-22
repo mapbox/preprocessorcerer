@@ -1,5 +1,5 @@
 {
-  "name": "preprocessorcerer",
+  "name": "@mapbox/preprocessorcerer",
   "version": "0.14.0",
   "description": "",
   "main": "index.js",
