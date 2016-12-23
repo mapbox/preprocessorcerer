@@ -61,7 +61,7 @@ test('[GPX togeojson] fails empty features only', function(assert) {
   });
 });
 
-test('[GPX togeojson] convert and index valid GPX', function(assert) {
+test.only('[GPX togeojson] convert and index valid GPX', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'gpx', 'ok-valid-file.gpx');
   togeojson.index_worthy_size = 100; // 100 bytes
 
@@ -72,10 +72,11 @@ test('[GPX togeojson] convert and index valid GPX', function(assert) {
       assert.ok(fs.existsSync(path.join(outdir, 'tracks.geojson')), 'converted layer');
       assert.ok(fs.existsSync(path.join(outdir, 'tracks.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original gpx');
+      assert.ok(fs.existsSync(path.join(outdir, 'archived.gpx')), 'original file archived');
+      assert.equal(fs.readFile(infile) === fs.readFile(path.join(outdir, 'archived.gpx')), true, 'file contents are the same');
       rimraf(outdir, function(err) {
         assert.end(err);
       });
     });
   });
 });
-
