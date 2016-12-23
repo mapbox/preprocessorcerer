@@ -90,7 +90,7 @@ test('[KML togeojson] fails empty features only', function(assert) {
   });
 });
 
-test('[KML togeojson] convert and index valid kml', function(assert) {
+test('[KML togeojson] convert, index, and archive valid kml', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'kml', 'ok-layers-folders-emptygeometries.kml');
   togeojson.index_worthy_size = 100; // 100 bytes
 
