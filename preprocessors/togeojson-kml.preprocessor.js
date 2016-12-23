@@ -110,6 +110,12 @@ module.exports = function(infile, outdirectory, callback) {
         return createIndices(callback);
       });
     });
+    var originalfile = path.join(outdirectory, '/archived.kml');
+    digest(infile, function(err, archived) {
+      fs.writeFile(originalfile, infile, function(err) {
+        if (err) return callback(err);
+      });
+    });
 
     function createIndices(callback) {
       // create mapnik index for each geojson layer
