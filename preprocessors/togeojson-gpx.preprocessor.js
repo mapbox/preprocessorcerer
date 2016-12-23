@@ -102,6 +102,14 @@ module.exports = function(infile, outdirectory, callback) {
       });
     });
 
+    var archivedOriginal = path.join(outdirectory, '/archived.gpx');
+    digest(infile, function(err, callback) {
+      fs.writeFile(archivedOriginal, fs.readFile(infile), function(err) {
+        if (err) return callback(err);
+        return archivedOriginal;
+      });
+    });
+
     function createIndices(callback) {
       // create mapnik index for each geojson layer
       var q = queue();
