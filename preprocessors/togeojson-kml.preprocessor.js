@@ -110,10 +110,12 @@ module.exports = function(infile, outdirectory, callback) {
         return createIndices(callback);
       });
     });
-    var originalfile = path.join(outdirectory, '/archived.kml');
-    digest(infile, function(err, archived) {
-      fs.writeFile(originalfile, infile, function(err) {
+
+    var archivedOriginal = path.join(outdirectory, '/archived.kml');
+    digest(infile, function(err, callback) {
+      fs.writeFile(archivedOriginal, fs.readFile(infile), function(err) {
         if (err) return callback(err);
+        return archivedOriginal;
       });
     });
 
