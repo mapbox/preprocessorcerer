@@ -61,7 +61,7 @@ test('[GPX togeojson] fails empty features only', function(assert) {
   });
 });
 
-test.only('[GPX togeojson] convert and index valid GPX', function(assert) {
+test('[GPX togeojson] convert, index, and archive valid GPX', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'gpx', 'ok-valid-file.gpx');
   togeojson.index_worthy_size = 100; // 100 bytes
 
