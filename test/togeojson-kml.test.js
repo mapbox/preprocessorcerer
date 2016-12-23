@@ -90,7 +90,7 @@ test('[KML togeojson] fails empty features only', function(assert) {
   });
 });
 
-test('[KML togeojson] convert and index valid kml', function(assert) {
+test.only('[KML togeojson] convert and index valid kml', function(assert) {
   var infile = path.resolve(__dirname, 'fixtures', 'kml', 'ok-layers-folders-emptygeometries.kml');
   togeojson.index_worthy_size = 100; // 100 bytes
 
@@ -106,7 +106,7 @@ test('[KML togeojson] convert and index valid kml', function(assert) {
       assert.ok(fs.existsSync(path.join(outdir, 'my-test.geojson')), 'converted layer');
       assert.ok(fs.existsSync(path.join(outdir, 'my-test.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original kml');
-      assert.ok(fs.existsSync(path.join(outdir, infile)), 'original file retained');
+      assert.ok(fs.existsSync(path.join(outdir, 'archived.kml')), 'original file retained');
       rimraf(outdir, function(err) {
         assert.end(err);
       });
