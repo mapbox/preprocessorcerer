@@ -106,6 +106,7 @@ test('[KML togeojson] convert and index valid kml', function(assert) {
       assert.ok(fs.existsSync(path.join(outdir, 'my-test.geojson')), 'converted layer');
       assert.ok(fs.existsSync(path.join(outdir, 'my-test.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original kml');
+      assert.ok(fs.existsSync(path.join(outdir, infile)), 'original file retained');
       rimraf(outdir, function(err) {
         assert.end(err);
       });
