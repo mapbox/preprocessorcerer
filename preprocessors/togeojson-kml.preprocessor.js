@@ -113,9 +113,10 @@ module.exports = function(infile, outdirectory, callback) {
 
     // Archive original kml file
     var archivedOriginal = path.join(outdirectory, '/archived.kml');
-    var fileInsides = fs.readFileSync(infile);
-    console.log(fileInsides);
-      fs.writeFile(archivedOriginal, fileInsides, function(err) {
+    var infileContents = fs.readFileSync(infile);
+    console.log(infileContents);
+
+      fs.writeFile(archivedOriginal, infileContents, function(err) {
         if (err) return callback(err);
       });
 
@@ -197,3 +198,4 @@ function layername_count(ds) {
 //expose this as ENV option?
 module.exports.max_layer_count = 15;
 module.exports.index_worthy_size = 10 * 1024 * 1024; // 10 MB
+module.exports.infileContents;
