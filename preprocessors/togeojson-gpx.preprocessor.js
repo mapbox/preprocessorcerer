@@ -103,12 +103,10 @@ module.exports = function(infile, outdirectory, callback) {
     });
 
     var archivedOriginal = path.join(outdirectory, '/archived.gpx');
-    digest(infile, function(err, callback) {
-      fs.writeFile(archivedOriginal, fs.readFile(infile), function(err) {
+    var infileContents = fs.readFileSync(infile);
+      fs.writeFile(archivedOriginal, infileContents, function(err) {
         if (err) return callback(err);
-        return archivedOriginal;
       });
-    });
 
     function createIndices(callback) {
       // create mapnik index for each geojson layer
