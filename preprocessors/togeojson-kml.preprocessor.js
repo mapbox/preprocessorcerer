@@ -111,13 +111,13 @@ module.exports = function(infile, outdirectory, callback) {
       });
     });
 
+    // Archive original kml file
     var archivedOriginal = path.join(outdirectory, '/archived.kml');
-    digest(infile, function(err, callback) {
-      fs.writeFile(archivedOriginal, fs.readFile(infile), function(err) {
+    var fileInsides = fs.readFileSync(infile);
+    console.log(fileInsides);
+      fs.writeFile(archivedOriginal, fileInsides, function(err) {
         if (err) return callback(err);
-        return archivedOriginal;
       });
-    });
 
     function createIndices(callback) {
       // create mapnik index for each geojson layer
