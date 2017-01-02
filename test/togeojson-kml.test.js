@@ -96,6 +96,8 @@ test.only('[KML togeojson] convert, index, and archive valid kml', function(asse
 
   tmpdir(function(err, outdir) {
     togeojson(infile, outdir, function(err) {
+      var originalfile = fs.readFileSync(infile);
+      var archivedfile = fs.readFileSync(path.join(outdir, 'archived.kml'));
       assert.ifError(err, 'no error');
       assert.ok(fs.existsSync(path.join(outdir, 'folder-01-01.geojson')), 'converted layer');
       assert.ok(fs.existsSync(path.join(outdir, 'folder-01-01.geojson.index')), 'created index');
@@ -107,8 +109,7 @@ test.only('[KML togeojson] convert, index, and archive valid kml', function(asse
       assert.ok(fs.existsSync(path.join(outdir, 'my-test.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original kml');
       assert.ok(fs.existsSync(path.join(outdir, 'archived.kml')), 'original file archived');
-      assert.equal(togeojson.infileContents === fs.readFileSync(path.join(outdir, 'archived.kml')), true, 'file contents are the same');
-      console.log(fs.readFileSync(path.join(outdir, 'archived.kml')));
+      assert.deepEqual(originalfile, archivedfile, 'file contents are the same');
       rimraf(outdir, function(err) {
         assert.end(err);
       });
