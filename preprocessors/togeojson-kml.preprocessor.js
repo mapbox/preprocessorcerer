@@ -106,21 +106,25 @@ module.exports = function(infile, outdirectory, callback) {
     var metadatafile = path.join(outdirectory, '/metadata.json');
     digest(infile, function(err, metadata) {
       fs.writeFile(metadatafile, JSON.stringify(metadata), function(err) {
+        createIndices();
         if (err) return callback(err);
-        return createIndices(callback);
+        return archiveOriginal(callback);
       });
     });
 
     // Archive original kml file
-    var archivedOriginal = path.join(outdirectory, '/archived.kml');
-    var infileContents = fs.readFileSync(infile);
+    function archiveOriginal(callback) {
+      var archivedOriginal = path.join(outdirectory, '/archived.kml');
+      var infileContents = fs.readFileSync(infile);
 
-    fs.writeFile(archivedOriginal, infileContents, function(err) {
-      if (err) return callback(err);
-    });
+      fs.writeFile(archivedOriginal, infileContents, function(err) {
+        if (err) return callback(err);
+        return callback();
+      });
+    }
 
+    // create mapnik index for each geojson layer
     function createIndices(callback) {
-      // create mapnik index for each geojson layer
       var q = queue();
       geojson_files.forEach(function(gj) {
         q.defer(createIndex, gj);
@@ -128,7 +132,6 @@ module.exports = function(infile, outdirectory, callback) {
 
       q.awaitAll(function(err) {
         if (err) return callback(err);
-        return callback();
       });
     }
 
