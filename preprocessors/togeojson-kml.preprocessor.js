@@ -102,13 +102,18 @@ module.exports = function(infile, outdirectory, callback) {
       return callback(invalid('KML does not contain any valid features'));
     }
 
-    // Create metadata file for original gpx source
+    // Create metadata file for original kml source
     var metadatafile = path.join(outdirectory, '/metadata.json');
     digest(infile, function(err, metadata) {
       fs.writeFile(metadatafile, JSON.stringify(metadata), function(err) {
-        createIndices();
-        if (err) return callback(err);
-        return archiveOriginal(callback);
+        if (err) throw err;
+        createIndices(function(err) {
+          if (err) throw err;
+          archiveOriginal(function(err) {
+            if (err) throw err;
+            return callback(err);
+          });
+        });
       });
     });
 
@@ -132,6 +137,7 @@ module.exports = function(infile, outdirectory, callback) {
 
       q.awaitAll(function(err) {
         if (err) return callback(err);
+        return callback();
       });
     }
 
