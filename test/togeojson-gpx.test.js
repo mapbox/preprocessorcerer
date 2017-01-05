@@ -75,7 +75,7 @@ test('[GPX togeojson] convert, index, and archive valid GPX', function(assert) {
       assert.ok(fs.existsSync(path.join(outdir, 'tracks.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original gpx');
       assert.ok(fs.existsSync(path.join(outdir, 'archived.gpx')), 'original file archived');
-      assert.deepEqual(originalfile, archivedfile, 'file contents are the same');
+      assert.equal(originalfile.compare(archivedfile), 0, 'file contents are the same');
       rimraf(outdir, function(err) {
         assert.end(err);
       });
