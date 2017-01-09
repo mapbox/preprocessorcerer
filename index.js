@@ -1,5 +1,5 @@
 var fs = require('fs');
-var sniffer = require('mapbox-file-sniff');
+var sniffer = require('@mapbox/mapbox-file-sniff');
 var preprocessors = require('./preprocessors');
 var parts = require('./parts');
 
@@ -20,9 +20,9 @@ function preprocess(infile, callback) {
   function getType(err, stats) {
     if (err) return fail(err);
     info = stats;
-    sniffer.quaff(infile, function(err, type) {
+    sniffer.fromFile(infile, function(err, result) {
       if (err) return fail(err);
-      info.filetype = type;
+      info.filetype = result.type;
       preprocessors.descriptions(infile, info, performPreprocessorcery);
     });
   }
