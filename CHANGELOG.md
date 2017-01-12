@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.1
+
+- Bundle support: archive original KML/GPX files
+
 ## 0.14.0
 
 - Upgrade node-gdal@0.9.3

@@ -95,15 +95,29 @@ module.exports = function(infile, outdirectory, callback) {
     // Create metadata file for original gpx source
     var metadatafile = path.join(outdirectory, '/metadata.json');
     digest(infile, function(err, metadata) {
-      if (err) return callback(err);
       fs.writeFile(metadatafile, JSON.stringify(metadata), function(err) {
-        if (err) return callback(err);
-        return createIndices(callback);
+        if (err) throw err;
+        createIndices(function(err) {
+          if (err) throw err;
+          archiveOriginal(function(err) {
+            if (err) throw err;
+            return callback();
+          });
+        });
       });
     });
 
+    function archiveOriginal(callback) {
+      var archivedOriginal = path.join(outdirectory, '/archived.gpx');
+      var infileContents = fs.readFileSync(infile);
+      fs.writeFile(archivedOriginal, infileContents, function(err) {
+        if (err) return callback(err);
+        return callback();
+      });
+    }
+
+    // create mapnik index for each geojson layer
     function createIndices(callback) {
-      // create mapnik index for each geojson layer
       var q = queue();
       geojson_files.forEach(function(gj) {
         q.defer(createIndex, gj);
