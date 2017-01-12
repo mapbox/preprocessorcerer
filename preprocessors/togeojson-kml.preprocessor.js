@@ -111,7 +111,7 @@ module.exports = function(infile, outdirectory, callback) {
           if (err) throw err;
           archiveOriginal(function(err) {
             if (err) throw err;
-            return callback(err);
+            return callback();
           });
         });
       });
