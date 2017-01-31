@@ -36,7 +36,7 @@
   "dependencies": {
     "bytetiff": "~0.4.1",
     "gdal": "~0.9.3",
-    "mapbox-file-sniff": "~0.5.2",
+    "@mapbox/mapbox-file-sniff": "~1.0.0",
     "mapnik-omnivore": "~8.1.0",
     "mapnik": "~3.5.14",
     "mkdirp": "^0.5.0",
