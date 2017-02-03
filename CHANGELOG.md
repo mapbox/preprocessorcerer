@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.2
+
+- Upgrade mapnik-omnivore@8.2.0 (maxzoom bump to z23)
+
 ## 0.14.1
 
 - Bundle support: archive original KML/GPX files
