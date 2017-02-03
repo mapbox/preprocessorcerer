@@ -4,7 +4,7 @@ var mkdirp = require('mkdirp');
 var queue = require('queue-async');
 var spawn = require('child_process').spawn;
 var path = require('path');
-var digest = require('mapnik-omnivore').digest;
+var digest = require('@mapbox/mapnik-omnivore').digest;
 var mapnik = require('mapnik');
 var invalid = require('../lib/invalid');
 var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index' + (process.platform === 'win32' ? '.exe' : ''));
