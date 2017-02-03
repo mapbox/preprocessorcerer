@@ -34,7 +34,7 @@
     "rimraf": "^2.5.2"
   },
   "dependencies": {
-    "@mapbox/mapnik-omnivore": "https://mapbox-npm.s3.amazonaws.com/package/mapbox-mapnik-omnivore-8.2.0-1-gc34415f-a7ab28e2ef380ee77f219149cb44f6fb1705571a.tgz",
+    "@mapbox/mapnik-omnivore": "~8.2.0",
     "bytetiff": "~0.4.1",
     "gdal": "~0.9.3",
     "mapbox-file-sniff": "~0.5.2",
