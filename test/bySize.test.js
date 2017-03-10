@@ -190,9 +190,9 @@ test('[parts bySize] csv split per 10MB', function(assert) {
   });
 });
 
-test('[parts bySize] tif split per 10MB', function(assert) {
-  var mbs = 25;
-  var expected = Math.ceil(mbs / 100);
+test('[parts bySize] tif split per 1.5GB', function(assert) {
+  var mbs = 1500;
+  var expected = Math.ceil(mbs / 1500);
   var info = {
     size: mbs * 1024 * 1024,
     filetype: 'tif'
