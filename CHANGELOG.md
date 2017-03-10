@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.4
+
+- Update tif part calculation to 1.5GB per part [#79](https://github.com/mapbox/preprocessorcerer/pull/79)
+
 ## 0.14.3
 
 - Upgrade mapnik-omnivore@8.2.2 (collect all feature properties from GeoJSON file)
