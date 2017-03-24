@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@mapbox/mapbox-file-sniff": "~1.0.0",
-    "@mapbox/mapnik-omnivore": "https://github.com/mapbox/mapnik-omnivore/tarball/8.3.0",
+    "@mapbox/mapnik-omnivore": "~8.3.0",
     "bytetiff": "~0.4.1",
     "gdal": "~0.9.3",
     "mapnik": "~3.5.14",
