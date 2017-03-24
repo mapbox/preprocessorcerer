@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.15.0
+
+- Update to mapnik-omnivore@8.3.0
+- Update to mapbox-file-sniff@1.0.0
+
 ## 0.14.4
 
 - Update tif part calculation to 1.5GB per part [#79](https://github.com/mapbox/preprocessorcerer/pull/79)
