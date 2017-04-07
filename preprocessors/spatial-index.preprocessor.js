@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
-var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index');
+var mapnik_index = mapnik.settings.paths.mapnik_index;
 var invalid = require('../lib/invalid');
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);

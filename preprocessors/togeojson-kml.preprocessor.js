@@ -8,7 +8,7 @@ var digest = require('@mapbox/mapnik-omnivore').digest;
 var mapnik = require('mapnik');
 var spawn = require('child_process').spawn;
 var invalid = require('../lib/invalid');
-var mapnik_index = path.resolve(mapnik.module_path, 'mapnik-index' + (process.platform === 'win32' ? '.exe' : ''));
+var mapnik_index = mapnik.settings.paths.mapnik_index;
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);
 }
