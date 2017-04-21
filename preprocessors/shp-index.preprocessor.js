@@ -3,7 +3,7 @@ var fs = require('fs');
 var spawn = require('child_process').spawn;
 var mapnik = require('mapnik');
 var invalid = require('../lib/invalid');
-var shapeindex = path.resolve(mapnik.module_path, 'shapeindex' + (process.platform === 'win32' ? '.exe' : ''));
+var shapeindex = mapnik.settings.paths.shape_index;
 if (!fs.existsSync(shapeindex)) {
   throw new Error('shapeindex does not exist at ' + shapeindex);
 }
@@ -60,7 +60,9 @@ module.exports = function(infile, outfile, callback) {
         if (err) return callback(err);
 
         // Finally, create an .index file in the output dir
-        spawn(shapeindex, ['--shape_files', outPath + '.shp', '--index-parts'])
+        spawn(shapeindex,
+              ['--shape_files', outPath + '.shp', '--index-parts'],
+              { stdio: 'ignore'})
           .once('error', callback)
           .on('exit', function() {
             callback();
