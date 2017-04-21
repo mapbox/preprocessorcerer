@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.16.1
+
+- Update node-bytetiff@0.5.0
+
 ## 0.16.0
 
 - Upgraded to use mapnik 3.6.0 and relevant deps (mapnik-omnivore@8.4.0)
