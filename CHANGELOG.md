@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.16.0
+
+- Upgraded to use mapnik 3.6.0 and relevant deps (mapnik-omnivore@8.4.0)
+
 ## 0.15.0
 
 - Update to mapnik-omnivore@8.3.0
