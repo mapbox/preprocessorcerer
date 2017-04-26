@@ -9,7 +9,7 @@ var gdal = require('gdal');
 var preprocess = require('..');
 var exec = require('child_process').exec;
 var preprocessorDir = path.resolve(__dirname, '..', 'preprocessors');
-var MBtiles = require('mbtiles');
+var MBtiles = require('@mapbox/mbtiles');
 
 // Perform all preprocessorcery in a temporary directory. Otherwise output files
 // with random names will litter the fixture directory

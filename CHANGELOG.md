@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.16.2
+
+- Update mbtiles and tilelive depdencies to use @mapbox namespace
+
 ## 0.16.1
 
 - Update node-bytetiff@0.5.0
