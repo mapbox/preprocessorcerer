@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var Mbtiles = require('mbtiles');
+var Mbtiles = require('@mapbox/mbtiles');
 var path = require('path');
 var fs = require('fs');
 var queue = require('queue-async');

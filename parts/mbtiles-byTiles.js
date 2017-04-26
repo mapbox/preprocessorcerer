@@ -1,4 +1,4 @@
-var Mbtiles = require('mbtiles');
+var Mbtiles = require('@mapbox/mbtiles');
 
 module.exports = function splitBySize(filepath, info, callback) {
   new Mbtiles(filepath, function(err, src) {

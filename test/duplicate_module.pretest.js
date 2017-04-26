@@ -18,8 +18,8 @@ var count_module = function(name, callback) {
   'mapnik',
   'sqlite3',
   'gdal',
-  'tilelive',
-  'mbtiles'
+  '@mapbox/tilelive',
+  '@mapbox/mbtiles'
 ].forEach(function(mod) {
   tape.test('there should only be one ' + mod + ' module, otherwise you are asking for pwnage', function(t) {
     count_module(mod, function(err, count) {
