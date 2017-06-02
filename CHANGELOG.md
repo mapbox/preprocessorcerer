@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.17.0
+
+- Update eslintrc and remove jscs dependencies
+- Update KML layer name sanitization to _whitelist_ characters rather than _blacklist_. Only alphanumeric, `-`, `_`, and `.` are allowed.
+
 ## 0.16.2
 
 - Update mbtiles and tilelive depdencies to use @mapbox namespace
