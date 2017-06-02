@@ -61,9 +61,10 @@ module.exports = function(infile, outdirectory, callback) {
       var out_ds;
       var geojson;
       var lyr_name = lyr_kml.name
-        .replace(/.kml/gi, '')
+        .replace(/.kml/g, '')
         .replace(/[ \\/&?]/g, '_')
-        .replace(/[();:,#\]\[{}]/g, '');
+        .replace(/[^_0-9a-zA-Z.-]/g, '');
+      console.log(lyr_name);
       var out_name = path.join(outdirectory, lyr_name + '.geojson');
 
       try {

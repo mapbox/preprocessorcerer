@@ -124,10 +124,12 @@ test('[KML togeojson] handle layers with special characters', function(assert) {
   tmpdir(function(err, outdir) {
     togeojson(infile, outdir, function(err) {
       assert.ifError(err, 'no error');
-      assert.ok(fs.existsSync(path.join(outdir, 'special_characters_in___this_layer.geojson')), 'converted layer');
-      assert.ok(fs.existsSync(path.join(outdir, 'special_characters_in___this_layer.geojson.index')), 'created index');
+      assert.ok(fs.existsSync(path.join(outdir, 'special_characters_in___this_.layer.geojson')), 'converted layer');
+      assert.ok(fs.existsSync(path.join(outdir, 'special_characters_in___this_.layer.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'special_09characters_in___this_layer.geojson')), 'converted layer');
       assert.ok(fs.existsSync(path.join(outdir, 'special_09characters_in___this_layer.geojson.index')), 'created index');
+      assert.ok(fs.existsSync(path.join(outdir, '_tmp_dir_file_path_test_layer.geojson')), 'converted layer');
+      assert.ok(fs.existsSync(path.join(outdir, '_tmp_dir_file_path_test_layer.geojson.index')), 'created index');
       assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original kml');
       rimraf(outdir, function(err) {
         assert.end(err);
