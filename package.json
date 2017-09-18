@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@mapbox/mapbox-file-sniff": "~1.0.0",
-    "@mapbox/mapnik-omnivore": "~8.4.0",
+    "@mapbox/mapnik-omnivore": "mapbox/mapnik-omnivore#0cda98a617275bf9ab9dae95a0e17f161664a103",
     "@mapbox/mbtiles": "~0.9.0",
     "bytetiff": "~0.5.0",
     "gdal": "~0.9.3",
