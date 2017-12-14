@@ -1,7 +1,6 @@
 var test = require('tape');
 var reproject = require('../preprocessors/tif-reproject.preprocessor');
 var os = require('os');
-var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
 var googleMerc = path.resolve(__dirname, 'fixtures', 'google-merc.tif');
@@ -10,7 +9,6 @@ var esriMerc = path.resolve(__dirname, 'fixtures', 'web-merc-aux-sphere.tif');
 var wgs84 = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
 var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
 var invalidReprojection = path.resolve(__dirname, 'fixtures', 'invalid-reprojection.tif');
-var gdal = require('gdal');
 
 test('[tif-reproject] criteria: not a tif', function(assert) {
   reproject.criteria(geojson, { filetype: 'geojson' }, function(err, process) {
