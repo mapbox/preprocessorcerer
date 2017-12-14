@@ -43,7 +43,7 @@
     "split": "^1.0.0",
     "srs": "~1.2.0",
     "wmshp": "~0.4.0",
-    "wmtiff": "https://mapbox-npm.s3.amazonaws.com/package/wmtiff-v0.4.0-1-ge6c957b-0813eb808d7b90c233fec3dc5d3e0b87fc15d389.tgz"
+    "wmtiff": "~0.4.0"
   },
   "jshintConfig": {
     "node": true,
