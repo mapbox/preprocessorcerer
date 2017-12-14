@@ -4,8 +4,13 @@ var wmtiff = require('wmtiff').reproject;
 
 module.exports = function(infile, outfile, callback) {
   try { wmtiff(infile, outfile); }
-  catch (err) { return callback(err); }
-
+  catch (err) { 
+    if (err.message.indexOf('GDAL Reprojection Error') > -1) {
+      err.message = 'Unable to reproject data. Please reproject to Web Mercator (EPSG:3857) and try again.';
+      err.code = 'EINVALID';
+    }
+    return callback(err);
+  }
   callback();
 };
 
