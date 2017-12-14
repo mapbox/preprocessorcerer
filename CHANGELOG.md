@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.17.1
+
+- Handle tiff reprojection errors. 
+
 ## 0.17.0
 
 - Update eslintrc and remove jscs dependencies
