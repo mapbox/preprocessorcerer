@@ -9,6 +9,7 @@ var sphericalMerc = path.resolve(__dirname, 'fixtures', 'spherical-merc.tif');
 var esriMerc = path.resolve(__dirname, 'fixtures', 'web-merc-aux-sphere.tif');
 var wgs84 = path.resolve(__dirname, 'fixtures', 'wgs84.tif');
 var geojson = path.resolve(__dirname, 'fixtures', 'valid.geojson');
+var invalidReprojection = path.resolve(__dirname, 'fixtures', 'invalid-reprojection.tif');
 var gdal = require('gdal');
 
 test('[tif-reproject] criteria: not a tif', function(assert) {
@@ -51,15 +52,11 @@ test('[tif-reproject] criteria: in epsg:4326', function(assert) {
   });
 });
 
-test('[tif-reproject] reprojection: to epsg:3857', function(assert) {
+test('[tif-reproject] invalid reprojection: to epsg:3857', function(assert) {
   var outfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
-  reproject(wgs84, outfile, function(err) {
-    assert.ifError(err, 'no error');
-    var ds = gdal.open(outfile);
-    assert.ok(ds.srs.isSame(gdal.SpatialReference.fromEPSG(3857)), 'reprojected correctly');
-    ds.close();
-    ds = null;
-    fs.unlinkSync(outfile);
+  reproject(invalidReprojection, outfile, function(err) {
+    assert.equal(err.code, 'EINVALID');
+    assert.equal(err.message, 'Unable to reproject data. Please reproject to Web Mercator (EPSG:3857) and try again.');
     assert.end();
   });
 });
