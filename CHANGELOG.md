@@ -1,8 +1,12 @@
 # Changelog
 
+## 0.18.0
+
+- Update mapnik-omnivore@8.5.0
+
 ## 0.17.1
 
-- Handle tiff reprojection errors. 
+- Handle tiff reprojection errors.
 
 ## 0.17.0
 
