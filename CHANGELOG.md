@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0
+
+- Update to mapnik-omnivore@9.0.0
+- Update to mapnik@3.7.0
+- Drops windows support
+
 ## 0.18.0
 
 - Update mapnik-omnivore@8.5.0
