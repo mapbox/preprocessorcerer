@@ -79,7 +79,6 @@ module.exports = function(infile, outdirectory, callback) {
         if (!geom) return;
         else {
           if (geom.isEmpty()) return;
-          if (!geom.isValid()) return;
         }
 
         geojson.features.add(kml_feat);

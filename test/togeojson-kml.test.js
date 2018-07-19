@@ -137,3 +137,23 @@ test('[KML togeojson] handle layers with special characters', function(assert) {
     });
   });
 });
+
+test.only('[KML togeojson] allows invalid geometry to sneak through', function(assert) {
+  var infile = path.resolve(__dirname, 'fixtures', 'kml', 'ok-invalid-geometry.kml');
+  togeojson.index_worthy_size = 100; // 100 bytes
+
+  tmpdir(function(err, outdir) {
+    togeojson(infile, outdir, function(err) {
+      assert.ifError(err, 'no error');
+      assert.ok(fs.existsSync(path.join(outdir, 'layername.geojson')), 'converted layer');
+      var gj = JSON.parse(fs.readFileSync(path.join(outdir, 'layername.geojson'), 'utf-8'));
+      assert.equal(gj.features.length, 2, 'has two features, even though one is technically invalid geometry');
+      assert.ok(fs.existsSync(path.join(outdir, 'layername.geojson.index')), 'created index');
+      assert.ok(fs.existsSync(path.join(outdir, 'metadata.json')), 'added metadata of original kml');
+      assert.ok(fs.existsSync(path.join(outdir, 'archived.kml')), 'added archive kml');
+      rimraf(outdir, function(err) {
+        assert.end(err);
+      });
+    });
+  });
+});
