@@ -6,6 +6,7 @@ var queue = require('queue-async');
 // The order here determines the order in which preprocessors will be run
 // spatial-index.preprocessor must be last, since it must create an index file for the final preprocessed source
 var preprocessors = [
+  'tif-corrupt.preprocessor',
   'tif-toBytes.preprocessor',
   'tif-reproject.preprocessor',
   'shp-index.preprocessor',

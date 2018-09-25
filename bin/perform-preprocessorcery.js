@@ -13,8 +13,9 @@ if (!infile) {
 
 preprocessorcerize(path.resolve(infile), function(err, valid, message, outfile, parts, descriptions) {
   if (err) {
-    console.error(err);
-    process.exit(1);
+    console.log(err);
+    if (err.code === 'EINVALID') process.exit(3);
+    else process.exit(1);
   }
 
   if (!valid) {

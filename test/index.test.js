@@ -46,3 +46,20 @@ test('[index] preprocesses and creates index last', function(assert) {
     });
   }
 });
+
+test('[index] fails corrupt TIFF', function(assert) {
+  var infile = path.resolve(__dirname, 'fixtures', 'corrupt.tif');
+  var tmpfile = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
+
+  fs.createReadStream(infile)
+    .pipe(fs.createWriteStream(tmpfile))
+    .on('finish', testProcess);
+
+  function testProcess() {
+    preprocess(tmpfile, function(err) {
+      assert.equals(err.code, 'EINVALID');
+      fs.unlink(tmpfile);
+      assert.end();
+    });
+  }
+});
