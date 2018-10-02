@@ -4,11 +4,17 @@ var wmtiff = require('wmtiff').reproject;
 
 module.exports = function(infile, outfile, callback) {
   try { wmtiff(infile, outfile); }
-  catch (err) { 
+  catch (err) {
     if (err.message.indexOf('GDAL Reprojection Error') > -1) {
       err.message = 'Unable to reproject data. Please reproject to Web Mercator (EPSG:3857) and try again.';
       err.code = 'EINVALID';
     }
+
+    if (err.message.indexOf('GDAL Bounds Error') > -1) {
+      err.message = 'Latitude or longitude bounds values exceed limits of CRS. Please check if the CRS is correct.';
+      err.code = 'EINVALID';
+    }
+
     return callback(err);
   }
   callback();
@@ -26,11 +32,19 @@ module.exports.criteria = function(filepath, info, callback) {
   try { ds = gdal.open(filepath); }
   catch (err) { return callback(err); }
 
+  // no crs information present
+  if (!ds.srs) {
+    var err = new Error('Unable to reproject tif. No CRS information found.');
+    err.code = 'EINVALID';
+    return callback(err);
+  }
+
   try {
     sm = srs.parse(sm.toProj4());
     projection = srs.parse(ds.srs.toWKT());
+  } catch (err) {
+    return callback(err);
   }
-  catch (err) { return callback(err); }
 
   ds.close();
   ds = null;
