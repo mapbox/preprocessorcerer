@@ -1,6 +1,6 @@
 {
   "name": "@mapbox/preprocessorcerer",
-  "version": "1.0.1",
+  "version": "1.0.2-alpha2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "split": "^1.0.0",
     "srs": "~1.2.0",
     "wmshp": "~0.4.0",
-    "wmtiff": "~0.4.1"
+    "wmtiff": "0.4.2-dev"
   },
   "jshintConfig": {
     "node": true,
