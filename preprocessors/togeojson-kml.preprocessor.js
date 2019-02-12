@@ -1,31 +1,32 @@
-var gdal = require('gdal');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var queue = require('queue-async');
-var path = require('path');
-var util = require('util');
-var digest = require('@mapbox/mapnik-omnivore').digest;
-var mapnik = require('mapnik');
-var spawn = require('child_process').spawn;
-var invalid = require('../lib/invalid');
-var mapnik_index = mapnik.settings.paths.mapnik_index;
+'use strict';
+const gdal = require('gdal');
+const fs = require('fs');
+const mkdirp = require('mkdirp');
+const queue = require('queue-async');
+const path = require('path');
+const util = require('util');
+const digest = require('@mapbox/mapnik-omnivore').digest;
+const mapnik = require('mapnik');
+const spawn = require('child_process').spawn;
+const invalid = require('../lib/invalid');
+const mapnik_index = mapnik.settings.paths.mapnik_index;
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);
 }
 
-//disable in production
-//gdal.verbose();
+// disable in production
+// gdal.verbose();
 
 module.exports = function(infile, outdirectory, callback) {
 
-  mkdirp(outdirectory, function(err) {
+  mkdirp(outdirectory, (err) => {
     if (err) return callback(err);
 
-    var geojson_files = [];
-    var wgs84;
-    var ds_kml;
-    var lyr_cnt;
-    var full_feature_cnt;
+    const geojson_files = [];
+    let wgs84;
+    let ds_kml;
+    let lyr_cnt;
+    let full_feature_cnt;
 
     try {
       wgs84 = gdal.SpatialReference.fromEPSG(4326);
@@ -47,24 +48,24 @@ module.exports = function(infile, outdirectory, callback) {
       return callback(invalid(util.format('%d layers found. Maximum of %d layers allowed.', lyr_cnt, module.exports.max_layer_count)));
     }
 
-    var duplicate_lyr_msg = layername_count(ds_kml);
+    const duplicate_lyr_msg = layername_count(ds_kml);
     if (duplicate_lyr_msg) {
       ds_kml.close();
       return callback(invalid(duplicate_lyr_msg));
     }
 
-    ds_kml.layers.forEach(function(lyr_kml) {
-      var feat_cnt = lyr_kml.features.count(true);
+    ds_kml.layers.forEach((lyr_kml) => {
+      const feat_cnt = lyr_kml.features.count(true);
       if (feat_cnt === 0) return;
 
-      //strip kml from layer name. features at the root get the KML filename as layer name
-      var out_ds;
-      var geojson;
-      var lyr_name = lyr_kml.name
+      // strip kml from layer name. features at the root get the KML filename as layer name
+      let out_ds;
+      let geojson;
+      const lyr_name = lyr_kml.name
         .replace(/.kml/g, '')
         .replace(/[ \\/&?]/g, '_')
         .replace(/[^_0-9a-zA-Z.-]/g, '');
-      var out_name = path.join(outdirectory, lyr_name + '.geojson');
+      const out_name = path.join(outdirectory, lyr_name + '.geojson');
 
       try {
         out_ds = gdal.open(out_name, 'w', 'GeoJSON');
@@ -74,8 +75,8 @@ module.exports = function(infile, outdirectory, callback) {
         return callback(new Error(err));
       }
 
-      lyr_kml.features.forEach(function(kml_feat) {
-        var geom = kml_feat.getGeometry();
+      lyr_kml.features.forEach((kml_feat) => {
+        const geom = kml_feat.getGeometry();
         if (!geom) return;
         else {
           if (geom.isEmpty()) return;
@@ -89,7 +90,7 @@ module.exports = function(infile, outdirectory, callback) {
       out_ds.flush();
       out_ds.close();
 
-      //release objects to be able to index
+      // release objects to be able to index
       geojson = null;
       out_ds = null;
 
@@ -102,13 +103,13 @@ module.exports = function(infile, outdirectory, callback) {
     }
 
     // Create metadata file for original kml source
-    var metadatafile = path.join(outdirectory, '/metadata.json');
-    digest(infile, function(err, metadata) {
-      fs.writeFile(metadatafile, JSON.stringify(metadata), function(err) {
+    const metadatafile = path.join(outdirectory, '/metadata.json');
+    digest(infile, (err, metadata) => {
+      fs.writeFile(metadatafile, JSON.stringify(metadata), (err) => {
         if (err) throw err;
-        createIndices(function(err) {
+        createIndices((err) => {
           if (err) throw err;
-          archiveOriginal(function(err) {
+          archiveOriginal((err) => {
             if (err) throw err;
             return callback();
           });
@@ -118,10 +119,10 @@ module.exports = function(infile, outdirectory, callback) {
 
     // Archive original kml file
     function archiveOriginal(callback) {
-      var archivedOriginal = path.join(outdirectory, '/archived.kml');
-      var infileContents = fs.readFileSync(infile);
+      const archivedOriginal = path.join(outdirectory, '/archived.kml');
+      const infileContents = fs.readFileSync(infile);
 
-      fs.writeFile(archivedOriginal, infileContents, function(err) {
+      fs.writeFile(archivedOriginal, infileContents, (err) => {
         if (err) return callback(err);
         return callback();
       });
@@ -129,12 +130,12 @@ module.exports = function(infile, outdirectory, callback) {
 
     // create mapnik index for each geojson layer
     function createIndices(callback) {
-      var q = queue();
-      geojson_files.forEach(function(gj) {
+      const q = queue();
+      geojson_files.forEach((gj) => {
         q.defer(createIndex, gj);
       });
 
-      q.awaitAll(function(err) {
+      q.awaitAll((err) => {
         if (err) return callback(err);
         return callback();
       });
@@ -143,23 +144,23 @@ module.exports = function(infile, outdirectory, callback) {
     function createIndex(layerfile, callback) {
       // Finally, create an .index file in the output dir (if layer is greater than index_worthy_size).
       // mapnik-index will automatically add ".index" to the end of the original filename
-      fs.stat(layerfile, function(err, stats) {
+      fs.stat(layerfile, (err, stats) => {
         if (err) return callback(err);
 
         // check size is warrants creating an index
         if (stats.size >= module.exports.index_worthy_size) {
-          var data = '';
-          var p = spawn(mapnik_index, [layerfile, '--validate-features'])
+          let data = '';
+          const p = spawn(mapnik_index, [layerfile, '--validate-features'])
             .once('error', callback)
-            .on('exit', function() {
+            .on('exit', () => {
               // If error printed to --validate-features log
-              if (data.indexOf('Error') != -1) {
+              if (data.indexOf('Error') !== -1) {
                 return callback(data);
               }
               else return callback();
             });
 
-          p.stderr.on('data', function(d) {
+          p.stderr.on('data', (d) => {
             d.toString();
             data += d;
           });
@@ -181,9 +182,9 @@ module.exports.criteria = function(filepath, info, callback) {
 };
 
 function layername_count(ds) {
-  var lyr_name_cnt = {};
-  ds.layers.forEach(function(lyr) {
-    var lyr_name = lyr.name;
+  const lyr_name_cnt = {};
+  ds.layers.forEach((lyr) => {
+    const lyr_name = lyr.name;
     if (lyr_name in lyr_name_cnt) {
       lyr_name_cnt[lyr_name]++;
     } else {
@@ -191,9 +192,9 @@ function layername_count(ds) {
     }
   });
 
-  var err = '';
-  for (var name in lyr_name_cnt) {
-    var cnt = lyr_name_cnt[name];
+  let err = '';
+  for (const name in lyr_name_cnt) {
+    const cnt = lyr_name_cnt[name];
     if (cnt > 1) {
       err += util.format('%s\'%s\' found %d times', err.length > 0 ? ', ' : '', name, cnt);
     }
@@ -202,6 +203,6 @@ function layername_count(ds) {
   return err.length > 0 ? 'Duplicate layer names: ' + err : null;
 }
 
-//expose this as ENV option?
+// expose this as ENV option?
 module.exports.max_layer_count = 15;
 module.exports.index_worthy_size = 10 * 1024 * 1024; // 10 MB

@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pretest": "eslint index.js bin parts preprocessors test",
-    "test": "tape test/*.test.js",
-    "coverage": "istanbul cover tape test/*.test.js && coveralls < ./coverage/lcov.info"
+    "lint": "eslint --fix . --ext .js",
+    "pretest": "npm run lint",
+    "test": "nyc --reporter=lcov tape test/*.test.js"
   },
   "bin": {
     "perform-preprocessorcery": "bin/perform-preprocessorcery.js"
@@ -20,21 +20,29 @@
   "bugs": {
     "url": "https://github.com/mapbox/preprocessorcerer/issues"
   },
+  "eslintConfig": {
+    "extends": "@mapbox/eslint-config-mapbox"
+  },
+  "engines": {
+    "node": ">=6"
+  },
   "homepage": "https://github.com/mapbox/preprocessorcerer",
   "devDependencies": {
+    "@mapbox/eslint-config-mapbox": "^1.2.1",
     "@mapbox/tilelive": "^5.7.0",
-    "concat-stream": "^1.4.8",
-    "eslint": "^3.19.0",
-    "tape": "^3.4.0",
-    "istanbul": "~0.3.17",
-    "coveralls": "~2.11.2",
     "checksum": "^0.1.1",
-    "rimraf": "^2.5.2"
+    "codecov": "^3.1.0",
+    "concat-stream": "^1.4.8",
+    "eslint": "^5.13.0",
+    "eslint-plugin-node": "^8.0.1",
+    "nyc": "^13.2.0",
+    "rimraf": "^2.5.2",
+    "tape": "^4.10.0"
   },
   "dependencies": {
     "@mapbox/mapbox-file-sniff": "~1.0.0",
     "@mapbox/mapnik-omnivore": "~9.0.0",
-    "@mapbox/mbtiles": "~0.9.0",
+    "@mapbox/mbtiles": "^0.10.0",
     "bytetiff": "~0.5.0",
     "gdal": "~0.9.3",
     "mapnik": "~3.7.0",

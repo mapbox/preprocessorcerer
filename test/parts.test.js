@@ -1,18 +1,19 @@
-var test = require('tape');
-var splitToParts = require('../parts');
-var fs = require('fs');
-var os = require('os');
-var path = require('path');
-var crypto = require('crypto');
-var makeMbtiles = require('./fixtures/mbtiles-count/make-mbtiles');
+'use strict';
+const test = require('tape');
+const splitToParts = require('../parts');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const crypto = require('crypto');
+const makeMbtiles = require('./fixtures/mbtiles-count/make-mbtiles');
 
 function randomFile(mbs, callback) {
-  var filepath = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
-  var tmpfile = fs.createWriteStream(filepath);
-  var data = crypto.pseudoRandomBytes(1024 * 1024);
-  var i;
+  const filepath = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
+  const tmpfile = fs.createWriteStream(filepath);
+  const data = crypto.pseudoRandomBytes(1024 * 1024);
+  let i;
 
-  tmpfile.on('finish', function() {
+  tmpfile.on('finish', () => {
     callback(null, filepath);
   });
 
@@ -20,14 +21,14 @@ function randomFile(mbs, callback) {
   tmpfile.end();
 }
 
-test('[parts] mbtiles file is split by tiles', function(assert) {
-  var fixture = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
-  makeMbtiles(fixture, 100001, function(err) {
+test('[parts] mbtiles file is split by tiles', (assert) => {
+  const fixture = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
+  makeMbtiles(fixture, 100001, (err) => {
     assert.ifError(err, 'no error');
     if (err) return assert.end();
-    var info = fs.statSync(fixture);
+    const info = fs.statSync(fixture);
     info.filetype = 'mbtiles';
-    splitToParts(fixture, info, function(err, parts) {
+    splitToParts(fixture, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, 2, 'expected number of parts');
       fs.unlink(fixture);
@@ -36,27 +37,27 @@ test('[parts] mbtiles file is split by tiles', function(assert) {
   });
 });
 
-test('[parts] serialtiles file is split by tiles', function(assert) {
-  var fixture = path.resolve(__dirname, 'fixtures', '423567-lines.gz');
-  var info = fs.statSync(fixture);
+test('[parts] serialtiles file is split by tiles', (assert) => {
+  const fixture = path.resolve(__dirname, 'fixtures', '423567-lines.gz');
+  const info = fs.statSync(fixture);
   info.filetype = 'serialtiles';
-  splitToParts(fixture, info, function(err, parts) {
+  splitToParts(fixture, info, (err, parts) => {
     assert.ifError(err, 'no error');
     assert.equal(parts, 3, 'three parts');
     assert.end();
   });
 });
 
-test('[parts] default path is to split by size', function(assert) {
-  var mbs = 22;
-  var expected = Math.ceil(mbs / 10);
+test('[parts] default path is to split by size', (assert) => {
+  const mbs = 22;
+  const expected = Math.ceil(mbs / 10);
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    var info = fs.statSync(filepath);
+    const info = fs.statSync(filepath);
     info.filetype = 'geojson';
 
-    splitToParts(filepath, info, function(err, parts) {
+    splitToParts(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);

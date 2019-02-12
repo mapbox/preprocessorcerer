@@ -1,9 +1,10 @@
 #!/usr/bin/env node
+'use strict';
 
-var preprocessorcerize = require('..');
-var path = require('path');
-var args = process.argv.slice(2);
-var infile = args.shift();
+const preprocessorcerize = require('..');
+const path = require('path');
+const args = process.argv.slice(2);
+const infile = args.shift();
 
 if (!infile) {
   console.error('Usage:');
@@ -11,7 +12,7 @@ if (!infile) {
   process.exit(1);
 }
 
-preprocessorcerize(path.resolve(infile), function(err, valid, message, outfile, parts, descriptions) {
+preprocessorcerize(path.resolve(infile), (err, valid, message, outfile, parts, descriptions) => {
   if (err) {
     console.error(err);
     process.exit(1);

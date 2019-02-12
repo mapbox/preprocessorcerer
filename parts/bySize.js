@@ -1,9 +1,10 @@
+'use strict';
 module.exports = function splitBySize(filepath, info, callback) {
-  var max = 50;
-  var mb = info.size / 1024 / 1024;
-  var pretiled = ['serialtiles', 'tilejson', 'mbtiles'];
-  var untiled = ['zip', 'gpx', 'kml', 'geojson', 'csv'];
-  var raster = ['tif'];
+  const max = 50;
+  const mb = info.size / 1024 / 1024;
+  const pretiled = ['serialtiles', 'tilejson', 'mbtiles'];
+  const untiled = ['zip', 'gpx', 'kml', 'geojson', 'csv'];
+  const raster = ['tif'];
 
   if (pretiled.indexOf(info.filetype) !== -1) {
     callback(null, Math.min(max, Math.ceil(mb / 100)));

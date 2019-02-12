@@ -1,11 +1,12 @@
-var assert = require('assert');
-var crypto = require('crypto');
-var path = require('path');
-var queue = require('queue-async');
+'use strict';
+const assert = require('assert');
+const crypto = require('crypto');
+const path = require('path');
+const queue = require('queue-async');
 
 // The order here determines the order in which preprocessors will be run
 // spatial-index.preprocessor must be last, since it must create an index file for the final preprocessed source
-var preprocessors = [
+let preprocessors = [
   'tif-toBytes.preprocessor',
   'tif-reproject.preprocessor',
   'shp-index.preprocessor',
@@ -18,8 +19,8 @@ var preprocessors = [
 // Loads each *.preprocessor.js file and builds an array of them
 // Throws errors if the file does not export a `criteria` and `preprocess`
 // function
-preprocessors = preprocessors.map(function(filename) {
-  var preprocessor = require(path.resolve(__dirname, filename));
+preprocessors = preprocessors.map((filename) => {
+  const preprocessor = require(path.resolve(__dirname, filename));
 
   assert.equal(typeof preprocessor.criteria, 'function', filename + ' should expose criteria function');
   assert.equal(typeof preprocessor.description, 'string', filename + ' should expose a description');
@@ -36,14 +37,14 @@ module.exports.descriptions = descriptions;
 // A function that checks a file against each preprocessor's criteria
 // callback returns only those applicable to this file
 function applicable(filepath, info, callback) {
-  var q = queue();
-  preprocessors.forEach(function(preprocessor) {
+  const q = queue();
+  preprocessors.forEach((preprocessor) => {
     q.defer(preprocessor.criteria, filepath, info);
   });
 
-  q.awaitAll(function(err, results) {
+  q.awaitAll((err, results) => {
     if (err) return callback(err);
-    callback(null, preprocessors.filter(function(preprocessor, i) {
+    callback(null, preprocessors.filter((preprocessor, i) => {
       return !!results[i];
     }));
   });
@@ -51,9 +52,9 @@ function applicable(filepath, info, callback) {
 
 // Just maps applicable preprocessors into a list of descriptions
 function descriptions(filepath, info, callback) {
-  applicable(filepath, info, function(err, preprocessors) {
+  applicable(filepath, info, (err, preprocessors) => {
     if (err) return callback(err);
-    callback(null, preprocessors.map(function(preprocessor) {
+    callback(null, preprocessors.map((preprocessor) => {
       return preprocessor.description;
     }));
   });
@@ -61,9 +62,9 @@ function descriptions(filepath, info, callback) {
 
 // A function that hands out a new filepath in the same directory as the given file
 function newfile(filepath) {
-  var dir = path.dirname(filepath);
+  let dir = path.dirname(filepath);
   if (path.extname(filepath) === '.shp') dir = path.resolve(dir, '..');
-  var name = crypto.randomBytes(8).toString('hex');
+  const name = crypto.randomBytes(8).toString('hex');
   return path.join(dir, name);
 }
 
@@ -71,14 +72,14 @@ function newfile(filepath) {
 // `info` is expected to be an fs.Stat object + .filetype determined by mapbox-file-sniff
 // callback returns the post-preprocessed filepath
 function preprocessorcery(infile, info, callback) {
-  applicable(infile, info, function(err, preprocessors) {
+  applicable(infile, info, (err, preprocessors) => {
     if (err) return callback(err);
 
-    var q = queue(1);
-    preprocessors.forEach(function(preprocessor) {
-      var outfile = newfile(infile);
-      q.defer(function(next) {
-        preprocessor(infile, outfile, function(err) {
+    const q = queue(1);
+    preprocessors.forEach((preprocessor) => {
+      const outfile = newfile(infile);
+      q.defer((next) => {
+        preprocessor(infile, outfile, (err) => {
           if (err) return next(err);
           infile = outfile;
           next();
@@ -86,7 +87,7 @@ function preprocessorcery(infile, info, callback) {
       });
     });
 
-    q.await(function(err) {
+    q.await((err) => {
       if (err) return callback(err);
 
       // infile has been changed to the output file by this point

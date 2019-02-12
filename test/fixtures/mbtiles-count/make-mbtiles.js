@@ -1,26 +1,27 @@
 #!/usr/bin/env node
+'use strict';
 
-var Mbtiles = require('@mapbox/mbtiles');
-var path = require('path');
-var fs = require('fs');
-var queue = require('queue-async');
+const Mbtiles = require('@mapbox/mbtiles');
+const path = require('path');
+const fs = require('fs');
+const queue = require('queue-async');
 
-var img = fs.readFileSync(path.resolve(__dirname, 'blue.png'));
+const img = fs.readFileSync(path.resolve(__dirname, 'blue.png'));
 
 module.exports = function(filepath, numTiles, callback) {
-  var count = Number(numTiles);
+  let count = Number(numTiles);
 
-  new Mbtiles(filepath, function(err, mbtiles) {
+  new Mbtiles(filepath, ((err, mbtiles) => {
     if (err) return err;
-    mbtiles.startWriting(function(err) {
+    mbtiles.startWriting((err) => {
       if (err) return err;
-      mbtiles.putTile(0, 0, 0, img, function(err) {
+      mbtiles.putTile(0, 0, 0, img, (err) => {
         if (err) return err;
         count--;
 
-        var q = queue(10);
-        var x;
-        var y;
+        const q = queue(10);
+        let x;
+        let y;
 
         while (count) {
           x = Math.floor(Math.random() * 4194304);
@@ -29,11 +30,11 @@ module.exports = function(filepath, numTiles, callback) {
           count--;
         }
 
-        q.awaitAll(function(err) {
+        q.awaitAll((err) => {
           if (err) return callback(err);
-          mbtiles.stopWriting(function(err) {
+          mbtiles.stopWriting((err) => {
             if (err) return callback(err);
-            mbtiles.close(function(err) {
+            mbtiles.close((err) => {
               if (err) return callback(err);
               mbtiles = null;
               callback();
@@ -42,11 +43,11 @@ module.exports = function(filepath, numTiles, callback) {
         });
       });
     });
-  });
+  }));
 };
 
 if (require.main === module) {
-  module.exports(process.argv[2], process.argv[3], function(err) {
+  module.exports(process.argv[2], process.argv[3], (err) => {
     if (err) throw err;
     console.log('done');
   });

@@ -1,17 +1,18 @@
-var test = require('tape');
-var bySize = require('../parts/bySize');
-var fs = require('fs');
-var os = require('os');
-var path = require('path');
-var crypto = require('crypto');
+'use strict';
+const test = require('tape');
+const bySize = require('../parts/bySize');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const crypto = require('crypto');
 
 function randomFile(mbs, callback) {
-  var filepath = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
-  var tmpfile = fs.createWriteStream(filepath);
-  var data = crypto.pseudoRandomBytes(1024 * 1024);
-  var i;
+  const filepath = path.join(os.tmpdir(), crypto.randomBytes(8).toString('hex'));
+  const tmpfile = fs.createWriteStream(filepath);
+  const data = crypto.pseudoRandomBytes(1024 * 1024);
+  let i;
 
-  tmpfile.on('finish', function() {
+  tmpfile.on('finish', () => {
     callback(null, filepath);
   });
 
@@ -19,17 +20,17 @@ function randomFile(mbs, callback) {
   tmpfile.end();
 }
 
-test('[parts bySize] tilejson split per 100MB', function(assert) {
-  var mbs = 250;
-  var expected = Math.ceil(mbs / 100);
-  var info = {
+test('[parts bySize] tilejson split per 100MB', (assert) => {
+  const mbs = 250;
+  const expected = Math.ceil(mbs / 100);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'tilejson'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -38,17 +39,17 @@ test('[parts bySize] tilejson split per 100MB', function(assert) {
   });
 });
 
-test('[parts bySize] mbtiles split per 100MB', function(assert) {
-  var mbs = 250;
-  var expected = Math.ceil(mbs / 100);
-  var info = {
+test('[parts bySize] mbtiles split per 100MB', (assert) => {
+  const mbs = 250;
+  const expected = Math.ceil(mbs / 100);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'mbtiles'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -57,17 +58,17 @@ test('[parts bySize] mbtiles split per 100MB', function(assert) {
   });
 });
 
-test('[parts bySize] serialtiles split per 100MB', function(assert) {
-  var mbs = 250;
-  var expected = Math.ceil(mbs / 100);
-  var info = {
+test('[parts bySize] serialtiles split per 100MB', (assert) => {
+  const mbs = 250;
+  const expected = Math.ceil(mbs / 100);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'serialtiles'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -76,17 +77,17 @@ test('[parts bySize] serialtiles split per 100MB', function(assert) {
   });
 });
 
-test('[parts bySize] pretiled max at 50 parts', function(assert) {
-  var mbs = 5100;
-  var expected = 50;
-  var info = {
+test('[parts bySize] pretiled max at 50 parts', (assert) => {
+  const mbs = 5100;
+  const expected = 50;
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'serialtiles'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -95,17 +96,17 @@ test('[parts bySize] pretiled max at 50 parts', function(assert) {
   });
 });
 
-test('[parts bySize] zip split per 10MB', function(assert) {
-  var mbs = 25;
-  var expected = Math.ceil(mbs / 10);
-  var info = {
+test('[parts bySize] zip split per 10MB', (assert) => {
+  const mbs = 25;
+  const expected = Math.ceil(mbs / 10);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'zip'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -114,17 +115,17 @@ test('[parts bySize] zip split per 10MB', function(assert) {
   });
 });
 
-test('[parts bySize] gpx split per 10MB', function(assert) {
-  var mbs = 25;
-  var expected = Math.ceil(mbs / 10);
-  var info = {
+test('[parts bySize] gpx split per 10MB', (assert) => {
+  const mbs = 25;
+  const expected = Math.ceil(mbs / 10);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'gpx'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -133,17 +134,17 @@ test('[parts bySize] gpx split per 10MB', function(assert) {
   });
 });
 
-test('[parts bySize] kml split per 10MB', function(assert) {
-  var mbs = 25;
-  var expected = Math.ceil(mbs / 10);
-  var info = {
+test('[parts bySize] kml split per 10MB', (assert) => {
+  const mbs = 25;
+  const expected = Math.ceil(mbs / 10);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'kml'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -152,17 +153,17 @@ test('[parts bySize] kml split per 10MB', function(assert) {
   });
 });
 
-test('[parts bySize] geojson split per 10MB', function(assert) {
-  var mbs = 25;
-  var expected = Math.ceil(mbs / 10);
-  var info = {
+test('[parts bySize] geojson split per 10MB', (assert) => {
+  const mbs = 25;
+  const expected = Math.ceil(mbs / 10);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'geojson'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -171,17 +172,17 @@ test('[parts bySize] geojson split per 10MB', function(assert) {
   });
 });
 
-test('[parts bySize] csv split per 10MB', function(assert) {
-  var mbs = 25;
-  var expected = Math.ceil(mbs / 10);
-  var info = {
+test('[parts bySize] csv split per 10MB', (assert) => {
+  const mbs = 25;
+  const expected = Math.ceil(mbs / 10);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'csv'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -190,17 +191,17 @@ test('[parts bySize] csv split per 10MB', function(assert) {
   });
 });
 
-test('[parts bySize] tif split per 1.5GB', function(assert) {
-  var mbs = 1500;
-  var expected = Math.ceil(mbs / 1500);
-  var info = {
+test('[parts bySize] tif split per 1.5GB', (assert) => {
+  const mbs = 1500;
+  const expected = Math.ceil(mbs / 1500);
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'tif'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -209,17 +210,17 @@ test('[parts bySize] tif split per 1.5GB', function(assert) {
   });
 });
 
-test('[parts bySize] untiled max at 50 parts', function(assert) {
-  var mbs = 510;
-  var expected = 50;
-  var info = {
+test('[parts bySize] untiled max at 50 parts', (assert) => {
+  const mbs = 510;
+  const expected = 50;
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'geojson'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
@@ -228,17 +229,17 @@ test('[parts bySize] untiled max at 50 parts', function(assert) {
   });
 });
 
-test('[parts bySize] unrecognized file type in 1 part', function(assert) {
-  var mbs = 510;
-  var expected = 1;
-  var info = {
+test('[parts bySize] unrecognized file type in 1 part', (assert) => {
+  const mbs = 510;
+  const expected = 1;
+  const info = {
     size: mbs * 1024 * 1024,
     filetype: 'tm2z'
   };
 
-  randomFile(mbs, function(err, filepath) {
+  randomFile(mbs, (err, filepath) => {
     if (err) throw err;
-    bySize(filepath, info, function(err, parts) {
+    bySize(filepath, info, (err, parts) => {
       assert.ifError(err, 'no error');
       assert.equal(parts, expected, 'expected number of parts');
       fs.unlink(filepath);
