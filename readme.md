@@ -1,7 +1,7 @@
 # Preprocessorcerer
 
 [![Build Status](https://travis-ci.org/mapbox/preprocessorcerer.svg?branch=master)](https://travis-ci.org/mapbox/preprocessorcerer)
-[![Coverage Status](https://coveralls.io/repos/mapbox/preprocessorcerer/badge.svg?branch=master&service=github)](https://coveralls.io/github/mapbox/preprocessorcerer?branch=master)
+[![codecov](https://codecov.io/gh/mapbox/preprocessorcerer/branch/master/graph/badge.svg)](https://codecov.io/gh/mapbox/preprocessorcerer)
 
 [wip] Makes magical adjustments to geospatial files
 
