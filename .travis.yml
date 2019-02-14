@@ -1,10 +1,13 @@
 language: node_js
 
 node_js:
- - "6"
- - "8"
+  - "lts/boron"
+  - "lts/carbon"
 
 sudo: false
+
+before_install:
+  - nvm install-latest-npm
 
 addons:
   apt:
@@ -13,5 +16,6 @@ addons:
     packages:
      - libstdc++6 # upgrade libstdc++ on linux to support C++11
 
-after_success:
- - if [[ ${TRAVIS_NODE_VERSION} == "0.10" ]]; then npm run coverage; fi;
+script:
+  - npm test
+  - codecov

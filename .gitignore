@@ -2,3 +2,5 @@ node_modules
 preprocessors/test*
 test/fixtures/*.aux.xml
 .DS_Store
+coverage
+.nyc_output

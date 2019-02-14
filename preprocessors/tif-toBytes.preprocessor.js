@@ -1,5 +1,6 @@
-var gdal = require('gdal');
-var bytetiff = require('bytetiff').scale;
+'use strict';
+const gdal = require('gdal');
+const bytetiff = require('bytetiff').scale;
 
 module.exports = function(infile, outfile, callback) {
   bytetiff(infile, outfile, callback);
@@ -8,8 +9,8 @@ module.exports = function(infile, outfile, callback) {
 module.exports.description = 'Scale 16-bit TIFF files to 8-bit';
 
 module.exports.criteria = function(filepath, info, callback) {
-  var ds;
-  var band;
+  let ds;
+  let band;
 
   if (info.filetype !== 'tif') return callback(null, false);
 
@@ -21,7 +22,7 @@ module.exports.criteria = function(filepath, info, callback) {
   try { band = ds.bands.get(1); }
   catch (err) { return callback(err); }
 
-  var is16 = band.dataType === gdal.GDT_UInt16;
+  const is16 = band.dataType === gdal.GDT_UInt16;
 
   ds.close();
   ds = null;

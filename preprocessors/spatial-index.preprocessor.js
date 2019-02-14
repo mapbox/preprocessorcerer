@@ -1,18 +1,19 @@
-var path = require('path');
-var fs = require('fs');
-var spawn = require('child_process').spawn;
-var mapnik = require('mapnik');
-var mapnik_index = mapnik.settings.paths.mapnik_index;
-var invalid = require('../lib/invalid');
+'use strict';
+const path = require('path');
+const fs = require('fs');
+const spawn = require('child_process').spawn;
+const mapnik = require('mapnik');
+const mapnik_index = mapnik.settings.paths.mapnik_index;
+const invalid = require('../lib/invalid');
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);
 }
 
-var mkdirp = require('mkdirp');
+const mkdirp = require('mkdirp');
 
 module.exports = function(infile, outdir, callback) {
   // outfile will be used for both the copied original and the index file
-  var outfile = path.join(outdir, path.basename(infile));
+  const outfile = path.join(outdir, path.basename(infile));
 
   // Create copy of original file into new dir
   function copy(finished) {
@@ -23,24 +24,24 @@ module.exports = function(infile, outdir, callback) {
       .on('finish', finished);
   }
 
-  mkdirp(outdir, function(err) {
+  mkdirp(outdir, (err) => {
     if (err) return callback(err);
 
-    copy(function() {
+    copy(() => {
       // Finally, create an .index file in the output dir
       // mapnik-index will automatically add ".index" to the end of the original filename
-      var data = '';
-      var p = spawn(mapnik_index, [outfile, '--validate-features'])
+      let data = '';
+      const p = spawn(mapnik_index, [outfile, '--validate-features'])
         .once('error', callback)
-        .on('exit', function() {
+        .on('exit', () => {
           // If error printed to --validate-features log
-          if (data.indexOf('Error') != -1) {
+          if (data.indexOf('Error') !== -1) {
             callback(invalid('Invalid CSV or GeoJSON.'));
           }
           else callback();
         });
 
-      p.stderr.on('data', function(d) {
+      p.stderr.on('data', (d) => {
         d.toString();
         data += d;
       });

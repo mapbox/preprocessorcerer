@@ -1,18 +1,19 @@
-var fs = require('fs');
-var zlib = require('zlib');
-var split = require('split');
+'use strict';
+const fs = require('fs');
+const zlib = require('zlib');
+const split = require('split');
 
 module.exports = function(filepath, info, callback) {
-  var count = 0;
+  let count = 0;
 
   fs.createReadStream(filepath)
     .pipe(zlib.createGunzip())
     .once('error', callback)
     .pipe(split())
-    .on('data', function() {
+    .on('data', () => {
       count += 1;
     })
-    .on('end', function() {
+    .on('end', () => {
       callback(null, Math.min(50, Math.ceil(count / 200000)));
     });
 };

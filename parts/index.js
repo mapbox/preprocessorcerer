@@ -1,6 +1,7 @@
-var bySize = require('./bySize');
-var mbtilesByTiles = require('./mbtiles-byTiles');
-var serialtilesByTiles = require('./serialtiles-byTiles');
+'use strict';
+const bySize = require('./bySize');
+const mbtilesByTiles = require('./mbtiles-byTiles');
+const serialtilesByTiles = require('./serialtiles-byTiles');
 
 // `info` is expected to be an fs.Stat object + .filetype determined by mapbox-file-sniff
 module.exports = function(filepath, info, callback) {

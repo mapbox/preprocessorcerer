@@ -1,6 +1,7 @@
-var gdal = require('gdal');
-var srs = require('srs');
-var wmtiff = require('wmtiff').reproject;
+'use strict';
+const gdal = require('gdal');
+const srs = require('srs');
+const wmtiff = require('wmtiff').reproject;
 
 module.exports = function(infile, outfile, callback) {
   try { wmtiff(infile, outfile); }
@@ -25,16 +26,16 @@ module.exports.description = 'Reproject TIFF file to EPSG:3857';
 module.exports.criteria = function(filepath, info, callback) {
   if (info.filetype !== 'tif') return callback(null, false);
 
-  var sm = gdal.SpatialReference.fromEPSG(3857);
-  var ds;
-  var projection;
+  let sm = gdal.SpatialReference.fromEPSG(3857);
+  let ds;
+  let projection;
 
   try { ds = gdal.open(filepath); }
   catch (err) { return callback(err); }
 
   // no crs information present
   if (!ds.srs) {
-    var err = new Error('Unable to reproject tif. No CRS information found.');
+    const err = new Error('Unable to reproject tif. No CRS information found.');
     err.code = 'EINVALID';
     return callback(err);
   }

@@ -1,28 +1,29 @@
-var gdal = require('gdal');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var queue = require('queue-async');
-var spawn = require('child_process').spawn;
-var path = require('path');
-var digest = require('@mapbox/mapnik-omnivore').digest;
-var mapnik = require('mapnik');
-var invalid = require('../lib/invalid');
-var mapnik_index = mapnik.settings.paths.mapnik_index;
+'use strict';
+const gdal = require('gdal');
+const fs = require('fs');
+const mkdirp = require('mkdirp');
+const queue = require('queue-async');
+const spawn = require('child_process').spawn;
+const path = require('path');
+const digest = require('@mapbox/mapnik-omnivore').digest;
+const mapnik = require('mapnik');
+const invalid = require('../lib/invalid');
+const mapnik_index = mapnik.settings.paths.mapnik_index;
 if (!fs.existsSync(mapnik_index)) {
   throw new Error('mapnik-index does not exist at ' + mapnik_index);
 }
 
-//disable in production
-//gdal.verbose();
+// disable in production
+// gdal.verbose();
 
 module.exports = function(infile, outdirectory, callback) {
-  mkdirp(outdirectory, function(err) {
+  mkdirp(outdirectory, (err) => {
     if (err) return callback(err);
 
-    var geojson_files = [];
-    var ds_gpx;
-    var full_feature_cnt = 0;
-    var wgs84 = gdal.SpatialReference.fromEPSG(4326);
+    const geojson_files = [];
+    let ds_gpx;
+    let full_feature_cnt = 0;
+    const wgs84 = gdal.SpatialReference.fromEPSG(4326);
 
     try {
       ds_gpx = gdal.open(infile);
@@ -31,21 +32,21 @@ module.exports = function(infile, outdirectory, callback) {
       return callback(new Error(err));
     }
 
-    ds_gpx.layers.forEach(function(lyr_gpx) {
-      //drop point layers as they can get really huge
+    ds_gpx.layers.forEach((lyr_gpx) => {
+      // drop point layers as they can get really huge
       if (lyr_gpx.name === 'track_points' || lyr_gpx.name === 'route_points') {
         return;
       }
 
-      var feat_cnt = lyr_gpx.features.count(true);
+      const feat_cnt = lyr_gpx.features.count(true);
       if (feat_cnt === 0) {
         return;
       }
 
-      var geojson;
-      var lyr_name;
-      var out_ds;
-      var out_name;
+      let geojson;
+      let lyr_name;
+      let out_ds;
+      let out_name;
 
       try {
         lyr_name = lyr_gpx.name;
@@ -57,9 +58,9 @@ module.exports = function(infile, outdirectory, callback) {
         return callback(new Error(err));
       }
 
-      lyr_gpx.features.forEach(function(gpx_feat) {
-        //skip null or empty geometries
-        var geom = gpx_feat.getGeometry();
+      lyr_gpx.features.forEach((gpx_feat) => {
+        // skip null or empty geometries
+        const geom = gpx_feat.getGeometry();
         if (!geom) {
           return;
         } else {
@@ -80,7 +81,7 @@ module.exports = function(infile, outdirectory, callback) {
       out_ds.flush();
       out_ds.close();
 
-      //release objects to be able to index
+      // release objects to be able to index
       geojson = null;
       out_ds = null;
 
@@ -93,13 +94,13 @@ module.exports = function(infile, outdirectory, callback) {
     }
 
     // Create metadata file for original gpx source
-    var metadatafile = path.join(outdirectory, '/metadata.json');
-    digest(infile, function(err, metadata) {
-      fs.writeFile(metadatafile, JSON.stringify(metadata), function(err) {
+    const metadatafile = path.join(outdirectory, '/metadata.json');
+    digest(infile, (err, metadata) => {
+      fs.writeFile(metadatafile, JSON.stringify(metadata), (err) => {
         if (err) throw err;
-        createIndices(function(err) {
+        createIndices((err) => {
           if (err) throw err;
-          archiveOriginal(function(err) {
+          archiveOriginal((err) => {
             if (err) throw err;
             return callback();
           });
@@ -108,9 +109,9 @@ module.exports = function(infile, outdirectory, callback) {
     });
 
     function archiveOriginal(callback) {
-      var archivedOriginal = path.join(outdirectory, '/archived.gpx');
-      var infileContents = fs.readFileSync(infile);
-      fs.writeFile(archivedOriginal, infileContents, function(err) {
+      const archivedOriginal = path.join(outdirectory, '/archived.gpx');
+      const infileContents = fs.readFileSync(infile);
+      fs.writeFile(archivedOriginal, infileContents, (err) => {
         if (err) return callback(err);
         return callback();
       });
@@ -118,12 +119,12 @@ module.exports = function(infile, outdirectory, callback) {
 
     // create mapnik index for each geojson layer
     function createIndices(callback) {
-      var q = queue();
-      geojson_files.forEach(function(gj) {
+      const q = queue();
+      geojson_files.forEach((gj) => {
         q.defer(createIndex, gj);
       });
 
-      q.awaitAll(function(err) {
+      q.awaitAll((err) => {
         if (err) return callback(err);
         return callback();
       });
@@ -132,23 +133,23 @@ module.exports = function(infile, outdirectory, callback) {
     function createIndex(layerfile, callback) {
       // Finally, create an .index file in the output dir (if layer is greater than index_worthy_size).
       // mapnik-index will automatically add ".index" to the end of the original filename
-      fs.stat(layerfile, function(err, stats) {
+      fs.stat(layerfile, (err, stats) => {
         if (err) return callback(err);
 
         // check size is warrants creating an index
         if (stats.size >= module.exports.index_worthy_size) {
-          var data = '';
-          var p = spawn(mapnik_index, [layerfile, '--validate-features'])
+          let data = '';
+          const p = spawn(mapnik_index, [layerfile, '--validate-features'])
             .once('error', callback)
-            .on('exit', function() {
+            .on('exit', () => {
               // If error printed to --validate-features log
-              if (data.indexOf('Error') != -1) {
+              if (data.indexOf('Error') !== -1) {
                 return callback(data);
               }
               else return callback();
             });
 
-          p.stderr.on('data', function(d) {
+          p.stderr.on('data', (d) => {
             d.toString();
             data += d;
           });
