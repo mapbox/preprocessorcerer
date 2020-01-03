@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+- Update dependencies to work with node10
+
 ## 1.0.1
 
 - Remove `geom.isValid()` check in KML -> GeoJSON processor. Recommendation is to let downstream tiling engines validate and clean geometry instead. [#91](https://github.com/mapbox/preprocessorcerer/pull/91)
