@@ -1,3 +1,7 @@
+⚠️ This repository is no longer actively maintained by Mapbox.
+
+##
+
 # Preprocessorcerer
 
 [![Build Status](https://travis-ci.com/mapbox/preprocessorcerer.svg?branch=master)](https://travis-ci.com/mapbox/preprocessorcerer)
